@@ -1,9 +1,12 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import NavBar from "./components/NavBar/NavBar";
 import { lazy, Suspense } from "react";
-import Home from "./pages/Home/Home";
-import LoadingScreen from "./components/LoadingScreen/LoadingScreen";
 import "./App.css";
+
+const Home = lazy(() => import("./pages/Home/Home"));
+const LoadingScreen = lazy(() =>
+  import("./components/LoadingScreen/LoadingScreen")
+);
 
 function App() {
   return (
