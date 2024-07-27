@@ -2,16 +2,38 @@ import React, { useState, useEffect } from "react";
 import { useTheme } from "../../context/ThemeContext";
 import { NavLink } from "react-router-dom";
 import "./NavBar.css";
-// Importing Material-UI icons
-import HomeIcon from "@mui/icons-material/Home";
-import InfoIcon from "@mui/icons-material/Info";
-import ContactMailIcon from "@mui/icons-material/ContactMail";
+import {
+  navLinks_teacher,
+  navLinks_student,
+  navLinks_admin,
+  navLinks_assistant,
+} from "./navData";
+import { useUserRole } from "../../context/UserRoleContext";
 import Switch from "@mui/material/Switch";
 
 const NavBar = () => {
   const { theme, toggleTheme } = useTheme();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
+  const { userRole } = useUserRole();
+
+  let navLinks;
+  switch (userRole) {
+    case "teacher":
+      navLinks = navLinks_teacher;
+      break;
+    case "student":
+      navLinks = navLinks_student;
+      break;
+    case "admin":
+      navLinks = navLinks_admin;
+      break;
+    case "assistant":
+      navLinks = navLinks_assistant;
+      break;
+    default:
+      navLinks = [];
+  }
 
   useEffect(() => {
     const handleResize = () => {
@@ -21,12 +43,6 @@ const NavBar = () => {
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
   }, []);
-
-  const navLinks = [
-    { path: "/", name: "Home", exact: true, icon: <HomeIcon /> },
-    { path: "/about/slideshow", name: "About", icon: <InfoIcon /> },
-    { path: "/contact/branch1", name: "Contact Us", icon: <ContactMailIcon /> },
-  ];
 
   return (
     <nav
