@@ -1,25 +1,27 @@
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import React from "react";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import { ThemeProvider } from "./context/ThemeContext";
+import { UserRoleProvider } from "./context/UserRoleContext";
 import NavBar from "./components/NavBar/NavBar";
-import { lazy, Suspense } from "react";
+import Header from "./components/Header/Header";
+import Home from "./pages/Home/Home";
+import UserRoleToggle from "./components/UserRoleToggle/UserRoleToggle";
 import "./App.css";
-
-const Home = lazy(() => import("./pages/Home/Home"));
-const LoadingScreen = lazy(() =>
-  import("./components/LoadingScreen/LoadingScreen")
-);
 
 function App() {
   return (
-    <Router>
-      <div className="App">
-        <NavBar />
-        <Suspense fallback={<LoadingScreen />}>
+    <ThemeProvider>
+      <UserRoleProvider>
+        <Router>
+          <Header />
+          <NavBar />
+          <UserRoleToggle />
           <Routes>
             <Route path="/" element={<Home />} />
-          </Routes>
-        </Suspense>
-      </div>
-    </Router>
+          </Routes>{" "}
+        </Router>
+      </UserRoleProvider>
+    </ThemeProvider>
   );
 }
 
