@@ -11,25 +11,15 @@ import {
 const Header = () => {
   const { userRole } = useUserRole();
 
-  let tab_buttons;
-  switch (userRole) {
-    case "teacher":
-      tab_buttons = teacher_tabs;
-      break;
-    // case "student":
-    //   tab_buttons = student_tabs;
-    //   break;
-    case "admin":
-      tab_buttons = admin_tabs;
-      break;
-    case "assistant":
-      tab_buttons = assistant_tabs;
-      break;
-    default:
-      tab_buttons = [];
-  }
+  const tabButtonsMap = {
+    teacher: teacher_tabs,
+    // student: student_tabs,
+    admin: admin_tabs,
+    assistant: assistant_tabs,
+  };
+  const tab_buttons = tabButtonsMap[userRole] || [];
 
-  const getHeaderText = () => {
+  const getSubHeaderText = () => {
     switch (userRole) {
       case "student":
         return "2026 > Saturday";
@@ -41,6 +31,9 @@ const Header = () => {
         return "Welcome";
     }
   };
+  const rolesWithSubHeader = ["student", "teacher", "admin", "assistant"];
+  const rolesWithSubHeaderTabs = ["teacher", "admin", "assistant"];
+  const rolesWithSubHeaderText = ["student", "teacher", "admin", "assistant"];
 
   return (
     <header className="header">
@@ -50,12 +43,12 @@ const Header = () => {
           <h1 className="site-title">InfoTech</h1>
         </div>
       </div>
-      {["student", "teacher", "admin", "assistant"].includes(userRole) && (
+      {rolesWithSubHeader.includes(userRole) && (
         <div className="tabs">
-          {["student", "teacher", "admin", "assistant"].includes(userRole) && (
-            <span className="tab-text">{getHeaderText()}</span>
+          {rolesWithSubHeaderText.includes(userRole) && (
+            <span className="tab-text">{getSubHeaderText()}</span>
           )}
-          {["teacher", "admin", "assistant"].includes(userRole) && (
+          {rolesWithSubHeaderTabs.includes(userRole) && (
             <span className="tab-buttons">
               <ul>
                 {tab_buttons.map((link, index) => (
