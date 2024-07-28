@@ -9,7 +9,7 @@ const UserRoleToggle = () => {
   };
 
   return (
-    <div>
+    <div className="role-toggle">
       <label htmlFor="userRole">Select User Role: </label>
       <select id="userRole" value={userRole} onChange={handleRoleChange}>
         <option value="student">Student</option>
