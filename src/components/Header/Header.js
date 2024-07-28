@@ -6,27 +6,27 @@ import {
   teacher_tabs,
   assistant_tabs,
   admin_tabs,
-} from "./MiniHeader";
+} from "./tabs";
 
 const Header = () => {
   const { userRole } = useUserRole();
 
-  let tabs;
+  let tab_buttons;
   switch (userRole) {
     case "teacher":
-      tabs = teacher_tabs;
+      tab_buttons = teacher_tabs;
       break;
     // case "student":
-    //   tabs = student_tabs;
+    //   tab_buttons = student_tabs;
     //   break;
     case "admin":
-      tabs = admin_tabs;
+      tab_buttons = admin_tabs;
       break;
     case "assistant":
-      tabs = assistant_tabs;
+      tab_buttons = assistant_tabs;
       break;
     default:
-      tabs = [];
+      tab_buttons = [];
   }
 
   const getHeaderText = () => {
@@ -58,7 +58,7 @@ const Header = () => {
           {["teacher", "admin", "assistant"].includes(userRole) && (
             <span className="tab-buttons">
               <ul>
-                {tabs.map((link, index) => (
+                {tab_buttons.map((link, index) => (
                   <li key={index}>
                     <a
                       href={link.url}
