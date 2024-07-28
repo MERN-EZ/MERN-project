@@ -1,6 +1,7 @@
 import React from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import { ThemeProvider } from "./context/ThemeContext";
+import { UserProvider } from "./context/UserContext";
 import { UserRoleProvider } from "./context/UserRoleContext";
 import NavBar from "./components/NavBar/NavBar";
 import Header from "./components/Header/Header";
@@ -10,18 +11,22 @@ import "./App.css";
 
 function App() {
   return (
-    <ThemeProvider>
-      <UserRoleProvider>
-        <Router>
-          <Header />
-          <NavBar />
-          <UserRoleToggle />
-          <Routes>
-            <Route path="/" element={<Home />} />
-          </Routes>{" "}
-        </Router>
-      </UserRoleProvider>
-    </ThemeProvider>
+    <div className="App">
+      <ThemeProvider>
+        <UserProvider>
+          <UserRoleProvider>
+            <Router>
+              <Header />
+              <NavBar />
+              <UserRoleToggle />
+              <Routes>
+                <Route path="/" element={<Home />} />
+              </Routes>
+            </Router>
+          </UserRoleProvider>
+        </UserProvider>
+      </ThemeProvider>
+    </div>
   );
 }
 
