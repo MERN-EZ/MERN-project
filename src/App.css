@@ -5,6 +5,20 @@
   --primary-background-color: #071952;
   --header-color: #fff;
   --primary-text-color: #fff;
+  --navbar-background-color : #071952;
+  --header-text-color : #071952;
+  --navbar-icon-color : #FFFFFF;
+  --navbar-selected-icon-color : #BEE4E9;
+  --primary-button-backgrund-color : #071952;
+  --primary-button-text-color : #FFFFFF;
+  --secondary-button-background-color : #EBF4F6;
+  --secondary-button-text-color : #071952;
+  --body-background-color : #ABDAE1;
+  --header-icon-color : #071952;
+  --header-profilename-color : #000000;
+  --path-text-color : #071952;
+
+
 
   /* --primary-color: #dc4e43;
   --secondary-color: #cf641c;
