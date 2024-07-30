@@ -9,6 +9,7 @@ import {
   navLinks_assistant,
 } from "./navData";
 import { useUserRole } from "../../context/UserRoleContext";
+import UserRoleToggle from "../UserRoleToggle/UserRoleToggle";
 import Switch from "@mui/material/Switch";
 
 const NavBar = () => {
@@ -48,7 +49,8 @@ const NavBar = () => {
     <nav
       className={`navbar navbar-${theme}`}
       onMouseEnter={() => setIsMenuOpen(true)}
-      onMouseLeave={() => setIsMenuOpen(false)}>
+      onMouseLeave={() => setIsMenuOpen(false)}
+      style={{ width: isMenuOpen ? "180px" : "3rem" }}>
       <div className="navbar-buttons">
         {navLinks.map((link) => (
           <div key={link.name}>
@@ -88,6 +90,7 @@ const NavBar = () => {
           {theme === "light" ? "Light Theme" : "Dark Theme"}
         </span>
       </div>
+      <UserRoleToggle />
     </nav>
   );
 };

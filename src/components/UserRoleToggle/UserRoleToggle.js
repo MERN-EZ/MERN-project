@@ -1,24 +1,80 @@
-import React from "react";
+import React, { useState } from "react";
+import {
+  IconButton,
+  Menu,
+  MenuItem,
+  ListItemIcon,
+  ListItemText,
+  Box,
+  Typography,
+} from "@mui/material";
+import AccountCircle from "@mui/icons-material/AccountCircle";
+import School from "@mui/icons-material/School";
+import Person from "@mui/icons-material/Person";
+import Work from "@mui/icons-material/Work";
+import Assistant from "@mui/icons-material/Assistant";
 import { useUserRole } from "../../context/UserRoleContext";
+const roles = [
+  { role: "admin", icon: AccountCircle },
+  { role: "student", icon: School },
+  { role: "guest", icon: Person },
+  { role: "teacher", icon: Work },
+  { role: "assistant", icon: Assistant },
+];
 
-const UserRoleToggle = () => {
+export default function UserRoleToggle() {
   const { userRole, setUserRole } = useUserRole();
+  const [anchorEl, setAnchorEl] = useState(null);
 
-  const handleRoleChange = (event) => {
-    setUserRole(event.target.value);
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
   };
 
-  return (
-    <div className="role-toggle">
-      <label htmlFor="userRole">Select User Role: </label>
-      <select id="userRole" value={userRole} onChange={handleRoleChange}>
-        <option value="student">Student</option>
-        <option value="teacher">Teacher</option>
-        <option value="admin">Admin</option>
-        <option value="assistant">Assistant</option>
-      </select>
-    </div>
-  );
-};
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
 
-export default UserRoleToggle;
+  const handleRoleChange = (role) => {
+    setUserRole(role);
+    handleClose();
+  };
+
+  const SelectedIcon = roles.find((r) => r.role === userRole)?.icon || Person;
+
+  return (
+    <Box className="nav-item role-toggle">
+      <IconButton
+        onClick={handleClick}
+        size="small"
+        className="nav-item-content"
+        aria-controls="role-menu"
+        aria-haspopup="true"
+        aria-expanded={Boolean(anchorEl)}>
+        <SelectedIcon />
+        <Typography className="link-name" variant="body2">
+          {userRole}
+        </Typography>
+      </IconButton>
+      <Menu
+        id="role-menu"
+        anchorEl={anchorEl}
+        open={Boolean(anchorEl)}
+        onClose={handleClose}
+        MenuListProps={{
+          "aria-labelledby": "role-button",
+        }}>
+        {roles.map((role) => (
+          <MenuItem
+            key={role.role}
+            onClick={() => handleRoleChange(role.role)}
+            selected={userRole === role.role}>
+            <ListItemIcon>
+              <role.icon fontSize="small" />
+            </ListItemIcon>
+            <ListItemText>{role.role}</ListItemText>
+          </MenuItem>
+        ))}
+      </Menu>
+    </Box>
+  );
+}
