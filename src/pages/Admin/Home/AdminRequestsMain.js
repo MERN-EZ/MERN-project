@@ -3,7 +3,7 @@ import { Container, Grid } from "@mui/material";
 import PeopleAltOutlinedIcon from "@mui/icons-material/PeopleAltOutlined";
 import PersonOutlineOutlinedIcon from "@mui/icons-material/PersonOutlineOutlined";
 import AddBoxOutlinedIcon from "@mui/icons-material/AddBoxOutlined";
-import NavCard from "../../../components/Admin/Navcard";
+import NavCard from "../../../components/admin/NavCard";
 
 const AdminRequestsMain = () => {
   return (

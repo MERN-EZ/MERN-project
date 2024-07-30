@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useTheme } from "../../context/ThemeContext";
+import { useTheme } from "../../../context/ThemeContext";
 import { NavLink } from "react-router-dom";
 import "./NavBar.css";
 import {
@@ -8,7 +8,7 @@ import {
   navLinks_admin,
   navLinks_assistant,
 } from "./navData";
-import { useUserRole } from "../../context/UserRoleContext";
+import { useUserRole } from "../../../context/UserRoleContext";
 import UserRoleToggle from "../UserRoleToggle/UserRoleToggle";
 import Switch from "@mui/material/Switch";
 

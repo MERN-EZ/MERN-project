@@ -8,13 +8,13 @@ import {
 import { ThemeProvider } from "./context/ThemeContext";
 import { UserProvider } from "./context/UserContext";
 import { useUserRole } from "./context/UserRoleContext";
-import NavBar from "./components/NavBar/NavBar";
-import Header from "./components/Header/Header";
+import NavBar from "./components/common/NavBar/NavBar";
+import Header from "./components/common/Header/Header";
 import TeacherRoutes from "./routes/TeacherRoutes";
 import StudentRoutes from "./routes/StudentRoutes";
 import AssistantRoutes from "./routes/AssistantRoutes";
 import GuestRoutes from "./routes/GuestRoutes";
-// import AdminRoutes from "./routes/AdminRoutes";
+import AdminRoutes from "./routes/AdminRoutes";
 import "./App.css";
 
 function App() {
@@ -49,7 +49,7 @@ function AppRoutes() {
       {userRole === "student" && (
         <Route path="/*" element={<StudentRoutes />} />
       )}
-      {/* {userRole === "admin" && <Route path="/*" element={<AdminRoutes />} />} */}
+      {userRole === "admin" && <Route path="/*" element={<AdminRoutes />} />}
       {userRole === "assistant" && (
         <Route path="/*" element={<AssistantRoutes />} />
       )}
