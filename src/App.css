@@ -2,56 +2,45 @@
   padding: 4rem 0 0 3rem;
 }
 :root {
-
-  --body-background-color : #ABDAE1;
+  --body-background-color: #abdae1;
 
   --primary-header-background-color: #fff;
-  --primary-header-topic-color : #071952;
-  --primary-header-icon-color : #071952;
-  --orimary-header-profilename-color : #000000;
-  
-  --secondary-header-background-color : #FFFFFF;
-  --secondary-header-text-color : #071952;
+  --primary-header-topic-color: #071952;
+  --primary-header-icon-color: #071952;
+  --orimary-header-profilename-color: #000000;
 
-  --navbar-background-color : #071952;
-  --navbar-icon-color : #FFFFFF;
-  --navbar-selected-icon-color : #BEE4E9;
+  --secondary-header-background-color: #ffffff;
+  --secondary-header-text-color: #071952;
 
-  --primary-button-backgrund-color : #071952;
-  --primary-button-text-color : #FFFFFF;
-  --primary-button-text-bordercolor : #000000;
+  --navbar-background-color: #071952;
+  --navbar-icon-color: #ffffff;
+  --navbar-selected-icon-color: #bee4e9;
 
-  --secondary-button-background-color : #EBF4F6;
-  --secondary-button-text-color : #071952;
+  --primary-button-backgrund-color: #071952;
+  --primary-button-text-color: #ffffff;
+  --primary-button-text-bordercolor: #000000;
 
-  --alt-button-background-color : #FFFFFF;
-  --alt-button-text-color : #071952;
+  --secondary-button-background-color: #ebf4f6;
+  --secondary-button-text-color: #071952;
 
-  --link-as-text-color : #071952;
+  --alt-button-background-color: #ffffff;
+  --alt-button-text-color: #071952;
 
-  --drop-arrow : #071952;
+  --link-as-text-color: #071952;
 
-  --round-edge-box-background-color : #FFFFFF;
+  --drop-arrow: #071952;
 
-  --default-icons : #071952;
+  --round-edge-box-background-color: #ffffff;
 
-  --rectangle-box-background-color : #FFFFFF;
+  --default-icons: #071952;
 
-  --text-fields-alt-text-color : #071952;
-  --text-fields-alt-text-opacity : 50%;
-  --text-field-background-color : #EBF4F6;
+  --rectangle-box-background-color: #ffffff;
 
-  --rounded-edge-square-background-color : #34B6C8;
+  --text-fields-alt-text-color: #071952;
+  --text-fields-alt-text-opacity: 50%;
+  --text-field-background-color: #ebf4f6;
 
-
-
-
-
-  
-  
-
-
-
+  --rounded-edge-square-background-color: #34b6c8;
 }
 /* Dark theme overrides */
 .dark-theme {
