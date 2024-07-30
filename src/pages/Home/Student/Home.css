@@ -1,0 +1,45 @@
+.container {
+    padding: 20px;
+    background-color: #E0F7FA;
+    padding-top: 4rem;
+    padding-left: 4rem;
+  }
+  
+  .header {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    text-align: left;
+    
+  }
+  
+  .header h1 {
+    margin: 0;
+  }
+  
+  .header p {
+    color: #666;
+  }
+  
+  .header .image {
+    width: 100%;
+    height: auto;
+    margin-top: 10px;
+  }
+  
+  .homework-list, .deadlines {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+  }
+  
+  .homework-item, .deadline-item {
+    margin-bottom: 10px;
+  }
+  
+  .homework-item h3, .deadline-item h3 {
+    margin: 0;
+  }
+  
