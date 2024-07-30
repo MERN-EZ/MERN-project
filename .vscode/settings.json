@@ -1,5 +1,7 @@
 {
   "files.watcherExclude": {
     "**/target": true
-  }
+  },
+  "prettier.bracketSameLine": true,
+  "prettier.enableDebugLogs": true
 }

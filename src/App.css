@@ -2,13 +2,12 @@
   padding: 4rem 0 0 3rem;
 }
 :root {
-
   --body-background-color : #ABDAE1;
 
   --primary-header-background-color: #fff;
   --primary-header-topic-color : #071952;
   --primary-header-icon-color : #071952;
-  --orimary-header-profilename-color : #000000;
+  --primary-header-profilename-color : #000000;
   
   --secondary-header-background-color : #FFFFFF;
   --secondary-header-text-color : #071952;
@@ -42,14 +41,6 @@
   --text-field-background-color : #EBF4F6;
 
   --rounded-edge-square-background-color : #34B6C8;
-
-
-
-
-
-  
-  
-
 
 
 }
