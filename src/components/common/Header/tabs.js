@@ -9,7 +9,7 @@ const assistant_tabs = [
   { text: "Overview", url: "/overview", isActive: true },
   { text: "Class Schedules", url: "/schedules", isActive: false },
   { text: "Attendance", url: "/attendance", isActive: false },
-  { text: "Payments", url: "/p ayments", isActive: false },
+  { text: "Payments", url: "/payments", isActive: false },
 ];
 const admin_tabs = [
   { text: "Home", url: "/home", isActive: true },
