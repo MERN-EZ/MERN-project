@@ -11,7 +11,7 @@ function Home() {
     <div>
       <h1>Welcome to the Homepage!</h1>
       <p>This is a sample homepage for Guest.</p>
-      <Button text="Click Me" variant="primary" onClick={handleClick} />
+      <Button text="Click Me" variant="alt" onClick={handleClick} />
     </div>
   );
 }
