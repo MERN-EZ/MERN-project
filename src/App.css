@@ -16,15 +16,24 @@
   --navbar-icon-color: #ffffff;
   --navbar-selected-icon-color: #bee4e9;
 
-  --primary-button-backgrund-color: #071952;
+  --primary-button-background-color: #071952;
   --primary-button-text-color: #ffffff;
-  --primary-button-text-bordercolor: #000000;
+  --primary-button-hover-background-color: #162557;
+  --primary-button-active-background-color: #0e183f;
+
 
   --secondary-button-background-color: #ebf4f6;
   --secondary-button-text-color: #071952;
+  --secondary-button-hover-background-color: #d4e7f5;
+  --secondary-button-active-background-color: #c1dbee;
 
   --alt-button-background-color: #ffffff;
   --alt-button-text-color: #071952;
+  --alt-button-hover-background-color: #f0f0f0;
+  --alt-button-active-background-color: #e0e0e0;
+
+  --button-hover-box-shadow-color: rgba(0, 0, 0, 0.1);
+  --button-active-box-shadow-color: rgba(0, 0, 0, 0.2);
 
   --link-as-text-color: #071952;
 

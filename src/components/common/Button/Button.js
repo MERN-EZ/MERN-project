@@ -4,14 +4,14 @@ import './Button.css';
 const Button = ({ text, variant, onClick }) => {
     const getButtonClass = () => {
         switch (variant) {
-            case 'light':
-                return 'button-light';
-            case 'dark':
-                return 'button-dark';
-            case 'white':
-                return 'button-white';
+            case 'secondary':
+                return 'button-secondary';
+            case 'primary':
+                return 'button-primary';
+            case 'alt':
+                return 'button-alt';
             default:
-                return 'button-default';
+                return 'button-primary';
         }
     };
 
