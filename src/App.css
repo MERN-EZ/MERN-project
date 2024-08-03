@@ -40,7 +40,7 @@
 
   --drop-arrow: #071952;
 
-  --round-edge-box-background-color: #ffffff;
+  --round-edge-rectangle-background-color: #ffffff;
 
   --default-icons: #071952;
 
@@ -50,7 +50,7 @@
   --text-fields-alt-text-opacity: 50%;
   --text-field-background-color: #ebf4f6;
 
-  --rounded-edge-square-background-color: #34b6c8;
+  --rounded-edge-square-background-color: #EBF4F6;
 }
 /* Dark theme overrides */
 .dark-theme {

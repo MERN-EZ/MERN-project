@@ -1,28 +1,37 @@
 import React from 'react';
 import './Home.css';
+import './../../../App.css';
+import Button from '../../../components/common/Button/Button';
+import classImage from './../Images/classImage.png';
+import homeworkData from './HomeWorkData';
 
 const RegStudentLanding = () => {
   return (
     <div className="container">
-      <header className="header">
-        <h1>Ordinary Level ICT 22/223</h1>
-        <p>Nugegoda - ISM</p>
-        <button>Show Calendar</button>
-        <img src="path/to/your/image.png" alt="Classroom" className="image"/>
+      <header className="class-info-rounded-edge-rectangle">
+        <div className="class-info">
+          <h1>Ordinary Level ICT 22/223</h1>
+          <p>
+            Nugegoda - ISM<br/>
+            6.00 P.M. - 8.00 P.M. <Button text="Show Calendar" variant="secondary" onClick={() => { /* Your click handler here */ }} />
+          </p>
+        </div>
+        <div className="header-actions">
+          <img src={classImage} alt="Classroom" className="image" />
+        </div>
       </header>
-      <section className="homework-list">
-        <h2>Home Works</h2>
-        <div className="homework-item">
-          <h3>Home Work 1</h3>
-          <p>Create an ER diagram</p>
-        </div>
-        <div className="homework-item">
-          <h3>Home Work 2</h3>
-          <p>Monthly paper</p>
-        </div>
-        <div className="homework-item">
-          <h3>Home Work 3</h3>
-          <p>IP address tutorial</p>
+      <section className="homework-rounded-edge-rectangle">
+        <h2 className="homework-header">Home Works</h2>
+        <a href="#more-homeworks" className="see-more-link">See More</a>
+        <div className="homework-items-container">
+          <div className="homework-items">
+            {homeworkData.map((homework) => (
+              <div key={homework.id} className="homework-item">
+                <h3>{homework.title}</h3>
+                <p>{homework.description}</p>
+              </div>
+            ))}
+          </div>
         </div>
       </section>
       <section className="deadlines">
@@ -35,10 +44,6 @@ const RegStudentLanding = () => {
       </section>
     </div>
   );
-
-  
 };
-
-
 
 export default RegStudentLanding;
