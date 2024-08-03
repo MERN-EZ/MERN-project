@@ -1,45 +1,118 @@
 .container {
-    padding: 20px;
-    background-color: #E0F7FA;
-    padding-top: 4rem;
-    padding-left: 4rem;
-  }
+  padding: 20px;
+  background-color: #E0F7FA;
+  font-family: Arial, sans-serif;
+}
+
+.class-info-rounded-edge-rectangle {
+  background-color: var(--round-edge-rectangle-background-color);
+  padding: 20px;
+  border-radius: 25px;
+  margin-bottom: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 75rem;
+  height: 10rem;
+  margin-left: 2rem;
+  box-shadow: 2.5px 2.5px 2.5px #888888;
+}
+
+.homework-rounded-edge-rectangle {
+  background-color: var(--round-edge-rectangle-background-color);
+  padding: 20px;
+  border-radius: 25px;
+  margin-bottom: 10px;
+  width: 75rem;
+  margin-left: 2rem;
+  box-shadow: 2.5px 2.5px 2.5px #888888;
+  position: relative;
+  /* display: flex; */
+  flex-direction: column;
+}
+
+.homework-header {
+  position: absolute;
+  top: 10px;
+  left: 20px;
+  margin: 0;
+  font-size: 1.5rem;
+}
+
+.see-more-link {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  font-size: 1rem;
+  color: #007BFF;
+  text-decoration: none;
+}
+
+.see-more-link:hover {
+  text-decoration: underline;
+}
+
+.homework-items-container {
+  overflow-x: auto;
+  overflow-y: hidden;
+  margin-top: 30px;
+  -webkit-overflow-scrolling: touch; /* Enable smooth scrolling */
   
-  .header {
-    background-color: #fff;
-    padding: 20px;
-    border-radius: 8px;
-    margin-bottom: 20px;
-    text-align: left;
-    
-  }
-  
-  .header h1 {
-    margin: 0;
-  }
-  
-  .header p {
-    color: #666;
-  }
-  
-  .header .image {
-    width: 100%;
-    height: auto;
-    margin-top: 10px;
-  }
-  
-  .homework-list, .deadlines {
-    background-color: #fff;
-    padding: 20px;
-    border-radius: 8px;
-    margin-bottom: 20px;
-  }
-  
-  .homework-item, .deadline-item {
-    margin-bottom: 10px;
-  }
-  
-  .homework-item h3, .deadline-item h3 {
-    margin: 0;
-  }
-  
+
+}
+
+.homework-items-container::-webkit-scrollbar {
+  display: none; /* Hide scrollbar in WebKit browsers */
+}
+
+.homework-items {
+  display: inline-flex;
+}
+
+.homework-item {
+  background-color: var(--rounded-edge-square-background-color);
+  padding: 15px;
+  border-radius: 15px;
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
+  width: 150px;
+  height: 125px;
+  text-align: center;
+  margin-right: 10px; /* Add space between homework items */
+  margin-left: 10px;
+  transition: transform 0.3s; /* Smooth transition for the hover effect */
+}
+
+.homework-item:hover {
+  transform: scale(1.1); /* Increase the size of the item when hovered */
+}
+
+.class-info p {
+  margin: 0;
+  font-size: 15px;
+}
+
+.header-actions {
+  display: flex;
+  align-items: center;
+}
+
+.image {
+  width: 150px;
+  height: 150px;
+  margin-left: 20px;
+}
+
+.deadlines {
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+}
+
+.deadline-item {
+  margin-bottom: 10px;
+}
+
+.deadline-item h3 {
+  margin: 0;
+}
