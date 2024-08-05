@@ -36,7 +36,7 @@ const Header = () => {
   const rolesWithSubHeaderText = ["student", "teacher", "admin", "assistant"];
 
   return (
-    <header className="header">
+    <header className="main-header">
       <div className="header-bar">
         <div className="logo-container">
           <img src=" /assets/react.png" alt="Sci ~ Ez Logo" className="logo" />
