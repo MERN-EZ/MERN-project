@@ -32,7 +32,7 @@ const CreateAssistant = () => {
       label: 'Classroom',
       type: 'select',
       options: [
-        { value: 'classroom1', label: 'Classroom 1' },
+        { value: 'classroom1', label: 'Classroom 1' }, // Input correct select values
         { value: 'classroom2', label: 'Classroom 2' },
       ],
     },

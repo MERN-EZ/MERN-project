@@ -1,0 +1,62 @@
+.custom-button {
+    padding: 10px 20px;
+    margin: 10px;
+    border: 1px solid transparent;
+    border-radius: 4px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, color 0.3s ease, box-shadow 0.3s ease;
+  }
+  
+  .custom-button.contained {
+    background-color: #eaf3f9;
+  }
+  
+  .custom-button.outlined {
+    background-color: transparent;
+    border: 1px solid currentColor;
+  }
+  
+  .custom-button.primary {
+    color: #1f326e;
+  }
+  
+  .custom-button.secondary {
+    color: #9747ff;
+  }
+  
+  .custom-button.danger {
+    color: #ff4d4d;
+  }
+  
+  .custom-button.small {
+    padding: 5px 10px;
+    font-size: 14px;
+  }
+  
+  .custom-button.medium {
+    padding: 10px 20px;
+    font-size: 16px;
+  }
+  
+  .custom-button.large {
+    padding: 15px 30px;
+    font-size: 18px;
+  }
+  
+  .custom-button:disabled {
+    background-color: #d4e7f5;
+    color: #a9a9a9;
+    cursor: not-allowed;
+  }
+  
+  .custom-button:hover:not(:disabled) {
+    background-color: #d4e7f5;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+  
+  .custom-button:active:not(:disabled) {
+    background-color: #c1dbee;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  }
+  
