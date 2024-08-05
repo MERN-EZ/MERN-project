@@ -6,7 +6,7 @@ import "./HomeworkManager.css";
 const HomeworkManager = () => {
   console.log("HomeworkManager component rendered");
   const { data, error, loading } = useGetRequest(
-    "http://localhost:8090/lessons"
+    "http://localhost:5000/lessons"
   ); // Replace with your actual endpoint
 
   const [lessons, setLessons] = useState([]);

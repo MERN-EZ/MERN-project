@@ -10,6 +10,7 @@ const useGetRequest = (endpoint) => {
       setLoading(true);
       try {
         const response = await fetch(endpoint);
+        console.log(response);
         if (response.ok) {
           const data = await response.json();
           setData(data);
