@@ -1,6 +1,6 @@
 .container {
   padding: 20px;
-  background-color: #E0F7FA;
+  background-color: #e0f7fa;
   font-family: Arial, sans-serif;
 }
 
@@ -44,7 +44,7 @@
   top: 20px;
   right: 20px;
   font-size: 1rem;
-  color: #007BFF;
+  color: #007bff;
   text-decoration: none;
 }
 
@@ -56,9 +56,7 @@
   overflow-x: auto;
   overflow-y: hidden;
   margin-top: 30px;
-  -webkit-overflow-scrolling: touch; /* Enable smooth scrolling */
-  
-
+  /* -webkit-overflow-scrolling: touch; Enable smooth scrolling */
 }
 
 .homework-items-container::-webkit-scrollbar {
