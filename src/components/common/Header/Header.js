@@ -1,6 +1,6 @@
 import React from "react";
 import "./Header.css";
-import { useUserRole } from "../../context/UserRoleContext";
+import { useUserRole } from "../../../context/UserRoleContext";
 import {
   // student_tabs,
   teacher_tabs,
@@ -36,7 +36,7 @@ const Header = () => {
   const rolesWithSubHeaderText = ["student", "teacher", "admin", "assistant"];
 
   return (
-    <header className="header">
+    <header className="main-header">
       <div className="header-bar">
         <div className="logo-container">
           <img src=" /assets/react.png" alt="Sci ~ Ez Logo" className="logo" />

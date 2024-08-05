@@ -1,9 +1,15 @@
-import React, { createContext, useContext, useState } from "react";
+import React, { createContext, useContext, useState, useEffect } from "react";
 
 const UserRoleContext = createContext();
 
 export const UserRoleProvider = ({ children }) => {
-  const [userRole, setUserRole] = useState("student");
+  const [userRole, setUserRole] = useState(
+    localStorage.getItem("userRole") || "guest"
+  );
+  useEffect(() => {
+    localStorage.setItem("userRole", userRole);
+    console.log("userRole set to", userRole);
+  }, [userRole]);
 
   return (
     <UserRoleContext.Provider value={{ userRole, setUserRole }}>
