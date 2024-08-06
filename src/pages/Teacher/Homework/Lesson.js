@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import Homework from "./Homework";
+import "./Lesson.css";
 
 const Lesson = ({ lesson, deleteLesson, updateLesson }) => {
   const [isOpen, setIsOpen] = useState(false);

@@ -30,14 +30,16 @@ const HomeworkManager = () => {
 
   return (
     <div className="homework-manager">
-      {lessons.map((lesson) => (
-        <Lesson
-          key={lesson.id}
-          lesson={lesson}
-          deleteLesson={deleteLesson}
-          updateLesson={updateLesson}
-        />
-      ))}
+      <div className="lesson-holder">
+        {lessons.map((lesson) => (
+          <Lesson
+            key={lesson.id}
+            lesson={lesson}
+            deleteLesson={deleteLesson}
+            updateLesson={updateLesson}
+          />
+        ))}
+      </div>
     </div>
   );
 };
