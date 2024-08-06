@@ -1,8 +1,15 @@
-.teacher {
+.teacher.lesson {
+  border-radius: 1rem;
+  box-shadow: 0 0 5px 0 var(--box-shadow-color);
+  background-color: var(--rectangle-box-background-color);
+
   .lesson-header {
     display: flex;
     justify-content: space-between;
     cursor: pointer;
+    // background-color: var(--rectangle-box-background-color);
+    padding: 0 1rem;
+    margin: 1rem 0 0 0;
   }
   .lesson-header h3 {
     font-weight: 500;
@@ -23,7 +30,7 @@
     border: none;
   }
 
-  .lesson-body {
-    margin-top: 10px;
-  }
+  // .lesson-body {
+  //   // margin-top: 10px;
+  // }
 }

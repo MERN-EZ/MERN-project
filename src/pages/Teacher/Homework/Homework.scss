@@ -3,9 +3,10 @@ body {
 
   .homework.teacher {
     background-color: var(--background-color);
-    border: 1px solid #ddd;
-    margin: 10px;
-    border-radius: 5px;
+    // border: 1px solid #ddd;
+    border-top: 1px solid var(--box-shadow-color);
+    // margin: 10px;
+    // border-radius: 5px;
 
     .homework-header {
       display: flex;
