@@ -39,7 +39,7 @@ const Header = () => {
     <header className="main-header">
       <div className="header-bar">
         <div className="logo-container">
-          <img src=" /assets/react.png" alt="Sci ~ Ez Logo" className="logo" />
+          <img src=" /assets/logo.png" alt="Sci ~ Ez Logo" className="logo" />
           <h1 className="site-title">InfoTech</h1>
         </div>
       </div>
