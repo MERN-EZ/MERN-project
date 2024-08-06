@@ -1,17 +1,29 @@
-// homeworkData.js
+// homeWorkData.js
 const homeworkData = [
-    { id: 1, title: "Home Work 1", description: "Create an ER diagram" },
-    { id: 2, title: "Home Work 2", description: "Monthly paper" },
-    { id: 3, title: "Home Work 3", description: "IP address tutorial" },
-    { id: 4, title: "Home Work 3", description: "IP address tutorial" },
-    { id: 5, title: "Home Work 3", description: "IP address tutorial" },
-    { id: 6, title: "Home Work 3", description: "IP address tutorial" },
-    { id: 7, title: "Home Work 3", description: "IP address tutorial" },
-    { id: 8, title: "Home Work 3", description: "IP address tutorial" },
-    { id: 9, title: "Home Work 3", description: "IP address tutorial" },
-    { id: 10, title: "Home Work 3", description: "IP address tutorial" },
-    // Add more homework items as needed
-  ];
-  
-  export default homeworkData;
-  
+  {
+    id: 1,
+    title: 'Homework 1.2',
+    description: 'Exercises on page 22.',
+    deadline: '2024-08-10T23:59:00', // ISO 8601 format deadline
+  },
+  {
+    id: 2,
+    title: 'Homework 1.3',
+    description: 'Summary of chapters 3 and 4.',
+    deadline: '2024-08-15T17:00:00',
+  },
+  {
+    id: 3,
+    title: 'Homework 1.4',
+    description: 'Presentation on recent topics.',
+    deadline: '2024-08-20T12:00:00',
+  },
+  {
+    id: 4,
+    title: 'Homework 1.5',
+    description: 'Problems from 01/08 handout.',
+    deadline: '2024-08-25T09:30:00',
+  },
+];
+
+export default homeworkData;

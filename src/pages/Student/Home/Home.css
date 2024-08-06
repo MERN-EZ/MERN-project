@@ -71,10 +71,10 @@
 
 .homework-item {
   background-color: var(--rounded-edge-square-background-color);
-  padding: 15px;
+  padding: 8px;
   border-radius: 15px;
   box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
-  width: 150px;
+  width: 170px;
   height: 125px;
   text-align: center;
   margin-right: 10px; /* Add space between homework items */
@@ -103,10 +103,17 @@
 }
 
 .deadlines {
-  background-color: #fff;
+  background-color: var(--round-edge-rectangle-background-color);
   padding: 20px;
-  border-radius: 8px;
-  margin-bottom: 20px;
+  border-radius: 25px;
+  margin-bottom: 10px;
+  width: 75rem;
+  margin-left: 2rem;
+  box-shadow: 2.5px 2.5px 2.5px #888888;
+  position: relative;
+  /* display: flex; */
+  flex-direction: column;
+  
 }
 
 .deadline-item {
@@ -116,3 +123,35 @@
 .deadline-item h3 {
   margin: 0;
 }
+
+/* Home.css */
+
+.deadlines {
+  margin-top: 20px;
+}
+
+.deadline-item {
+  border: 1px solid #ddd;
+  padding: 10px;
+  margin-bottom: 10px;
+  
+}
+
+.deadline-item h3 {
+  margin: 0;
+  font-size: 1.2em;
+}
+
+.deadline-item p {
+  margin: 5px 0;
+}
+
+.deadline-item {
+  cursor: pointer;
+  transition: transform 0.3s ease;
+}
+
+.deadline-item:hover {
+  transform: scale(1.05);
+}
+
