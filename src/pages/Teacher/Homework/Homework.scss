@@ -1,32 +1,30 @@
 body {
   background-color: var(--background-color);
 
-  .homework {
+  .homework.teacher {
     background-color: var(--background-color);
     border: 1px solid #ddd;
     margin: 10px;
-    padding: 0.3rem 1rem;
     border-radius: 5px;
 
-    &.homework-teacher {
-      .homework-header {
-        display: flex;
-        gap: 1rem;
-        align-items: center;
-        padding: 0.1rem 0.8rem;
-      }
+    .homework-header {
+      display: flex;
+      gap: 1rem;
+      align-items: center;
+      padding: 0.1rem 0.8rem;
+      background-color: var(--box-background-color);
+    }
 
-      .homework-body {
-        display: flex;
-        flex-direction: column;
-        gap: 0.5rem;
-        padding: 0.5rem 0.8rem;
-      }
+    .homework-body {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+      padding: 0.5rem 0.8rem;
+    }
 
-      button {
-        background-color: inherit;
-        border: none;
-      }
+    button {
+      background-color: inherit;
+      border: none;
     }
   }
 }

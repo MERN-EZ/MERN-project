@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import Homework from "./Homework";
-import "./Lesson.css";
+import "./Lesson.scss";
 
 const Lesson = ({ lesson, deleteLesson, updateLesson }) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -8,7 +8,7 @@ const Lesson = ({ lesson, deleteLesson, updateLesson }) => {
   const toggleOpen = () => setIsOpen(!isOpen);
 
   return (
-    <div className="lesson">
+    <div className="teacher lesson">
       <div className="lesson-header" onClick={toggleOpen}>
         <h3>{lesson.title}</h3>
         <button>{isOpen ? "▼" : "▶"}</button>

@@ -22,7 +22,6 @@
   --primary-button-hover-background-color: #162557;
   --primary-button-active-background-color: #0e183f;
 
-
   --secondary-button-background-color: #ebf4f6;
   --secondary-button-text-color: #071952;
   --secondary-button-hover-background-color: #d4e7f5;
@@ -45,12 +44,13 @@
   --default-icons: #071952;
 
   --rectangle-box-background-color: #ffffff;
+  --box-background-color: #ffffff;
 
   --text-fields-alt-text-color: #071952;
   --text-fields-alt-text-opacity: 50%;
   --text-field-background-color: #ebf4f6;
 
-  --rounded-edge-square-background-color: #EBF4F6;
+  --rounded-edge-square-background-color: #ebf4f6;
 }
 /* Dark theme overrides */
 .dark-theme {

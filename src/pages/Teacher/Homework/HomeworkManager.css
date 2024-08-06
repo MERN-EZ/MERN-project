@@ -9,27 +9,3 @@
   width: 80%;
   min-width: 40rem;
 }
-.lesson {
-  border: 1px solid #ccc;
-  background-color: var(--rectangle-box-background-color);
-  margin: 10px;
-  padding: 0.4rem 1rem;
-  border-radius: 5px;
-  width: 100%;
-  -webkit-user-select: none;
-  user-select: none;
-}
-
-.lesson-header {
-  display: flex;
-  justify-content: space-between;
-  cursor: pointer;
-}
-.lesson-header button {
-  background-color: inherit;
-  border: none;
-}
-
-.lesson-body {
-  margin-top: 10px;
-}
