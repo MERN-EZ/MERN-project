@@ -3,7 +3,7 @@ import './Home.css';
 import './../../../App.css';
 import Button from '../../../components/common/Button/Button';
 import classImage from './../Images/classImage.png';
-import homeworkData from './HomeWorkData';
+import homeworkData from './homeWorkData';
 
 const RegStudentLanding = () => {
   return (

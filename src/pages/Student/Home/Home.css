@@ -67,6 +67,8 @@
 
 .homework-items {
   display: inline-flex;
+  height: 150px;
+  padding: 10px;
 }
 
 .homework-item {

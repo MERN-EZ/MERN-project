@@ -46,9 +46,9 @@
 
   --rectangle-box-background-color: #ffffff;
 
-  --text-fields-alt-text-color: #071952;
-  --text-fields-alt-text-opacity: 50%;
-  --text-field-background-color: #ebf4f6;
+  --text-fields-text-color: #071952; /*Used in forms */
+  --text-fields-text-opacity: 50%; /*Used in forms */
+  --text-field-background-color: #ebf4f6;  /*Used in forms */
 
   --rounded-edge-square-background-color: #EBF4F6;
 }
@@ -57,19 +57,6 @@
   --primary-background-color: #393535;
   --primary-text-color: #fff;
 
-  /* --background-color: #3d3d3dae;
-  --background-color-secondary: #fff;
-  --text-color: #e0e0e0;
-  --button-text-color: #000000;
-  --primary-color: #9f6133;
-  --secondary-color: #444;
-  --light-grey-color: #242424;
-  --dark-grey-color: #e0e0e0;
-  --medium-grey-color: #bcbcbc;
-  --white-color: #2e2e2e;
-  --main-color: #dd9d26;
-  --button-color: #ffc250;
-  --button-selected-color: #e0a943; */
 }
 
 @media (max-width: 768px) {
