@@ -1,5 +1,5 @@
 import React from "react";
-import "./Home.css";
+import "./Home.scss";
 import "./../../../App.css";
 import Button from "../../../components/common/Button/Button";
 import classImage from "./../Images/classImage.png";
@@ -7,7 +7,7 @@ import homeworkData from "./HomeWorkData";
 
 const RegStudentLanding = () => {
   return (
-    <div className="container">
+    <div className="student-home container">
       <header className="class-info-rounded-edge-rectangle">
         <div className="class-info">
           <h1>Ordinary Level ICT 22/223</h1>
