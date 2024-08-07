@@ -43,7 +43,7 @@ const HomeworkManager = () => {
   };
 
   const updateLesson = (lessonId) => {
-    // Update lesson logic
+    window.location.href = `/homework/create?lessonId=${lessonId}`;
   };
 
   const [showAlert, setShowAlert] = useState(false);

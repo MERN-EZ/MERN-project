@@ -23,31 +23,46 @@ const Lesson = ({ lesson, deleteLesson, updateLesson }) => {
   return (
     <div className="teacher lesson">
       <div className="lesson-header" onClick={toggleOpen}>
-        <h3>{lesson.title}</h3>
+        <h2>
+          Lesson {lesson.id}: {lesson.title}
+        </h2>
         <button>{isOpen ? '▼' : '▶'}</button>
       </div>
       {isOpen && (
         <div className="lesson-body">
-          {lesson.homeworks.length === 0 ? (
+          {lesson.homework.length === 0 ? (
             <div id="no-homework">No homeworks currently</div>
           ) : (
-            lesson.homeworks.map((homework) => (
-              <Homework key={homework.id} homework={homework} />
+            lesson.homework.map((homework, index) => (
+              <Homework
+                key={homework.id}
+                homework={homework}
+                index={index}
+                lesson_id={lesson._id}
+              />
             ))
           )}
-          <Button
-            onClick={() => updateLesson(lesson.id)}
-            text="Edit Lesson"
-            variant={'alt'}
-            padding={'0.3rem 1rem'}
-          ></Button>
-          <Button
-            onClick={handleDeleteClick}
-            variant={'alt'}
-            text="Delete Lesson"
-            padding={'0.3rem 1rem'}
-            margin={'0'}
-          ></Button>
+          <div className="buttons">
+            <span className="left-btn-group">
+              <Button
+                onClick={() => updateLesson(lesson._id)}
+                text="Edit Lesson"
+                variant={'alt'}
+              ></Button>
+              <Button
+                onClick={handleDeleteClick}
+                variant={'alt'}
+                text="Delete Lesson"
+                margin={'0'}
+              ></Button>
+            </span>
+            <Button
+              onClick={() => updateLesson(lesson._id)}
+              text="Add Homework"
+              variant={'primary'}
+              className="right-btn-group"
+            ></Button>
+          </div>
         </div>
       )}
       {showAlert && (
