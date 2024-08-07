@@ -1,8 +1,8 @@
 .custom-button {
-  padding: 10px 20px;
+  padding: 8px 15px;
   margin: 10px;
   border: 1px solid transparent;
-  border-radius: 25px; 
+  border-radius: 20px;
   font-size: 16px;
   cursor: pointer;
   box-shadow: 1px 1px 0px #888888;
@@ -53,4 +53,3 @@
   background-color: var(--alt-button-active-background-color);
   box-shadow: 0 2px 4px var(--button-active-box-shadow-color);
 }
-
