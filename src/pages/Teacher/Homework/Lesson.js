@@ -8,16 +8,16 @@ const Lesson = ({ lesson, deleteLesson, updateLesson }) => {
   const [isOpen, setIsOpen] = useState(false);
   const toggleOpen = () => setIsOpen(!isOpen);
 
-  const [showPopup, setShowPopup] = useState(false);
+  const [showAlert, setShowAlert] = useState(false);
   const handleDeleteClick = () => {
-    setShowPopup(true);
+    setShowAlert(true);
   };
   const handleConfirmDelete = () => {
     deleteLesson(lesson._id);
-    setShowPopup(false);
+    setShowAlert(false);
   };
   const handleCancelDelete = () => {
-    setShowPopup(false);
+    setShowAlert(false);
   };
 
   return (
@@ -28,9 +28,13 @@ const Lesson = ({ lesson, deleteLesson, updateLesson }) => {
       </div>
       {isOpen && (
         <div className="lesson-body">
-          {lesson.homeworks.map((homework) => (
-            <Homework key={homework.id} homework={homework} />
-          ))}
+          {lesson.homeworks.length === 0 ? (
+            <div id="no-homework">No homeworks currently</div>
+          ) : (
+            lesson.homeworks.map((homework) => (
+              <Homework key={homework.id} homework={homework} />
+            ))
+          )}
           <Button
             onClick={() => updateLesson(lesson.id)}
             text="Edit Lesson"
@@ -46,7 +50,7 @@ const Lesson = ({ lesson, deleteLesson, updateLesson }) => {
           ></Button>
         </div>
       )}
-      {showPopup && (
+      {showAlert && (
         <Alert
           message="Are you sure you want to delete this lesson?"
           variant={'action'}

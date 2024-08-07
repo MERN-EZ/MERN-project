@@ -2,8 +2,9 @@ import React, { useState, useEffect } from 'react';
 import Lesson from './Lesson';
 import useGetRequest from './../../../hooks/useGetRequest';
 import useDeleteRequest from './../../../hooks/useDeleteRequest';
-import './HomeworkManager.css';
+import './HomeworkManager.scss';
 import Alert from '../../../components/common/Alert/Alert';
+import Button from '../../../components/common/Button/Button';
 
 const HomeworkManager = () => {
   const { data, error, loading } = useGetRequest('lessons');
@@ -18,20 +19,21 @@ const HomeworkManager = () => {
 
   useEffect(() => {
     if (data) {
+      console.log(data);
       setLessons(data);
     }
   }, [data]);
-  useEffect(() => {
-    if (error) {
-      setLessons(error);
-    }
-  }, [error]);
+  // useEffect(() => {
+  //   if (error) {
+  //     setLessons(error);
+  //   }
+  // }, [error]);
 
   useEffect(() => {
+    console.log(deleteData);
+    console.log('updating lessons');
     if (deleteData) {
-      setLessons((prevLessons) =>
-        prevLessons.filter((lesson) => lesson.id !== deleteData.id)
-      );
+      setLessons(deleteData);
     }
   }, [deleteData]);
 
@@ -72,6 +74,13 @@ const HomeworkManager = () => {
         />
       )}
       <div className="lesson-holder">
+        <div className="create-lesson">
+          <Button
+            variant={'primary'}
+            text="Create lesson"
+            onClick={() => (window.location.href = '/lessons/create')}
+          ></Button>
+        </div>
         {lessons.map((lesson) => (
           <Lesson
             key={lesson._id}

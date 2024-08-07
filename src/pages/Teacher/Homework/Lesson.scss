@@ -30,7 +30,10 @@
     border: none;
   }
 
-  // .lesson-body {
-  //   // margin-top: 10px;
-  // }
+  .lesson-body {
+    #no-homework {
+      padding: 1rem;
+      border-top: 1px solid var(--box-shadow-color);
+    }
+  }
 }

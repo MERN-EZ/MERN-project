@@ -1,0 +1,21 @@
+.homework-manager {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding-top: 1rem;
+
+  .create-lesson {
+    display: flex;
+    flex-direction: column;
+    align-items: end;
+    width: 100%;
+    button {
+      padding: 0.5rem 1rem;
+    }
+  }
+  .lesson-holder {
+    width: 80%;
+    min-width: 40rem;
+  }
+}
