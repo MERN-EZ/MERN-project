@@ -1,39 +1,40 @@
 import { useState, useEffect } from 'react';
 
-const useGetRequest = (endpoint) => {
+const useDeleteRequest = (endpoint) => {
   const localIP = process.env.REACT_APP_LOCAL_IP || 'localhost';
   const prefix = `http://${localIP}:5000/`;
-  // console.log('Local IP:', localIP);
 
   const [data, setData] = useState(null);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    const getRequest = async () => {
+    const deleteRequest = async () => {
       setLoading(true);
       try {
-        const response = await fetch(prefix + endpoint);
-        console.log(response);
+        const response = await fetch(`${prefix}${endpoint}`, {
+          method: 'DELETE',
+        });
         if (response.ok) {
           const data = await response.json();
           setData(data);
         } else {
           const data = await response.json();
-          setError(data.error || 'Failed to fetch data');
+          setError(data.error || 'Failed to delete');
         }
-      } catch (err) {
-        console.error(err);
-        setError('Error fetching data');
+      } catch (error) {
+        setError(error.message);
       } finally {
         setLoading(false);
       }
     };
 
-    getRequest();
+    if (endpoint) {
+      deleteRequest();
+    }
   }, [prefix, endpoint]);
 
   return { data, error, loading };
 };
 
-export default useGetRequest;
+export default useDeleteRequest;
