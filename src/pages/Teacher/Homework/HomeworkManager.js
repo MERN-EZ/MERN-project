@@ -1,12 +1,14 @@
-import React, { useState, useEffect } from "react";
-import Lesson from "./Lesson";
-import useGetRequest from "./../../../hooks/useGetRequest";
-import "./HomeworkManager.css";
+import React, { useState, useEffect } from 'react';
+import Lesson from './Lesson';
+import useGetRequest from './../../../hooks/useGetRequest';
+import './HomeworkManager.css';
 
 const HomeworkManager = () => {
-  console.log("HomeworkManager component rendered");
+  // console.log("HomeworkManager component rendered");
+  const localIP = process.env.REACT_APP_LOCAL_IP || 'localhost';
+  // console.log('Local IP:', localIP);
   const { data, error, loading } = useGetRequest(
-    "http://localhost:5000/lessons"
+    `http://${localIP}:5000/lessons`
   ); // Replace with your actual endpoint
 
   const [lessons, setLessons] = useState([]);
