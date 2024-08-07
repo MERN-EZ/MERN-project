@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import './Calendar.css';
+import './calendar.scss';
 
 const daysOfWeek = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
 

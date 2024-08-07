@@ -1,6 +1,6 @@
 import React from 'react';
 import Calendar from './Calendar'; // Import the Calendar component
-import './SchedulePage.css';
+import './schedulePage.scss';
 
 const SchedulePage = () => {
   return (

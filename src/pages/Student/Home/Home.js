@@ -1,11 +1,10 @@
-<<<<<<< HEAD
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import './Home.css';
+import './Home.scss';
 import './../../../App.css';
 import Button from '../../../components/common/Button/Button';
 import classImage from './../Images/classImage.png';
-import homeworkData from './homeWorkData';
+import homeworkData from '../Data/homeWorkData';
 
 const calculateTimeRemaining = (deadline) => {
   const now = new Date();
@@ -18,14 +17,7 @@ const calculateTimeRemaining = (deadline) => {
 
   return { daysLeft, hoursLeft, minsLeft };
 };
-=======
-import React from "react";
-import "./Home.scss";
-import "./../../../App.css";
-import Button from "../../../components/common/Button/Button";
-import classImage from "./../Images/classImage.png";
-import homeworkData from "./HomeWorkData";
->>>>>>> origin/development
+
 
 const RegStudentLanding = () => {
   const navigate = useNavigate();
@@ -44,21 +36,14 @@ const RegStudentLanding = () => {
         <div className="class-info">
           <h1>Ordinary Level ICT 22/223</h1>
           <p>
-<<<<<<< HEAD
-            Nugegoda - ISM<br />
-            6.00 P.M. - 8.00 P.M. <Button text="Show Calendar" variant="secondary" onClick={handleShowCalendarClick} />
-=======
             Nugegoda - ISM
             <br />
             6.00 P.M. - 8.00 P.M.{" "}
             <Button
               text="Show Calendar"
               variant="secondary"
-              onClick={() => {
-                /* Your click handler here */
-              }}
+              onClick={handleShowCalendarClick}
             />
->>>>>>> origin/development
           </p>
         </div>
         <div className="header-actions">

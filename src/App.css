@@ -45,18 +45,12 @@
 
   --rectangle-box-background-color: #ffffff;
 
-<<<<<<< HEAD
-  --text-fields-text-color: #071952; /*Used in forms */
-  --text-fields-text-opacity: 50%; /*Used in forms */
-  --text-field-background-color: #ebf4f6;  /*Used in forms */
-=======
   --box-background-color: #ffffff;
   --box-shadow-color: #0719522f;
 
   --text-fields-alt-text-color: #071952;
   --text-fields-alt-text-opacity: 50%;
   --text-field-background-color: #ebf4f6;
->>>>>>> origin/development
 
   --rounded-edge-square-background-color: #ebf4f6;
 }
@@ -64,10 +58,6 @@
 .dark-theme {
   --primary-background-color: #393535;
   --primary-text-color: #fff;
-<<<<<<< HEAD
-
-=======
->>>>>>> origin/development
 }
 
 @media (max-width: 768px) {
