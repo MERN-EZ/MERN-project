@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import TextField from '../../../components/common/TextField/TextField';
 import Button from '../../../components/common/Button/Button';
-import styles from './RegistrationPage.scss';
+import styles from './RegistrationPage.module.scss';
 
 const RegistrationPage = () => {
   const [formValues, setFormValues] = useState({
@@ -35,12 +35,12 @@ const RegistrationPage = () => {
   };
 
   return (
-    <div className={styles.container}>
-      <div className={styles.card}>
-        <div className={styles.cardHeader}>
+    <div className="styles.container">
+      <div className="styles.card">
+        <div className="styles.cardHeader">
           <h2>Register Here</h2>
         </div>
-        <div className={styles.formGroup}>
+        <div className="styles.formGroup">
           <TextField
             label="Name"
             value={formValues.firstName}
@@ -56,7 +56,7 @@ const RegistrationPage = () => {
             name="lastName"
           />
         </div>
-        <div className={styles.formGroup}>
+        <div className="styles.formGroup">
           <TextField
             label="Year of OLs"
             value={formValues.yearOfOLs}

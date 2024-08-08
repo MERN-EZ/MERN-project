@@ -1,7 +1,11 @@
 import React, { useState } from 'react';
-import TextField from '../../../components/common/TextField/TextField';
+import TextField from '@mui/material/TextField';
+import InputAdornment from '@mui/material/InputAdornment';
 import Button from '../../../components/common/Button/Button';
-import styles from './LoginPage.scss';
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import LockIcon from '@mui/icons-material/Lock';
+import LoginIcon from '@mui/icons-material/Login';
+import './LoginPage.scss';
 
 const LoginPage = () => {
   const [formValues, setFormValues] = useState({
@@ -18,39 +22,54 @@ const LoginPage = () => {
   };
 
   const handleLogin = () => {
-    // Handle login button click
     console.log('Login button clicked');
   };
 
   return (
-    <div className={styles.container}>
-      <div className={styles.card}>
-        <div className={styles.cardHeader}>
+    <div className="container">
+      <div className="card">
+        <div className="cardHeader">
+          <LoginIcon className="icon" />
           <h2>Log In</h2>
         </div>
-        <div className={styles.links}>
+        <div className="links">
           Haven't registered yet? <a href="/register"> Register</a>
         </div>
-        <TextField
-          label="Email"
-          value={formValues.email}
-          onChange={handleChange}
-          placeholder="Enter Email"
-          name="email"
-        />
-        <TextField
-          label="Password"
-          type="password"
-          value={formValues.password}
-          onChange={handleChange}
-          placeholder="Enter Password"
-          name="password"
-        />
-        <div className={styles.links}>
-          <a href="/forgot-password">Forgot Password?</a>
+        <div className="inputContainer">
+          <TextField
+            placeholder="Enter Email"
+            value={formValues.email}
+            onChange={handleChange}
+            name="email"
+            InputProps={{
+              startAdornment: (
+                <InputAdornment position="start">
+                  <AccountCircleIcon className="icon" />
+                </InputAdornment>
+              ),
+            }}
+            fullWidth
+          />
         </div>
-        <div className={styles.actions}>
-          <Button text="Log In" variant="primary" onClick={handleLogin} />
+        <div className="inputContainer">
+          <TextField
+            placeholder="Enter Password"
+            type="password"
+            value={formValues.password}
+            onChange={handleChange}
+            name="password"
+            InputProps={{
+              startAdornment: (
+                <InputAdornment position="start">
+                  <LockIcon className="icon" />
+                </InputAdornment>
+              ),
+            }}
+            fullWidth
+          />
+        </div>
+        <div className="actions">
+          <Button text="Log In" variant="secondary" onClick={handleLogin} />
         </div>
       </div>
     </div>

@@ -7,7 +7,7 @@
 }
 
 .card {
-  background-color: var(--rectangle-box-background-color);
+  background-color: var(--round-edge-rectangle-background-color);
   padding: 2rem;
   border-radius: 15px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
@@ -60,8 +60,4 @@
   justify-content: space-between;
   margin-top: 1.5rem;
   width: 100%;
-}
-
-.actions button {
-  width: 48%;
 }
