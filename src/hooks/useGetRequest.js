@@ -31,7 +31,7 @@ const useGetRequest = (endpoint) => {
     };
 
     getRequest();
-  }, [prefix, endpoint]);
+  }, [endpoint]);
 
   return { data, error, loading };
 };
