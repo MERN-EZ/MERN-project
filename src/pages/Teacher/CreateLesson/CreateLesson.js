@@ -21,7 +21,7 @@ const CreateLesson = ({ setLessons }) => {
     setShowAlert(false);
   };
 
-  const { response, error, loading } = usePostRequest(postEndpoint, postData);
+  const { response } = usePostRequest(postEndpoint, postData);
 
   useEffect(() => {
     if (response) {
@@ -56,7 +56,7 @@ const CreateLesson = ({ setLessons }) => {
   };
 
   return (
-    <div className="createLessonContainer">
+    <div className="createLessonContainer teacher">
       <div className="closeButtonContainer">
         <Button
           variant={'primary'}

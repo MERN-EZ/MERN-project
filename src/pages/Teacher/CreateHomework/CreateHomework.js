@@ -23,7 +23,7 @@ const CreateHomework = () => {
     setShowAlert(false);
   };
 
-  const { response, error, loading } = usePutRequest(putEndpoint, putData);
+  const { error } = usePutRequest(putEndpoint, putData);
 
   // useEffect(() => {
   //   if (response) {
@@ -85,7 +85,7 @@ const CreateHomework = () => {
   };
 
   return (
-    <div className="createHomeworkContainer">
+    <div className="createHomeworkContainer teacher">
       <div className="closeButtonContainer">
         <Button
           variant={'primary'}

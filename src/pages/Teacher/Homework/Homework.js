@@ -3,7 +3,7 @@ import './Homework.scss';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import ExpandLessIcon from '@mui/icons-material/ExpandLess';
 import Button from '../../../components/common/Button/Button';
-import useDeleteRequest from '../../../hooks/useDeleteRequest';
+// import useDeleteRequest from '../../../hooks/useDeleteRequest';
 
 const Homework = ({ homework, index, lesson_id }) => {
   const [isOpen, setIsOpen] = useState(false);

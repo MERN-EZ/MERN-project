@@ -58,7 +58,7 @@ const HomeworkManager = () => {
   if (error) return <p>{error}</p>;
 
   return (
-    <div className="homework-manager">
+    <div className="homework-manager teacher">
       {deleteLoading && showAlert && (
         <Alert
           message="Deleting Lesson..."
