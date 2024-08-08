@@ -1,0 +1,11 @@
+.homework-manager {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding-top: 1rem;
+}
+.lesson-holder {
+  width: 80%;
+  min-width: 40rem;
+}

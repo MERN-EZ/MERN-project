@@ -1,9 +1,11 @@
+Container styling
 .container {
   padding: 20px;
-  background-color: #E0F7FA;
+  background-color: #e0f7fa;
   font-family: Arial, sans-serif;
 }
 
+/* Class info rectangle styling */
 .class-info-rounded-edge-rectangle {
   background-color: var(--round-edge-rectangle-background-color);
   padding: 20px;
@@ -18,6 +20,7 @@
   box-shadow: 2.5px 2.5px 2.5px #888888;
 }
 
+/* Homework rectangle styling */
 .homework-rounded-edge-rectangle {
   background-color: var(--round-edge-rectangle-background-color);
   padding: 20px;
@@ -27,10 +30,11 @@
   margin-left: 2rem;
   box-shadow: 2.5px 2.5px 2.5px #888888;
   position: relative;
-  /* display: flex; */
+  display: flex;
   flex-direction: column;
 }
 
+/* Homework header styling */
 .homework-header {
   position: absolute;
   top: 10px;
@@ -39,12 +43,13 @@
   font-size: 1.5rem;
 }
 
+/* See more link styling */
 .see-more-link {
   position: absolute;
   top: 20px;
   right: 20px;
   font-size: 1rem;
-  color: #007BFF;
+  color: #007bff;
   text-decoration: none;
 }
 
@@ -52,19 +57,19 @@
   text-decoration: underline;
 }
 
+/* Homework items container styling */
 .homework-items-container {
   overflow-x: auto;
   overflow-y: hidden;
   margin-top: 30px;
   -webkit-overflow-scrolling: touch; /* Enable smooth scrolling */
-  
-
 }
 
 .homework-items-container::-webkit-scrollbar {
   display: none; /* Hide scrollbar in WebKit browsers */
 }
 
+/* Homework items styling */
 .homework-items {
   display: inline-flex;
 }
@@ -74,11 +79,10 @@
   padding: 15px;
   border-radius: 15px;
   box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
-  width: 150px;
+  width: 155px;
   height: 125px;
   text-align: center;
-  margin-right: 10px; /* Add space between homework items */
-  margin-left: 10px;
+  margin: 0 10px; /* Add space between homework items */
   transition: transform 0.3s; /* Smooth transition for the hover effect */
 }
 
@@ -86,22 +90,26 @@
   transform: scale(1.1); /* Increase the size of the item when hovered */
 }
 
+/* Class info paragraph styling */
 .class-info p {
   margin: 0;
   font-size: 15px;
 }
 
+/* Header actions styling */
 .header-actions {
   display: flex;
   align-items: center;
 }
 
+/* Image styling */
 .image {
   width: 150px;
   height: 150px;
   margin-left: 20px;
 }
 
+/* Deadlines styling */
 .deadlines {
   background-color: #fff;
   padding: 20px;
@@ -109,6 +117,7 @@
   margin-bottom: 20px;
 }
 
+/* Deadline item styling */
 .deadline-item {
   margin-bottom: 10px;
 }

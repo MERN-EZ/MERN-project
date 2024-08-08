@@ -22,7 +22,6 @@
   --primary-button-hover-background-color: #162557;
   --primary-button-active-background-color: #0e183f;
 
-
   --secondary-button-background-color: #ebf4f6;
   --secondary-button-text-color: #071952;
   --secondary-button-hover-background-color: #d4e7f5;
@@ -46,30 +45,19 @@
 
   --rectangle-box-background-color: #ffffff;
 
+  --box-background-color: #ffffff;
+  --box-shadow-color: #0719522f;
+
   --text-fields-alt-text-color: #071952;
   --text-fields-alt-text-opacity: 50%;
   --text-field-background-color: #ebf4f6;
 
-  --rounded-edge-square-background-color: #EBF4F6;
+  --rounded-edge-square-background-color: #ebf4f6;
 }
 /* Dark theme overrides */
 .dark-theme {
   --primary-background-color: #393535;
   --primary-text-color: #fff;
-
-  /* --background-color: #3d3d3dae;
-  --background-color-secondary: #fff;
-  --text-color: #e0e0e0;
-  --button-text-color: #000000;
-  --primary-color: #9f6133;
-  --secondary-color: #444;
-  --light-grey-color: #242424;
-  --dark-grey-color: #e0e0e0;
-  --medium-grey-color: #bcbcbc;
-  --white-color: #2e2e2e;
-  --main-color: #dd9d26;
-  --button-color: #ffc250;
-  --button-selected-color: #e0a943; */
 }
 
 @media (max-width: 768px) {

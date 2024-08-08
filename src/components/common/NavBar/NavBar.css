@@ -16,26 +16,25 @@
   width: 180px;
 } */
 .navbar-light {
-  background-color: #e1e1e1;
-  color: #333;
+  background-color: var(--navbar-background-color);
+  color: var(--navbar-icon-color);
 }
 .navbar-light .nav-link {
-  color: #000000;
+  color: var(--navbar-icon-color);
 }
 .navbar-dark {
   background-color: #000000;
   color: white;
 }
-.navbar-dark .nav-link {
+/* .navbar-dark .nav-link {
   color: white;
-}
+} */
 .nav-link {
-  color: #333;
   text-decoration: none;
   border: none;
 }
 a.active-link {
-  color: #007bff;
+  /* color: #007bff; */
   font-weight: 800;
   text-decoration: none;
   border: none;
@@ -54,6 +53,9 @@ a.active-link {
   align-items: start;
   flex-direction: column;
   margin-left: 0;
+}
+.role-toggle button svg {
+  fill: var(--navbar-icon-color);
 }
 
 .theme-toggle-wrapper {
