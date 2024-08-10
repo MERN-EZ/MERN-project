@@ -1,11 +1,12 @@
 .custom-button {
-  padding: 10px 20px;
+  padding: 8px 15px;
   margin: 10px;
   border: 1px solid transparent;
-  border-radius: 25px; 
+  border-radius: 20px;
   font-size: 16px;
   cursor: pointer;
-  box-shadow: 1px 1px 0px #888888;
+  /* border: 1px solid transparent; */
+  /* box-shadow: 1px 1px 0px #888888; */
 }
 
 .button-secondary {
@@ -45,12 +46,13 @@
 }
 
 .button-alt:hover {
-  background-color: var(--alt-button-hover-background-color);
-  box-shadow: 0 4px 6px var(--button-hover-box-shadow-color);
+  border: 1px solid var(--primary-button-text-bordercolor);
+  box-shadow: 0 0 2px var(--alt-button-box-shadow-color);
+  /* outline: 2px solid var(--primary-button-text-bordercolor); */
+  /* background-color: var(--alt-button-hover-background-color); */
 }
 
 .button-alt:active {
-  background-color: var(--alt-button-active-background-color);
-  box-shadow: 0 2px 4px var(--button-active-box-shadow-color);
+  box-shadow: 0 0 3px var(--alt-button-box-shadow-color);
+  /* background-color: var(--alt-button-active-background-color); */
 }
-

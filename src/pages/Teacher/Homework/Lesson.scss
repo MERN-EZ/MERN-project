@@ -10,9 +10,10 @@
     // background-color: var(--rectangle-box-background-color);
     padding: 0 1rem;
     margin: 1rem 0 0 0;
-  }
-  .lesson-header h3 {
-    font-weight: 500;
+    h2 {
+      font-weight: 400;
+      font-size: 1.3rem;
+    }
   }
   .lesson {
     border: 1px solid #ccc;
@@ -30,7 +31,22 @@
     border: none;
   }
 
-  // .lesson-body {
-  //   // margin-top: 10px;
-  // }
+  .lesson-body {
+    #no-homework {
+      padding: 1rem;
+      border-top: 1px solid var(--box-shadow-color);
+    }
+    .buttons {
+      display: flex;
+      justify-content: space-between;
+
+      .left-btn-group button {
+        padding: 0.3rem 1rem;
+      }
+      .right-btn-group {
+        padding: 0.3rem 1rem;
+        border: 1px solid var(--box-shadow-color);
+      }
+    }
+  }
 }
