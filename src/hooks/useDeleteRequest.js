@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { useDB } from '../context/DatabaseContext';
 
 const useDeleteRequest = (endpoint) => {
   const localIP = process.env.REACT_APP_LOCAL_IP || 'localhost';
@@ -7,6 +8,7 @@ const useDeleteRequest = (endpoint) => {
   const [data, setData] = useState(null);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
+  const { DB } = useDB();
 
   useEffect(() => {
     const deleteRequest = async () => {
@@ -14,6 +16,9 @@ const useDeleteRequest = (endpoint) => {
       try {
         const response = await fetch(`${prefix}${endpoint}`, {
           method: 'DELETE',
+          headers: {
+            'db-name': DB,
+          },
         });
         if (response.ok) {
           const data = await response.json();
@@ -32,7 +37,7 @@ const useDeleteRequest = (endpoint) => {
     if (endpoint) {
       deleteRequest();
     }
-  }, [prefix, endpoint]);
+  }, [prefix, endpoint, DB]);
 
   return { data, error, loading };
 };

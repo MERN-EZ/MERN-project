@@ -12,6 +12,9 @@ const Homework = ({ homework, index, lesson_id }) => {
   const handleDelete = () => {
     console.log('delete homework');
   };
+  const handleEdit = () => {
+    console.log('Edit homework');
+  };
   return (
     <div className="homework teacher">
       <div className="homework-header" onClick={toggleOpen}>
@@ -29,7 +32,11 @@ const Homework = ({ homework, index, lesson_id }) => {
               <span>Reminders: {homework.reminders}</span>
             </span>
             <span className="right">
-              <Button variant={'alt'} text={'Edit'}></Button>
+              <Button
+                variant={'alt'}
+                text={'Edit'}
+                onClick={handleEdit}
+              ></Button>
               <Button
                 variant={'alt'}
                 text={'Delete'}
