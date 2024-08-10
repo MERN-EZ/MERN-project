@@ -8,9 +8,11 @@ import {
   admin_tabs,
   guest_tabs,
 } from './tabs';
+import { useDB } from '../../../context/DatabaseContext';
 
 const Header = () => {
   const { userRole } = useUserRole();
+  const { DB, setDB } = useDB();
 
   const tabButtonsMap = {
     teacher: teacher_tabs,
@@ -43,12 +45,24 @@ const Header = () => {
   const rolesWithSubHeaderTabs = ['teacher', 'admin', 'assistant', 'guest'];
   const rolesWithSubHeaderText = ['student', 'teacher', 'admin', 'assistant'];
 
+  const handleDBChange = (event) => {
+    const selectedDB = event.target.value;
+    setDB(selectedDB);
+  };
+
   return (
     <header className="main-header">
       <div className="header-bar">
         <div className="logo-container">
           <img src=" /assets/logo.png" alt="Sci ~ Ez Logo" className="logo" />
           <h1 className="site-title">InfoTech</h1>
+        </div>
+        <div className="db-switch-button">
+          <select onChange={handleDBChange} value={DB}>
+            <option value="2024">2024</option>
+            <option value="2025">2025</option>
+            <option value="2026">2026</option>
+          </select>
         </div>
       </div>
       {rolesWithSubHeader.includes(userRole) && (
