@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { useDB } from '../context/DatabaseContext';
 
 const usePostRequest = (endpoint, requestData) => {
   const localIP = process.env.REACT_APP_LOCAL_IP || 'localhost';
@@ -7,6 +8,7 @@ const usePostRequest = (endpoint, requestData) => {
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
   const [response, setResponse] = useState(null);
+  const { DB } = useDB();
 
   useEffect(() => {
     const postRequest = async () => {
@@ -19,6 +21,8 @@ const usePostRequest = (endpoint, requestData) => {
           method: 'POST',
           headers: {
             'Content-Type': 'application/x-www-form-urlencoded',
+
+            'db-name': DB,
           },
           body: urlEncodedData,
         });
@@ -38,7 +42,7 @@ const usePostRequest = (endpoint, requestData) => {
     if (endpoint && requestData) {
       postRequest();
     }
-  }, [prefix, endpoint, requestData]);
+  }, [prefix, endpoint, requestData, DB]);
 
   return { response, error, loading };
 };
