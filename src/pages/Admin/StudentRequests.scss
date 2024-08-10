@@ -1,0 +1,47 @@
+.table-header {
+    background-color: #D0F9FF; /* Light blue background for headers */
+    font-weight: bold;
+    text-align: center;
+  }
+  
+  .table-cell {
+    text-align: center; /* Center the text */
+  }
+  
+  .table-row {
+    background-color: #9747FF; /* Purple background for rows */
+  }
+  
+  .container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 50px;
+  }
+  
+  .paper {
+    padding: 20px;
+    width: 100%;
+  }
+  
+  .action-button {
+    margin-left: 10px;
+  }
+  
+  /* Button styles for accept and reject actions */
+  .accept-button {
+    background-color: #4CAF50; /* Green color */
+    color: white;
+    &:hover {
+      background-color: #388E3C; /* Dark green on hover */
+    }
+  }
+  
+  .reject-button {
+    background-color: #F44336; /* Red color */
+    color: white;
+    &:hover {
+      background-color: #D32F2F; /* Dark red on hover */
+    }
+  }
+  
