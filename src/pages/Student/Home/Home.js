@@ -1,7 +1,6 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import './Home.scss';
-import './../../../App.css';
 import Button from '../../../components/common/Button/Button';
 import classImage from './../Images/classImage.png';
 import homeworkData from '../Data/homeWorkData';
@@ -12,12 +11,13 @@ const calculateTimeRemaining = (deadline) => {
   const timeDiff = deadlineDate - now;
 
   const daysLeft = Math.floor(timeDiff / (1000 * 60 * 60 * 24));
-  const hoursLeft = Math.floor((timeDiff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+  const hoursLeft = Math.floor(
+    (timeDiff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
+  );
   const minsLeft = Math.floor((timeDiff % (1000 * 60 * 60)) / (1000 * 60));
 
   return { daysLeft, hoursLeft, minsLeft };
 };
-
 
 const RegStudentLanding = () => {
   const navigate = useNavigate();
@@ -26,8 +26,12 @@ const RegStudentLanding = () => {
     navigate('/schedule');
   };
 
-  const handleDeadlineClick = (homework) => {
-    console.log(`Clicked on: ${homework.title}`);
+  const handleSeeMoreClick = () => {
+    navigate('/homework-submission');
+  };
+
+  const handleDeadlineClick = (homeworkId) => {
+    navigate(`/homework-submission/${homeworkId}`);
   };
 
   return (
@@ -38,7 +42,7 @@ const RegStudentLanding = () => {
           <p>
             Nugegoda - ISM
             <br />
-            6.00 P.M. - 8.00 P.M.{" "}
+            6.00 P.M. - 8.00 P.M.
             <Button
               text="Show Calendar"
               variant="secondary"
@@ -52,13 +56,21 @@ const RegStudentLanding = () => {
       </header>
       <section className="homework-rounded-edge-rectangle">
         <h2 className="homework-header">Home Works</h2>
-        <a href="#more-homeworks" className="see-more-link">
+        <a
+          href="#homeworksmore-"
+          onClick={handleSeeMoreClick}
+          className="see-more-link"
+        >
           See More
         </a>
         <div className="homework-items-container">
           <div className="homework-items">
             {homeworkData.map((homework) => (
-              <div key={homework.id} className="homework-item">
+              <div
+                key={homework.id}
+                className="homework-item"
+                onClick={() => handleDeadlineClick(homework.id)}
+              >
                 <h3>{homework.title}</h3>
                 <p>{homework.description}</p>
               </div>
@@ -69,17 +81,21 @@ const RegStudentLanding = () => {
       <section className="deadlines">
         <h2>Deadlines</h2>
         {homeworkData.map((homework) => {
-          const { daysLeft, hoursLeft, minsLeft } = calculateTimeRemaining(homework.deadline);
+          const { daysLeft, hoursLeft, minsLeft } = calculateTimeRemaining(
+            homework.deadline
+          );
           return (
-            <div 
-              key={homework.id} 
+            <div
+              key={homework.id}
               className="deadline-item"
-              onClick={() => handleDeadlineClick(homework)}
+              onClick={() => handleDeadlineClick(homework.id)}
             >
               <h3>{homework.title}</h3>
               <p className="deadline-details">
-                Due on: {new Date(homework.deadline).toLocaleDateString()}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                {new Date(homework.deadline).toLocaleTimeString()}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                Due on: {new Date(homework.deadline).toLocaleDateString()}
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                {new Date(homework.deadline).toLocaleTimeString()}
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                 {daysLeft} days {hoursLeft} hours {minsLeft} minutes left
               </p>
             </div>
