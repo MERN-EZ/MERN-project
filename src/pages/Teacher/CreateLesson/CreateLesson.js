@@ -51,7 +51,7 @@ const CreateLesson = ({ setLessons }) => {
     if (lessonName && lessonNumber) {
       handleAlertClick();
       setPostData({ title: lessonName, id: lessonNumber, homwork: [] });
-      setPostEndpoint('lessons/');
+      setPostEndpoint('teacher/lessons/');
     }
   };
 

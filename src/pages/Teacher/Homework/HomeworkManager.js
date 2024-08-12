@@ -7,7 +7,7 @@ import Alert from '../../../components/common/Alert/Alert';
 import Button from '../../../components/common/Button/Button';
 
 const HomeworkManager = () => {
-  const { data, error, loading } = useGetRequest('lessons');
+  const { data, error, loading } = useGetRequest('teacher/lessons');
   const [lessons, setLessons] = useState([]);
   const [deleteEndpoint, setDeleteEndpoint] = useState(null);
 
@@ -39,7 +39,7 @@ const HomeworkManager = () => {
 
   const deleteLesson = (lessonId) => {
     handleAlertClick();
-    setDeleteEndpoint(`lessons/${lessonId}`);
+    setDeleteEndpoint(`teacher/lessons/${lessonId}`);
   };
 
   const updateLesson = (lessonId) => {

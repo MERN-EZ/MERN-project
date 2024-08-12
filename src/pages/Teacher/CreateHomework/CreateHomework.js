@@ -80,7 +80,7 @@ const CreateHomework = () => {
         reminders: Object.values(reminders),
         deadline: deadline,
       });
-      setPutEndpoint(`lessons/homework/${lessonId}`);
+      setPutEndpoint(`teacher/lessons/homework/${lessonId}`);
     }
   };
 
