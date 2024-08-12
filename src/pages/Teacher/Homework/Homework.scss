@@ -2,7 +2,6 @@ body {
   background-color: var(--background-color);
 
   .homework.teacher {
-    background-color: var(--background-color);
     // border: 1px solid #ddd;
     border-top: 1px solid var(--box-shadow-color);
     // margin: 10px;
@@ -14,6 +13,10 @@ body {
       align-items: center;
       padding: 0.1rem 0.8rem;
       background-color: var(--box-background-color);
+      h4 {
+        font-weight: 400;
+        font-size: 1.1rem;
+      }
     }
 
     .homework-body {
@@ -21,9 +24,29 @@ body {
       flex-direction: column;
       gap: 0.5rem;
       padding: 0.5rem 0.8rem;
+      .homework-content {
+        padding: 0.2rem 1rem;
+        border: 1px solid var(--box-shadow-color);
+        border-radius: 10px;
+        display: grid;
+        gap: 1rem;
+        grid-template-columns: 3fr 1fr 1fr;
+
+        span {
+          display: flex;
+          flex-direction: column;
+          gap: 0.5rem;
+
+          button {
+            padding: 0.3rem 2rem;
+            margin: 0.2rem 0;
+            width: 7rem;
+          }
+        }
+      }
     }
 
-    button {
+    button:not(span > button) {
       background-color: inherit;
       border: none;
     }

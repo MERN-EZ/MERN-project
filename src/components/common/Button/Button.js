@@ -1,7 +1,16 @@
 import React from 'react';
 import './Button.scss';
 
-const Button = ({ text, variant, onClick }) => {
+const Button = ({
+  text,
+  variant,
+  onClick,
+  style,
+  padding,
+  margin,
+  textColor,
+  className, // Add className prop
+}) => {
   const getButtonClass = () => {
     switch (variant) {
       case 'secondary':
@@ -15,8 +24,19 @@ const Button = ({ text, variant, onClick }) => {
     }
   };
 
+  const buttonStyle = {
+    ...style,
+    padding: padding,
+    margin: margin,
+    color: textColor,
+  };
+
   return (
-    <button className={`custom-button ${getButtonClass()}`} onClick={onClick}>
+    <button
+      className={`custom-button ${getButtonClass()} ${className}`} // Add className to the class attribute
+      onClick={onClick}
+      style={buttonStyle}
+    >
       {text}
     </button>
   );

@@ -8,6 +8,7 @@ import {
 import { ThemeProvider } from './context/ThemeContext';
 import { UserProvider } from './context/UserContext';
 import { useUserRole } from './context/UserRoleContext';
+import { DBProvider } from './context/DatabaseContext';
 import NavBar from './components/common/NavBar/NavBar';
 import Header from './components/common/Header/Header';
 import TeacherRoutes from './routes/TeacherRoutes';
@@ -28,13 +29,15 @@ function App() {
       }}
     >
       <ThemeProvider>
-        <UserProvider>
-          <Router>
-            <Header />
-            <NavBar />
-            <AppRoutes />
-          </Router>
-        </UserProvider>
+        <DBProvider>
+          <UserProvider>
+            <Router>
+              <Header />
+              <NavBar />
+              <AppRoutes />
+            </Router>
+          </UserProvider>
+        </DBProvider>
       </ThemeProvider>
     </div>
   );

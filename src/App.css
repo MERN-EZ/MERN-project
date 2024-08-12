@@ -31,6 +31,7 @@
   --alt-button-text-color: #071952;
   --alt-button-hover-background-color: #f0f0f0;
   --alt-button-active-background-color: #e0e0e0;
+  --alt-button-box-shadow-color: #071952;
 
   --button-hover-box-shadow-color: rgba(0, 0, 0, 0.1);
   --button-active-box-shadow-color: rgba(0, 0, 0, 0.2);
