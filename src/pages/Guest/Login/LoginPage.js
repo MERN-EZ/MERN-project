@@ -37,7 +37,7 @@ const LoginPage = () => {
         </div>
         <div className="inputContainer">
           <TextField
-            placeholder="Enter Email"
+            placeholder="Enter Username/Email"
             value={formValues.email}
             onChange={handleChange}
             name="email"

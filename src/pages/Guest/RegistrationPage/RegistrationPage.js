@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import TextField from '../../../components/common/TextField/TextField';
 import Button from '../../../components/common/Button/Button';
-import styles from './RegistrationPage.module.scss';
+import RegisterIcon from '@mui/icons-material/HowToReg';
+import './RegistrationPage.scss';
 
 const RegistrationPage = () => {
   const [formValues, setFormValues] = useState({
@@ -35,28 +36,29 @@ const RegistrationPage = () => {
   };
 
   return (
-    <div className="styles.container">
-      <div className="styles.card">
-        <div className="styles.cardHeader">
+    <div className="container">
+      <div className="card">
+        <div className="cardHeader">
+          <RegisterIcon className="icon" />
           <h2>Register Here</h2>
         </div>
-        <div className="styles.formGroup">
+        <div className="formGroup">
           <TextField
-            label="Name"
+            label="First Name"
             value={formValues.firstName}
             onChange={handleChange}
             placeholder="Enter First Name"
             name="firstName"
           />
           <TextField
-            label=""
+            label="Last Name"
             value={formValues.lastName}
             onChange={handleChange}
             placeholder="Enter Last Name"
             name="lastName"
           />
         </div>
-        <div className="styles.formGroup">
+        <div className="formGroup">
           <TextField
             label="Year of OLs"
             value={formValues.yearOfOLs}
@@ -109,9 +111,9 @@ const RegistrationPage = () => {
           placeholder="Re-enter Password"
           name="confirmPassword"
         />
-        <div className={styles.actions}>
-          <Button text="Back" variant="primary" onClick={handleBack} />
-          <Button text="Next" variant="primary" onClick={handleNext} />
+        <div className="actions">
+          <Button text="Back" variant="secondary" onClick={handleBack} />
+          <Button text="Next" variant="secondary" onClick={handleNext} />
         </div>
       </div>
     </div>
