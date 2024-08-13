@@ -21,9 +21,10 @@ const calculateTimeRemaining = (deadline) => {
 };
 
 const RegStudentLanding = () => {
+
   const [homework, setHomework] = useState([]);
 
-  const { data, error } = useGetRequest('student/homeworks');
+  const { data} = useGetRequest('student/homeworks');
 
   useEffect(() => {
     if (data) {
@@ -31,7 +32,8 @@ const RegStudentLanding = () => {
       setHomework(data);
     }
   }, [data]);
-  // console.log(data);
+  console.log(data);
+
   const navigate = useNavigate();
 
   const handleShowCalendarClick = () => {
@@ -44,7 +46,7 @@ const RegStudentLanding = () => {
 
   const handleDeadlineClick = (homeworkId) => {
     navigate(`/homework-submission/${homeworkId}`);
-  };
+  };  
 
   return (
     <div className="student-home container">
