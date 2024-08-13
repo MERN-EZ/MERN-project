@@ -1,0 +1,61 @@
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-color: var(--body-background-color);
+}
+
+.card {
+  background-color: var(--round-edge-rectangle-background-color);
+  padding: 20px;
+  border-radius: 15px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  width: 500px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.cardHeader {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  margin-bottom: 0;
+
+  h2 {
+    margin: 0;
+    font-size: 1.5rem;
+    display: flex;
+    align-items: center;
+    color: var(--primary-header-topic-color);
+  }
+
+  .icon {
+    margin-right: 0.5rem;
+    color: var(--primary-header-icon-color);
+  }
+}
+
+.formGroup {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  margin-bottom: 15px;
+
+  & > div {
+    width: 40%;
+  }
+}
+
+.actions {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  margin-top: 20px;
+
+  button {
+    width: 48%;
+  }
+}

@@ -2,7 +2,8 @@
   padding: 20px;
   background-color: #e0f7fa;
   font-family: Arial, sans-serif;
-
+  display:list-item;
+  
   .class-info-rounded-edge-rectangle {
     background-color: var(--round-edge-rectangle-background-color);
     padding: 20px;
@@ -11,7 +12,7 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    width: 75rem;
+    width: 97%;
     height: 10rem;
     margin-left: 2rem;
     box-shadow: 2.5px 2.5px 2.5px #888888;
@@ -22,7 +23,8 @@
     padding: 20px;
     border-radius: 25px;
     margin-bottom: 10px;
-    width: 75rem;
+    width: 97%;
+    height: 15rem;
     margin-left: 2rem;
     box-shadow: 2.5px 2.5px 2.5px #888888;
     position: relative;
@@ -52,6 +54,9 @@
       overflow-x: auto;
       overflow-y: hidden;
       margin-top: 30px;
+      -webkit-overflow-scrolling: touch; /* Enable smooth scrolling */
+      height: 150%;
+
 
       &::-webkit-scrollbar {
         display: none; /* Hide scrollbar in WebKit browsers */
@@ -61,12 +66,13 @@
         display: inline-flex;
 
         .homework-item {
+          margin-top: 10px;
           background-color: var(--rounded-edge-square-background-color);
           padding: 15px;
           border-radius: 15px;
           box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
           width: 150px;
-          height: 125px;
+          height: 150px;
           text-align: center;
           margin-right: 10px; /* Add space between homework items */
           margin-left: 10px;
@@ -101,12 +107,30 @@
     padding: 20px;
     border-radius: 8px;
     margin-bottom: 20px;
+    width:98%;
+    margin-left: 2rem;
+
+    .deadline-item:hover {
+      transform: scale(1.05);
+    }
 
     .deadline-item {
       margin-bottom: 10px;
-
+      cursor: pointer;
+      transition: transform 0.3s ease;
+      display: flex;
+      align-items: center;
+      margin-bottom: 10px;
+      border: 1px solid #ddd;
+      padding: 10px;
       h3 {
         margin: 0;
+      }
+
+      .deadline-details {
+        margin-left: 10px;
+        display: flex;
+        flex-wrap: nowrap;
       }
     }
   }

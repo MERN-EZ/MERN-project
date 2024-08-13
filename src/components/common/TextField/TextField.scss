@@ -1,0 +1,27 @@
+.textField {
+  margin-bottom: 1rem;
+
+  label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: bold;
+    color: var(--text-fields-alt-text-color);
+    opacity: var(--text-fields-alt-text-opacity);
+  }
+
+  input {
+    width: 100%;
+    padding: 0.5rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+    background-color: var(--text-field-background-color);
+    color: var(--text-fields-alt-text-color);
+    opacity: var(--text-fields-alt-text-opacity);
+
+    &:focus {
+      border-color: #007bff;
+      outline: none;
+    }
+  }
+}
