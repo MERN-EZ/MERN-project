@@ -16,6 +16,7 @@ import StudentRoutes from './routes/StudentRoutes';
 import AssistantRoutes from './routes/AssistantRoutes';
 import GuestRoutes from './routes/GuestRoutes';
 import AdminRoutes from './routes/AdminRoutes';
+import NotFound from './pages/NotFound/NotFound';
 import './App.css';
 
 function App() {
@@ -59,7 +60,6 @@ function AppRoutes() {
         <Route path="/*" element={<AssistantRoutes />} />
       )}
       {userRole === 'guest' && <Route path="/*" element={<GuestRoutes />} />}
-      <Route path="*" element={<Navigate to="/" />} />
     </Routes>
   );
 }
