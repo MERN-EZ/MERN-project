@@ -1,17 +1,22 @@
 .textField {
-  margin-bottom: 1rem;
+  display: flex;
+  flex-direction: column; /* Stack label on top of input */
+  margin-bottom: 20px; /* Space between fields */
 
   label {
-    display: block;
-    margin-bottom: 0.5rem;
+    margin-left: 10px; /* Adjusted space between label and input */
     font-weight: bold;
+    font-size: 1rem;
     color: var(--text-fields-alt-text-color);
     opacity: var(--text-fields-alt-text-opacity);
+    text-align: left; /* Left-align labels */
   }
 
   input {
+    align-items: right;
     width: 100%;
-    padding: 0.5rem;
+    padding: 10px;
+    font-size: 2rem;
     border: 1px solid #ccc;
     border-radius: 4px;
     box-sizing: border-box;
