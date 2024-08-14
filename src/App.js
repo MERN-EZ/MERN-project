@@ -1,10 +1,5 @@
 import React from 'react';
-import {
-  BrowserRouter as Router,
-  Route,
-  Routes,
-  Navigate,
-} from 'react-router-dom';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import { ThemeProvider } from './context/ThemeContext';
 import { UserProvider } from './context/UserContext';
 import { useUserRole } from './context/UserRoleContext';
@@ -16,7 +11,6 @@ import StudentRoutes from './routes/StudentRoutes';
 import AssistantRoutes from './routes/AssistantRoutes';
 import GuestRoutes from './routes/GuestRoutes';
 import AdminRoutes from './routes/AdminRoutes';
-import NotFound from './pages/NotFound/NotFound';
 import './App.css';
 
 function App() {

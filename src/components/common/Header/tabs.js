@@ -2,8 +2,6 @@
 const teacher_tabs = [
   { text: 'Overview', url: '/overview', isActive: true },
   { text: 'Homework', url: '/homework', isActive: false },
-  { text: 'Resources', url: '/resources', isActive: false },
-  { text: 'Announcements', url: '/announcements', isActive: false },
 ];
 const assistant_tabs = [
   { text: 'Overview', url: '/overview', isActive: true },

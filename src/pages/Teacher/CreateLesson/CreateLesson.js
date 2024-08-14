@@ -53,6 +53,8 @@ const CreateLesson = ({ setLessons }) => {
       handleAlertClick();
       setPostData({ title: lessonName, id: lessonNumber, homwork: [] });
       setPostEndpoint('teacher/lessons/');
+    } else {
+      alert('Please fill in all fields');
     }
   };
 

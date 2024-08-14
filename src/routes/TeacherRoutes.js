@@ -5,6 +5,7 @@ import HomeworkManager from '../pages/Teacher/Homework/HomeworkManager';
 import CreateLesson from '../pages/Teacher/CreateLesson/CreateLesson';
 import EditLesson from '../pages/Teacher/EditLesson/EditLesson';
 import CreateHomework from '../pages/Teacher/CreateHomework/CreateHomework';
+import EditHomework from '../pages/Teacher/EditHomework/EditHomework';
 import NotFound from '../pages/NotFound/NotFound';
 import './../pages/Teacher/Teacher.css';
 
@@ -15,6 +16,7 @@ const TeacherRoutes = () => (
     <Route path="/lessons/create" element={<CreateLesson />} />
     <Route path="/lessons/edit" element={<EditLesson />} />
     <Route path="/homework/create" element={<CreateHomework />} />
+    <Route path="/homework/edit" element={<EditHomework />} />
     <Route path="*" element={<NotFound />} />
   </Routes>
 );
