@@ -42,8 +42,10 @@ const HomeworkManager = () => {
     setDeleteEndpoint(`teacher/lessons/${lessonId}`);
   };
 
-  const updateLesson = (lessonId) => {
-    window.location.href = `/homework/create?lessonId=${lessonId}`;
+  const updateLesson = (lessonId, type = 'add-homework') => {
+    if (type === 'add-homework')
+      window.location.href = `/homework/create?lessonId=${lessonId}`;
+    else window.location.href = `/lessons/edit?lessonId=${lessonId}`;
   };
 
   const [showAlert, setShowAlert] = useState(false);

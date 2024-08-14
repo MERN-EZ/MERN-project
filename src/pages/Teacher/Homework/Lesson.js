@@ -45,7 +45,7 @@ const Lesson = ({ lesson, deleteLesson, updateLesson }) => {
           <div className="buttons">
             <span className="left-btn-group">
               <Button
-                onClick={() => updateLesson(lesson._id)}
+                onClick={() => updateLesson(lesson._id, 'edit-lesson')}
                 text="Edit Lesson"
                 variant={'alt'}
               ></Button>

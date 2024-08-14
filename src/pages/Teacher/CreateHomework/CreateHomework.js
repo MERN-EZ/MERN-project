@@ -15,15 +15,15 @@ const CreateHomework = () => {
   const [putData, setPutData] = useState(null);
   const location = useLocation();
   const lessonId = new URLSearchParams(location.search).get('lessonId');
+
   const [showAlert, setShowAlert] = useState(false);
-  const handleAlertClick = () => {
-    setShowAlert(true);
-  };
+
   const handleCancelAlert = () => {
     setShowAlert(false);
+    window.location.href = '/homework';
   };
 
-  const { error } = usePutRequest(putEndpoint, putData);
+  const { data, error } = usePutRequest(putEndpoint, putData);
 
   // useEffect(() => {
   //   if (response) {
@@ -73,7 +73,7 @@ const CreateHomework = () => {
 
   const handleCreate = () => {
     if (homeworkName && homeworkDescription && deadline) {
-      handleAlertClick();
+      setShowAlert(true);
       setPutData({
         title: homeworkName,
         description: homeworkDescription,
@@ -153,6 +153,13 @@ const CreateHomework = () => {
       {showAlert && error && (
         <Alert
           message={`Error: ${error.message}`}
+          variant="message"
+          onCancel={handleCancelAlert}
+        />
+      )}
+      {showAlert && data && (
+        <Alert
+          message={`Homework added successfully`}
           variant="message"
           onCancel={handleCancelAlert}
         />

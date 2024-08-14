@@ -1,17 +1,20 @@
 import React, { useState, useEffect } from 'react';
 // import { useHistory } from 'react-router-dom';
 import Button from '../../../components/common/Button/Button';
-import usePostRequest from '../../../hooks/usePostRequest';
+import usePutRequest from '../../../hooks/usePutRequest';
 import Alert from '../../../components/common/Alert/Alert';
-import './CreateLessons.scss';
+import './EditLessons.scss';
+import { useLocation } from 'react-router-dom';
 
-const CreateLesson = ({ setLessons }) => {
+const EditLesson = ({ setLessons }) => {
   const [lessonName, setLessonName] = useState('');
   const [lessonNumber, setLessonNumber] = useState('');
   const [nameCharCount, setNameCharCount] = useState(0);
   const [numberCharCount, setNumberCharCount] = useState(0);
-  const [postEndpoint, setPostEndpoint] = useState(null);
-  const [postData, setPostData] = useState(null);
+  const [putEndpoint, setPutEndpoint] = useState(null);
+  const [putData, setPutData] = useState(null);
+  const location = useLocation();
+  const lessonId = new URLSearchParams(location.search).get('lessonId');
 
   const [showAlert, setShowAlert] = useState(false);
   const handleAlertClick = () => {
@@ -21,13 +24,18 @@ const CreateLesson = ({ setLessons }) => {
     setShowAlert(false);
     window.location.href = '/homework';
   };
+  const [showAlert2, setShowAlert2] = useState(false);
 
-  const { response } = usePostRequest(postEndpoint, postData);
+  const handleErrorAlert = () => {
+    setShowAlert2(false);
+  };
+
+  const { response } = usePutRequest(putEndpoint, putData);
 
   useEffect(() => {
     if (response) {
-      setPostEndpoint(null); // Reset to prevent re-posting
-      setPostData(null); // Reset to prevent re-posting
+      setPutEndpoint(null); // Reset to prevent re-puting
+      setPutData(null); // Reset to prevent re-puting
     }
     console.log(response);
   }, [response, setLessons]);
@@ -48,12 +56,14 @@ const CreateLesson = ({ setLessons }) => {
     }
   };
 
-  const handleCreate = () => {
+  const handleEdit = () => {
     if (lessonName && lessonNumber) {
       handleAlertClick();
-      setPostData({ title: lessonName, id: lessonNumber, homwork: [] });
-      setPostEndpoint('teacher/lessons/');
-    }
+      setPutData({ title: lessonName, id: lessonNumber });
+      console.log(lessonId);
+      console.log('teacher/lessons/' + lessonId);
+      setPutEndpoint('teacher/lessons/' + lessonId);
+    } else setShowAlert2(true);
   };
 
   return (
@@ -65,7 +75,7 @@ const CreateLesson = ({ setLessons }) => {
           onClick={() => (window.location.href = '/homework')}
         />
       </div>
-      <h2 className="title">Create Lesson</h2>
+      <h2 className="title">Edit Lesson</h2>
       <div className="inputContainer">
         <label>
           <p>Enter Lesson Number</p>
@@ -91,17 +101,24 @@ const CreateLesson = ({ setLessons }) => {
         </label>
       </div>
       <div className="createButtonContainer">
-        <Button variant={'primary'} text="Create" onClick={handleCreate} />
+        <Button variant={'primary'} text="Update" onClick={handleEdit} />
       </div>{' '}
       {showAlert && (
         <Alert
-          message="Lesson Added Successfully"
+          message="Lesson Updated Successfully"
           variant="message"
           onCancel={handleCancelAlert}
+        />
+      )}
+      {showAlert2 && (
+        <Alert
+          message="Enter Lesson Number and Title"
+          variant="message"
+          onCancel={handleErrorAlert}
         />
       )}
     </div>
   );
 };
 
-export default CreateLesson;
+export default EditLesson;
