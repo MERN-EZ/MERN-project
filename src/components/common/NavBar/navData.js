@@ -20,7 +20,7 @@ const navLinks_student = [
     name: 'Notification',
     icon: <NotificationsActiveIcon />,
   },
-  { path: '/profile', name: 'Profile', icon: <AccountCircleIcon /> },
+  { path: '/student/users', name: 'Profile', icon: <AccountCircleIcon /> },
 ];
 
 const navLinks_admin = [
