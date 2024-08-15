@@ -12,6 +12,7 @@ const AdminRoutes = () => (
     <Route path="/create-assistant" element={<CreateAssistant />} />
     {/*<Route path="/manage-student" element={<StudentManagement />} /> */}
     {/* Add more guest-specific routes here */}
+    <Route path="*" element={<NotFound />} />
   </Routes>
 );
 

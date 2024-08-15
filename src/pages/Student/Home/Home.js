@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './Home.scss';
 import Button from '../../../components/common/Button/Button';
 import classImage from './../Images/classImage.png';
-import homeworkData from '../Data/homeWorkData';
+// import homeworkData from '../Data/homeWorkData';
+import useGetRequest from '../../../hooks/useGetRequest';
 
 const calculateTimeRemaining = (deadline) => {
   const now = new Date();
@@ -20,6 +21,19 @@ const calculateTimeRemaining = (deadline) => {
 };
 
 const RegStudentLanding = () => {
+
+  const [homework, setHomework] = useState([]);
+
+  const { data} = useGetRequest('student/homeworks');
+
+  useEffect(() => {
+    if (data) {
+      console.log(data);
+      setHomework(data);
+    }
+  }, [data]);
+  console.log(data);
+
   const navigate = useNavigate();
 
   const handleShowCalendarClick = () => {
@@ -32,7 +46,7 @@ const RegStudentLanding = () => {
 
   const handleDeadlineClick = (homeworkId) => {
     navigate(`/homework-submission/${homeworkId}`);
-  };
+  };  
 
   return (
     <div className="student-home container">
@@ -65,7 +79,7 @@ const RegStudentLanding = () => {
         </a>
         <div className="homework-items-container">
           <div className="homework-items">
-            {homeworkData.map((homework) => (
+            {homework.map((homework) => (
               <div
                 key={homework.id}
                 className="homework-item"
@@ -80,7 +94,7 @@ const RegStudentLanding = () => {
       </section>
       <section className="deadlines">
         <h2>Deadlines</h2>
-        {homeworkData.map((homework) => {
+        {homework.map((homework) => {
           const { daysLeft, hoursLeft, minsLeft } = calculateTimeRemaining(
             homework.deadline
           );

@@ -17,6 +17,10 @@ body {
         font-weight: 400;
         font-size: 1.1rem;
       }
+      button:not(span > button) {
+        background-color: inherit;
+        border: none;
+      }
     }
 
     .homework-body {
@@ -27,11 +31,18 @@ body {
       .homework-content {
         padding: 0.2rem 1rem;
         border: 1px solid var(--box-shadow-color);
+        min-height: 7rem;
         border-radius: 10px;
         display: grid;
         gap: 1rem;
         grid-template-columns: 3fr 1fr 1fr;
-
+        .first-fr {
+          display: flex;
+          flex-direction: column;
+          display: flex;
+          flex-direction: column;
+          justify-content: space-between;
+        }
         span {
           display: flex;
           flex-direction: column;
@@ -42,13 +53,11 @@ body {
             margin: 0.2rem 0;
             width: 7rem;
           }
+          .button-primary {
+            width: 9rem;
+          }
         }
       }
-    }
-
-    button:not(span > button) {
-      background-color: inherit;
-      border: none;
     }
   }
 }

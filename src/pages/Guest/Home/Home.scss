@@ -1,71 +1,92 @@
-@import '../../../components/common/Button/Button'; // Import button styles
-
-.App {
-  padding: 0 0 0 3rem;
+.guest-home.container {
+  padding: 0 0 0 2.5rem;
   font-family: Arial, sans-serif;
-}
 
-.primary-header {
-  padding: 3rem;
-  margin: 6rem 4rem 0 2rem;
-  display: flex;
-  justify-content: left;
-  align-items: center;
-  background-color: var(--body-background-color);
-}
-
-.primary-header-title {
-  color: var(--primary-header-topic-color);
-  font-size: 2.5rem;
-  margin: 0;
-}
-
-.primary-header-author {
-  color: var(--primary-header-profilename-color);
-  font-size: 2rem;
-}
-
-.course-section {
-  display: flex;
-  justify-content: space-between;
-  margin: 2rem;
-}
-
-.course-card {
-  background-color: var(--rectangle-box-background-color);
-  padding: 2rem;
-  box-shadow: 0 0 10px var(--box-shadow-color);
-  border-radius: 10px;
-  width: 48%; // Adjusted width to fit two cards side by side
-  position: relative;
-
-  h2 {
-    color: var(--secondary-header-text-color);
-    font-size: 1.2rem;
-    margin-bottom: 0.5rem;
-    margin-top: 0;
-  }
-
-  .course-info {
+  .primary-header {
+    padding: 3rem;
+    margin: 5rem 4rem 0 2rem;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 1rem;
+    background-color: var(--body-background-color);
   }
 
-  .course-location,
-  .course-time {
-    color: var(--secondary-header-text-color);
-    font-size: 0.9rem;
-    margin: 0.5rem 0;
+  .header-content {
+    display: flex;
+    align-items: center;
+    width: 100%; /* Ensure the header content takes full width */
   }
 
-  .ongoing-lesson {
-    margin-top: 1rem;
-    color: var(--secondary-header-text-color);
-    font-size: 0.9rem;
-    padding: 1rem;
-    background-color: var(--rounded-edge-square-background-color);
+  .header-text {
+    flex: 1; /* Allows the text to take up available space */
+  }
+
+  .primary-header-title {
+    color: var(--primary-header-topic-color);
+    font-size: 2.5rem;
+    margin: 0;
+  }
+
+  .primary-header-author {
+    color: var(--primary-header-profilename-color);
+    font-size: 2rem;
+  }
+
+  .header-image-wrapper {
+    display: flex;
+    align-items: center;
+  }
+
+  .header-image {
+    max-width: 390px; /* Adjust size as needed */
+    height: auto;
+    width: auto;
+    margin-left: 2rem; /* Space between text and image */
+  }
+
+  .course-section {
+    display: flex;
+    flex-wrap: wrap; /* Allows cards to wrap if there’s not enough space */
+    justify-content: space-between;
+    margin: 2rem 4rem 0 2rem;
+  }
+
+  .course-card {
+    background-color: var(--rectangle-box-background-color);
+    padding: 2rem;
+    box-shadow: 0 0 10px var(--box-shadow-color);
     border-radius: 10px;
+    width: 30%; /* Adjusted width to fit cards side by side */
+    position: relative;
+
+    h2 {
+      color: var(--secondary-header-text-color);
+      font-size: 1.2rem;
+      margin-bottom: 0.5rem;
+      margin-top: 0;
+    }
+
+    .course-info {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 0rem;
+    }
+
+    .course-location,
+    .course-time {
+      color: var(--secondary-header-text-color);
+      font-size: 0.9rem;
+      margin: 0.5rem 0;
+    }
+
+    .ongoing-lesson {
+      margin-top: 1rem;
+      color: var(--secondary-header-text-color);
+      font-size: 0.9rem;
+      padding: 1rem;
+      background-color: var(--rounded-edge-square-background-color);
+      border-radius: 10px;
+    }
   }
 }

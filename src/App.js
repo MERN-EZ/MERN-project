@@ -1,10 +1,5 @@
 import React from 'react';
-import {
-  BrowserRouter as Router,
-  Route,
-  Routes,
-  Navigate,
-} from 'react-router-dom';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import { ThemeProvider } from './context/ThemeContext';
 import { UserProvider } from './context/UserContext';
 import { useUserRole } from './context/UserRoleContext';
@@ -59,7 +54,6 @@ function AppRoutes() {
         <Route path="/*" element={<AssistantRoutes />} />
       )}
       {userRole === 'guest' && <Route path="/*" element={<GuestRoutes />} />}
-      <Route path="*" element={<Navigate to="/" />} />
     </Routes>
   );
 }
