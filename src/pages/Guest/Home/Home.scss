@@ -1,15 +1,24 @@
 .guest-home.container {
-  padding: 0 0 0 3rem;
+  padding: 0 0 0 2.5rem;
   font-family: Arial, sans-serif;
-  display: list-item;
 
   .primary-header {
     padding: 3rem;
-    margin: 6rem 4rem 0 2rem;
+    margin: 5rem 4rem 0 2rem;
     display: flex;
-    justify-content: left;
+    justify-content: space-between;
     align-items: center;
     background-color: var(--body-background-color);
+  }
+
+  .header-content {
+    display: flex;
+    align-items: center;
+    width: 100%; /* Ensure the header content takes full width */
+  }
+
+  .header-text {
+    flex: 1; /* Allows the text to take up available space */
   }
 
   .primary-header-title {
@@ -23,8 +32,21 @@
     font-size: 2rem;
   }
 
+  .header-image-wrapper {
+    display: flex;
+    align-items: center;
+  }
+
+  .header-image {
+    max-width: 390px; /* Adjust size as needed */
+    height: auto;
+    width: auto;
+    margin-left: 2rem; /* Space between text and image */
+  }
+
   .course-section {
     display: flex;
+    flex-wrap: wrap; /* Allows cards to wrap if there’s not enough space */
     justify-content: space-between;
     margin: 2rem 4rem 0 2rem;
   }
@@ -34,7 +56,7 @@
     padding: 2rem;
     box-shadow: 0 0 10px var(--box-shadow-color);
     border-radius: 10px;
-    width: 30%; // Adjusted width to fit two cards side by side
+    width: 30%; /* Adjusted width to fit cards side by side */
     position: relative;
 
     h2 {
@@ -48,7 +70,7 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-bottom: 1rem;
+      margin-bottom: 0rem;
     }
 
     .course-location,
