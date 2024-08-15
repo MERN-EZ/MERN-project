@@ -19,7 +19,7 @@ const CreateAssistant = () => {
 
 
 
-
+// Create Assitant is not yet done : need to go thro the code
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData(prevState => ({ ...prevState, [name]: value }));
