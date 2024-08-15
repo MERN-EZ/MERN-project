@@ -1,0 +1,32 @@
+.textField {
+  display: flex;
+  flex-direction: column; /* Stack label on top of input */
+  margin-bottom: 20px; /* Space between fields */
+
+  label {
+    margin-left: 10px; /* Adjusted space between label and input */
+    font-weight: bold;
+    font-size: 1rem;
+    color: var(--text-fields-alt-text-color);
+    opacity: var(--text-fields-alt-text-opacity);
+    text-align: left; /* Left-align labels */
+  }
+
+  input {
+    align-items: right;
+    width: 100%;
+    padding: 10px;
+    font-size: 2rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+    background-color: var(--text-field-background-color);
+    color: var(--text-fields-alt-text-color);
+    opacity: var(--text-fields-alt-text-opacity);
+
+    &:focus {
+      border-color: #007bff;
+      outline: none;
+    }
+  }
+}

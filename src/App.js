@@ -1,13 +1,9 @@
 import React from 'react';
-import {
-  BrowserRouter as Router,
-  Route,
-  Routes,
-  Navigate,
-} from 'react-router-dom';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import { ThemeProvider } from './context/ThemeContext';
 import { UserProvider } from './context/UserContext';
 import { useUserRole } from './context/UserRoleContext';
+import { DBProvider } from './context/DatabaseContext';
 import NavBar from './components/common/NavBar/NavBar';
 import Header from './components/common/Header/Header';
 import TeacherRoutes from './routes/TeacherRoutes';
@@ -28,13 +24,15 @@ function App() {
       }}
     >
       <ThemeProvider>
-        <UserProvider>
-          <Router>
-            <Header />
-            <NavBar />
-            <AppRoutes />
-          </Router>
-        </UserProvider>
+        <DBProvider>
+          <UserProvider>
+            <Router>
+              <Header />
+              <NavBar />
+              <AppRoutes />
+            </Router>
+          </UserProvider>
+        </DBProvider>
       </ThemeProvider>
     </div>
   );
@@ -56,7 +54,6 @@ function AppRoutes() {
         <Route path="/*" element={<AssistantRoutes />} />
       )}
       {userRole === 'guest' && <Route path="/*" element={<GuestRoutes />} />}
-      <Route path="*" element={<Navigate to="/" />} />
     </Routes>
   );
 }
