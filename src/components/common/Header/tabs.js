@@ -1,8 +1,5 @@
 //
-const teacher_tabs = [
-  { text: 'Overview', url: '/overview', isActive: true },
-  { text: 'Homework', url: '/homework', isActive: false },
-];
+const teacher_tabs = [];
 const assistant_tabs = [
   { text: 'Overview', url: '/', isActive: true },
   { text: 'Class Schedules', url: '/schedules', isActive: false },

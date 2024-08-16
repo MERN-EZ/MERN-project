@@ -10,8 +10,7 @@ import AssistantIcon from '@mui/icons-material/Assistant';
 
 const navLinks_teacher = [
   { path: '/', name: 'Home', exact: true, icon: <HomeIcon /> },
-  { path: '/about/slideshow', name: 'About', icon: <InfoIcon /> },
-  { path: '/contact/branch1', name: 'Contact Us', icon: <ContactMailIcon /> },
+  { path: '/homework', name: 'Homework', icon: <ContactMailIcon /> },
 ];
 
 const navLinks_student = [
