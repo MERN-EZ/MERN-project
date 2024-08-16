@@ -5,17 +5,14 @@ const Payment = () => {
   const [searchQuery, setSearchQuery] = useState('');
 
   // Sample data for name boxes
-  const names = [
-    'John Doe',
-    'Jane Smith',
-    'Michael Johnson',
-    'Emily Davis',
-    'Robert Brown',
-    'Sarah Wilson',
-    'David Lee',
-    'Laura Taylor',
-    // Add more names as needed
-  ];
+  const [names, setNames] = useState([]);
+
+  useEffect(() => {
+    fetch('/assistant/users')
+      .then((response) => response.json())
+      .then((data) => setNames(data))
+      .catch((error) => console.log(error));
+  }, []);
 
   // Filter names based on the search query
   const filteredNames = names.filter((name) =>
@@ -37,7 +34,7 @@ const Payment = () => {
 
       {/* Name Box Container */}
       <div className="name-box-container">
-        {filteredNames.map((name, index) => (
+        {names.map((name, index) => (
           <div className="name-box" key={index}>
             {name}
           </div>
