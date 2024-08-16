@@ -4,7 +4,7 @@ const teacher_tabs = [
   { text: 'Homework', url: '/homework', isActive: false },
 ];
 const assistant_tabs = [
-  { text: 'Overview', url: '/overview', isActive: true },
+  { text: 'Overview', url: '/', isActive: true },
   { text: 'Class Schedules', url: '/schedules', isActive: false },
   { text: 'Attendance', url: '/attendance', isActive: false },
   { text: 'Payments', url: '/payments', isActive: false },

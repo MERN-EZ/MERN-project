@@ -1,0 +1,17 @@
+/* src/components/ClassCard.css */
+.class-card {
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 16px;
+  margin: 8px;
+  background-color: #f9f9f9;
+}
+
+.class-card-title {
+  font-size: 1.2em;
+  margin-bottom: 8px;
+}
+
+.class-card-info {
+  margin: 4px 0;
+}
