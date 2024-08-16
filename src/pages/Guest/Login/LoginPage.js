@@ -26,7 +26,7 @@ const LoginPage = () => {
   };
 
   return (
-    <div className="container">
+    <div className="guest-login container">
       <div className="card">
         <div className="cardHeader">
           <LoginIcon className="icon" />

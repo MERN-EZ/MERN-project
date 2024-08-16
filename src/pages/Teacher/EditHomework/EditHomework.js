@@ -2,10 +2,10 @@ import React, { useState, useEffect } from 'react';
 import Button from '../../../components/common/Button/Button';
 import usePutRequest from '../../../hooks/usePutRequest';
 import Alert from '../../../components/common/Alert/Alert';
-import './CreateHomework.scss';
+import './EditHomework.scss';
 import { useLocation } from 'react-router-dom';
 
-const CreateHomework = () => {
+const EditHomework = () => {
   const [homeworkName, setHomeworkName] = useState('');
   const [homeworkDescription, setHomeworkDescription] = useState('');
   const [nameCharCount, setNameCharCount] = useState(0);
@@ -15,6 +15,7 @@ const CreateHomework = () => {
   const [putData, setPutData] = useState(null);
   const location = useLocation();
   const lessonId = new URLSearchParams(location.search).get('lessonId');
+  const homeworkId = new URLSearchParams(location.search).get('homeworkId');
 
   const [showAlert, setShowAlert] = useState(false);
   const [showAlert2, setShowAlert2] = useState(false);
@@ -68,8 +69,7 @@ const CreateHomework = () => {
       [name]: checked,
     }));
   };
-  const [showAlert3, setShowAlert3] = useState(false);
-  const handleCreate = () => {
+  const handleEdit = () => {
     if (homeworkName && homeworkDescription && deadline) {
       setShowAlert2(true);
       setPutData({
@@ -78,14 +78,14 @@ const CreateHomework = () => {
         reminders: Object.values(reminders),
         deadline: deadline,
       });
-      setPutEndpoint(`teacher/homework/${lessonId}`);
+      setPutEndpoint(`teacher/homework/${lessonId}/${homeworkId}`);
     } else {
       alert('Please fill in all fields');
     }
   };
 
   return (
-    <div className="createHomeworkContainer teacher">
+    <div className="editHomeworkContainer teacher">
       <div className="closeButtonContainer">
         <Button
           variant={'primary'}
@@ -93,7 +93,7 @@ const CreateHomework = () => {
           onClick={() => (window.location.href = '/homework')}
         />
       </div>
-      <h2 className="title">Create Homework</h2>
+      <h2 className="title">Edit Homework</h2>
       <div className="inputContainer">
         <label>
           <p>Enter Homework Title</p>
@@ -147,8 +147,8 @@ const CreateHomework = () => {
           ))}
         </label>
       </div>
-      <div className="createButtonContainer">
-        <Button variant={'primary'} text="Create" onClick={handleCreate} />
+      <div className="editButtonContainer">
+        <Button variant={'primary'} text="Edit" onClick={handleEdit} />
       </div>{' '}
       {showAlert && error && (
         <Alert
@@ -159,14 +159,14 @@ const CreateHomework = () => {
       )}
       {showAlert && response && (
         <Alert
-          message={`Homework added successfully`}
+          message={`Homework updated successfully`}
           variant="message"
           onCancel={handleCancelAlert}
         />
       )}
       {showAlert2 && loading && (
         <Alert
-          message={`Adding homework`}
+          message={`Updating...`}
           variant="message"
           onCancel={() => setShowAlert2(false)}
         />
@@ -175,4 +175,4 @@ const CreateHomework = () => {
   );
 };
 
-export default CreateHomework;
+export default EditHomework;

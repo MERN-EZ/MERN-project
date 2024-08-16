@@ -7,6 +7,7 @@ import Profile from '../pages/Student/Components/Profile';
 import EditProfile from '../pages/Student/Components/EditProfile';
 import Payments from '../pages/Student/Components/Payments';
 import HomeworkSubmission from '../pages/Student/Components/HomeWorkSubmission';
+import NotFound from '../pages/NotFound/NotFound';
 
 const StudentRoutes = () => (
   <Routes>
@@ -18,7 +19,12 @@ const StudentRoutes = () => (
     <Route path="/edit-profile" element={<EditProfile />} />
     <Route path="/payments" element={<Payments />} />
     <Route path="/homework-submission" element={<HomeworkSubmission />} />
-    <Route path="/homework-submission/:homeworkId" element={<HomeworkSubmission />} />
+    <Route
+      path="/homework-submission/:homeworkId"
+      element={<HomeworkSubmission />}
+    />
+
+    <Route path="*" element={<NotFound />} />
   </Routes>
 );
 
