@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import './Home.scss';
-import Button from '../../../components/common/Button/Button';
 import useGetRequest from '../../../hooks/useGetRequest';
 
 const GuestHomePage = () => {

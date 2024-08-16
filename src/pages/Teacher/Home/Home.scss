@@ -1,14 +1,14 @@
 .teacher-home.container {
   color: var(--secondary-header-text-color);
   border: 1px solid transparent;
-  -webkit-user-select: none; /* Safari */
-  -moz-user-select: none; /* Firefox */
-  -ms-user-select: none; /* Internet Explorer/Edge */
-  user-select: none; /* Standard syntax */
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
 
   .course-section {
     display: flex;
-    flex-wrap: wrap; /* Allows cards to wrap if there’s not enough space */
+    flex-wrap: wrap;
     justify-content: space-between;
     margin: 2rem 6rem;
   }
@@ -18,7 +18,7 @@
     padding: 2rem;
     box-shadow: 0 0 10px var(--box-shadow-color);
     border-radius: 10px;
-    width: 100%; /* Adjusted width to fit cards side by side */
+    width: 100%;
     position: relative;
 
     h2 {
@@ -59,9 +59,6 @@
     position: relative;
 
     .homework-header {
-      // position: absolute;
-      // top: 10px;
-      // left: 20px;
       margin: 0;
       font-size: 1.5rem;
     }
@@ -69,10 +66,6 @@
     .homework-items-container {
       overflow-y: auto;
       overflow-x: hidden;
-      // padding: 0 0.5rem;
-      // &::-webkit-scrollbar {
-      //   display: none; /* Hide scrollbar in WebKit browsers */
-      // }
 
       .homework-items {
         display: flex;
@@ -82,19 +75,11 @@
         margin: 1rem 0;
 
         .homework-item {
-          // margin-top: 10px;
           background-color: var(--rounded-edge-square-background-color);
           padding: 0.5rem 1rem;
           border-radius: 10px;
           width: 100%;
           margin: 4px;
-          // box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
-          // width: 150px;
-          // text-align: center;
-          // margin-right: 10px; /* Add space between homework items */
-          // margin-left: 10px;
-          // margin: 20px 10px;
-          // transition: transform 0.3s; /* Smooth transition for the hover effect */
 
           &:hover {
             box-shadow: 0 0 2px rgba(30, 24, 155, 0.532);
