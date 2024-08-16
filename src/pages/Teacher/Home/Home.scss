@@ -1,0 +1,110 @@
+.teacher-home.container {
+  color: var(--secondary-header-text-color);
+  border: 1px solid transparent;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+
+  .course-section {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    margin: 2rem 6rem;
+  }
+
+  .course-card {
+    background-color: var(--rectangle-box-background-color);
+    padding: 2rem;
+    box-shadow: 0 0 10px var(--box-shadow-color);
+    border-radius: 10px;
+    width: 100%;
+    position: relative;
+
+    h2 {
+      font-size: 2rem;
+      margin-bottom: 0.5rem;
+      margin-top: 0;
+    }
+
+    .course-info {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 0rem;
+    }
+
+    .course-location,
+    .course-time {
+      color: var(--secondary-header-text-color);
+      font-size: 0.9rem;
+      margin: 0.5rem 0;
+    }
+
+    .ongoing-lesson {
+      margin-top: 1rem;
+      color: var(--secondary-header-text-color);
+      font-size: 0.9rem;
+      padding: 1rem;
+      background-color: var(--rounded-edge-square-background-color);
+      border-radius: 10px;
+    }
+  }
+  .homework-rounded-edge-rectangle {
+    background-color: var(--rectangle-box-background-color);
+    padding: 1.3rem 2rem;
+    box-shadow: 0 0 10px var(--box-shadow-color);
+    border-radius: 10px;
+    margin: 2rem 6rem;
+    position: relative;
+
+    .homework-header {
+      margin: 0;
+      font-size: 1.5rem;
+    }
+
+    .homework-items-container {
+      overflow-y: auto;
+      overflow-x: hidden;
+
+      .homework-items {
+        display: flex;
+        align-items: start;
+        flex-direction: column;
+        gap: 0.8rem;
+        margin: 1rem 0;
+
+        .homework-item {
+          background-color: var(--rounded-edge-square-background-color);
+          padding: 0.5rem 1rem;
+          border-radius: 10px;
+          width: 100%;
+          margin: 4px;
+
+          &:hover {
+            box-shadow: 0 0 2px rgba(30, 24, 155, 0.532);
+          }
+          div:first-child {
+            display: flex;
+            align-items: center;
+            span:first-child {
+              font-size: 0.9rem;
+              font-weight: 300;
+              margin-right: 0.5rem;
+            }
+            .hw-title {
+              font-size: 1.2rem;
+              font-weight: 400;
+            }
+          }
+          .des {
+            font-size: 0.9rem;
+            font-weight: 300;
+            margin-top: 0.5rem;
+            font-family: 'Poppins', sans-serif;
+          }
+        }
+      }
+    }
+  }
+}
