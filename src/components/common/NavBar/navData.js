@@ -4,7 +4,6 @@ import InfoIcon from '@mui/icons-material/Info';
 import NotificationsActiveIcon from '@mui/icons-material/NotificationsActive';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import ContactMailIcon from '@mui/icons-material/ContactMail';
-import FileCopyIcon from '@mui/icons-material/FileCopy';
 import AdminPanelSettingsIcon from '@mui/icons-material/AdminPanelSettings';
 import AssistantIcon from '@mui/icons-material/Assistant';
 
