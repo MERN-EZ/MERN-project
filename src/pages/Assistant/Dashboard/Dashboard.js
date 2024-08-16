@@ -1,6 +1,6 @@
 import React from 'react';
 import Classcard from './Components/Classcard';
-import './Dashboard.css';
+import './Dashboard.scss';
 
 const Dashboard = () => {
   // Sample data
@@ -41,7 +41,7 @@ const Dashboard = () => {
   const totalStudents = 100; // Example static number for demonstration
 
   return (
-    <div className="dashboard">
+    <div className="dashboard assistant">
       <div className="overview-section">
         <h1>Welcome, Assistant!</h1>
         <div className="flex-container">
