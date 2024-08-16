@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import './Payment.css';
+import React, { useState, useEffect } from 'react';
+import './Payment.scss';
 
 const Payment = () => {
   const [searchQuery, setSearchQuery] = useState('');
@@ -15,12 +15,12 @@ const Payment = () => {
   }, []);
 
   // Filter names based on the search query
-  const filteredNames = names.filter((name) =>
-    name.toLowerCase().includes(searchQuery.toLowerCase())
-  );
+  // const filteredNames = names.filter((name) =>
+  //   name.toLowerCase().includes(searchQuery.toLowerCase())
+  // );
 
   return (
-    <div className="payment-page">
+    <div className="payment-page assistant">
       {/* Search Bar */}
       <div className="search-bar-container">
         <input
