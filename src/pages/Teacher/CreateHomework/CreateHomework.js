@@ -68,7 +68,6 @@ const CreateHomework = () => {
       [name]: checked,
     }));
   };
-  const [showAlert3, setShowAlert3] = useState(false);
   const handleCreate = () => {
     if (homeworkName && homeworkDescription && deadline) {
       setShowAlert2(true);
