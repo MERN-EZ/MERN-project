@@ -28,10 +28,10 @@
 /* Scrollable name box container */
 .name-box-container {
   position: fixed; /* Fixed position */
-  top: 60px; /* Space from the top, below the search bar */
-  left: 20px; /* Space from the left edge */
+  top: 4.3rem; /* Space from the top, below the search bar */
+  left: 3rem; /* Space from the left edge */
   width: 200px; /* Fixed width for the name box */
-  height: calc(100vh - 80px); /* Full height minus top padding */
+  height: calc(100vh - 4.3rem); /* Full height minus top padding */
   overflow-y: auto; /* Enable vertical scrolling */
   background: #f9f9f9; /* Light background color */
   border: 1px solid #ddd; /* Light border */
