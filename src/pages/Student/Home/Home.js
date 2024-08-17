@@ -3,7 +3,6 @@ import { useNavigate } from 'react-router-dom';
 import './Home.scss';
 import Button from '../../../components/common/Button/Button';
 import classImage from './../Images/classImage.png';
-// import homeworkData from '../Data/homeWorkData';
 import useGetRequest from '../../../hooks/useGetRequest';
 
 const calculateTimeRemaining = (deadline) => {
@@ -21,18 +20,16 @@ const calculateTimeRemaining = (deadline) => {
 };
 
 const RegStudentLanding = () => {
-
   const [homework, setHomework] = useState([]);
-
-  const { data} = useGetRequest('student/homeworks');
+  const { data } = useGetRequest('student/homeworks');
 
   useEffect(() => {
     if (data) {
-      console.log(data);
-      setHomework(data);
+      // Flatten the homework array from lessons
+      const flattenedHomework = data.flatMap((lesson) => lesson.homework);
+      setHomework(flattenedHomework);
     }
   }, [data]);
-  console.log(data);
 
   const navigate = useNavigate();
 
@@ -46,7 +43,7 @@ const RegStudentLanding = () => {
 
   const handleDeadlineClick = (homeworkId) => {
     navigate(`/homework-submission/${homeworkId}`);
-  };  
+  };
 
   return (
     <div className="student-home container">
@@ -79,14 +76,14 @@ const RegStudentLanding = () => {
         </a>
         <div className="homework-items-container">
           <div className="homework-items">
-            {homework.map((homework) => (
+            {homework.map(({ _id, title, description }) => (
               <div
-                key={homework.id}
+                key={_id}
                 className="homework-item"
-                onClick={() => handleDeadlineClick(homework.id)}
+                onClick={() => handleDeadlineClick(_id)}
               >
-                <h3>{homework.title}</h3>
-                <p>{homework.description}</p>
+                <h3>{title}</h3>
+                <p>{description}</p>
               </div>
             ))}
           </div>
@@ -94,21 +91,20 @@ const RegStudentLanding = () => {
       </section>
       <section className="deadlines">
         <h2>Deadlines</h2>
-        {homework.map((homework) => {
-          const { daysLeft, hoursLeft, minsLeft } = calculateTimeRemaining(
-            homework.deadline
-          );
+        {homework.map(({ _id, title, deadline }) => {
+          const { daysLeft, hoursLeft, minsLeft } =
+            calculateTimeRemaining(deadline);
           return (
             <div
-              key={homework.id}
+              key={_id}
               className="deadline-item"
-              onClick={() => handleDeadlineClick(homework.id)}
+              onClick={() => handleDeadlineClick(_id)}
             >
-              <h3>{homework.title}</h3>
+              <h3>{title}</h3>
               <p className="deadline-details">
-                Due on: {new Date(homework.deadline).toLocaleDateString()}
+                Due on: {new Date(deadline).toLocaleDateString()}
                 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                {new Date(homework.deadline).toLocaleTimeString()}
+                {new Date(deadline).toLocaleTimeString()}
                 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                 {daysLeft} days {hoursLeft} hours {minsLeft} minutes left
               </p>

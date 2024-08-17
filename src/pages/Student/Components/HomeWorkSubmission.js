@@ -1,51 +1,40 @@
 import React, { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import './homeWorkSubmission.scss';
 import useGetRequest from '../../../hooks/useGetRequest';
 
 const HomeworkSubmissionComponent = () => {
   const { homeworkId } = useParams();
+  const navigate = useNavigate(); 
   const [expandedLesson, setExpandedLesson] = useState(null);
   const [expandedHomework, setExpandedHomework] = useState(null);
   const [submissionLinks, setSubmissionLinks] = useState({});
-  const [homework, setHomework] = useState([]);
+  const [submittedHomeworkIds, setSubmittedHomeworkIds] = useState(new Set()); 
 
-  // Fetch homework data from the server
+  const [lessons, setLessons] = useState([]);
   const { data } = useGetRequest('student/homeworks');
 
   useEffect(() => {
     if (data) {
-      setHomework(data);
+      // Group the homework by lesson title
+      const groupedLessons = data.reduce((acc, item) => {
+        const existingLesson = acc.find(lesson => lesson.title === item.title);
+        if (existingLesson) {
+          existingLesson.homework.push(item.homework);
+        } else {
+          acc.push({
+            title: item.title,
+            homework: [item.homework],
+          });
+        }
+        return acc;
+      }, []);
+      
+      setLessons(groupedLessons);
     }
   }, [data]);
 
-  // Calculate time left function
-  const getTimeLeft = (deadline) => {
-    const now = new Date();
-    const deadlineDate = new Date(deadline);
-    const timeDiff = deadlineDate - now;
-
-    if (timeDiff <= 0) {
-      return <span className="deadline-passed">Deadline passed</span>;
-    }
-
-    const days = Math.floor(timeDiff / (1000 * 60 * 60 * 24));
-    const hours = Math.floor(
-      (timeDiff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
-    );
-    const minutes = Math.floor((timeDiff % (1000 * 60 * 60)) / (1000 * 60));
-
-    return `${days} days, ${hours} hours, and ${minutes} minutes left`;
-  };
-
-  // Extract unique lessons from homework data
-  const lessons = Array.from(new Set(homework.map((hw) => hw.lesson))).map(
-    (lessonTitle) => ({
-      lessonTitle,
-      homework: homework.filter((hw) => hw.lesson === lessonTitle),
-    })
-  );
-
+  // Automatically expand the lesson and homework based on the homeworkId in the URL
   useEffect(() => {
     if (homeworkId && lessons.length > 0) {
       for (let i = 0; i < lessons.length; i++) {
@@ -63,15 +52,15 @@ const HomeworkSubmissionComponent = () => {
 
   const toggleLesson = (index) => {
     setExpandedLesson(expandedLesson === index ? null : index);
-    setExpandedHomework(null); // Close any expanded homework if the lesson is toggled
+    setExpandedHomework(null);
+    navigate('/homework-submission#homeworksmore');
   };
 
   const toggleHomework = (lessonIndex, homeworkIndex) => {
-    setExpandedHomework(
-      expandedHomework === homeworkIndex && expandedLesson === lessonIndex
-        ? null
-        : homeworkIndex
-    );
+    const selectedHomework = lessons[lessonIndex].homework[homeworkIndex];
+    setExpandedHomework(homeworkIndex);
+    setExpandedLesson(lessonIndex);
+    navigate(`/homework-submission/${selectedHomework._id}#homeworksmore`);
   };
 
   const handleLinkChange = (homeworkId, value) => {
@@ -79,6 +68,38 @@ const HomeworkSubmissionComponent = () => {
       ...prevLinks,
       [homeworkId]: value,
     }));
+  };
+
+  const submitHomework = (homeworkId) => {
+    console.log('Submitting homework with ID:', homeworkId);
+    setTimeout(() => {
+      setSubmittedHomeworkIds((prev) => new Set(prev).add(homeworkId));
+      console.log(`Homework with ID ${homeworkId} submitted successfully!`);
+    }, 1000);
+  };
+
+  const updateHomework = (homeworkId) => {
+    console.log('Updating homework with ID:', homeworkId);
+  };
+
+  const deleteHomework = (homeworkId) => {
+    console.log('Deleting homework with ID:', homeworkId);
+  };
+
+  const getTimeLeft = (deadline) => {
+    const now = new Date();
+    const deadlineDate = new Date(deadline);
+    const timeDiff = deadlineDate - now;
+
+    if (timeDiff <= 0) {
+      return <span className="deadline-passed">Deadline passed</span>;
+    }
+
+    const days = Math.floor(timeDiff / (1000 * 60 * 60 * 24));
+    const hours = Math.floor((timeDiff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    const minutes = Math.floor((timeDiff % (1000 * 60 * 60)) / (1000 * 60));
+
+    return `${days} days, ${hours} hours, and ${minutes} minutes left`;
   };
 
   return (
@@ -90,7 +111,7 @@ const HomeworkSubmissionComponent = () => {
             onClick={() => toggleLesson(lessonIndex)}
           >
             <h3>
-              Lesson {lessonIndex + 1}: {lesson.lessonTitle}
+              Lesson {lessonIndex + 1}: {lesson.title}
             </h3>
             <span
               className={`arrow ${expandedLesson === lessonIndex ? 'up' : 'down'}`}
@@ -102,10 +123,10 @@ const HomeworkSubmissionComponent = () => {
                 <div
                   key={homework._id}
                   className="homework-item"
-                  onClick={() => toggleHomework(lessonIndex, homeworkIndex)}
                 >
                   <div
                     className="homework-header"
+                    onClick={() => toggleHomework(lessonIndex, homeworkIndex)}
                   >
                     <span>
                       Homework {homeworkIndex + 1}: {homework.title}
@@ -128,14 +149,27 @@ const HomeworkSubmissionComponent = () => {
                         {getTimeLeft(homework.deadline)}
                       </div>
                       <div className="submit-link">
-                        <input
-                          type="text"
-                          placeholder="Enter Google link"
-                          value={submissionLinks[homework._id] || ''}
-                          onChange={(e) =>
-                            handleLinkChange(homework._id, e.target.value)
-                          }
-                        />
+                        <div>
+                          <input
+                            type="text"
+                            placeholder="Enter Google link"
+                            value={submissionLinks[homework._id] || ''}
+                            onChange={(e) =>
+                              handleLinkChange(homework._id, e.target.value)
+                            }
+                            disabled={submittedHomeworkIds.has(homework._id)}
+                          />
+                        </div>
+                      </div>
+                      <div className="submit-btn">
+                        <button
+                          onClick={() => submitHomework(homework._id)}
+                          disabled={submittedHomeworkIds.has(homework._id)}
+                        >
+                          Submit Homework
+                        </button>
+                        <button onClick={() => updateHomework(homework._id)}>Update Homework</button>
+                        <button onClick={() => deleteHomework(homework._id)}>Delete Homework</button>
                       </div>
                     </div>
                   )}
