@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import './Home.scss';
 import Button from '../../../components/common/Button/Button';
@@ -6,7 +6,14 @@ import useGetRequest from '../../../hooks/useGetRequest';
 import Teacher from '../../../images/Teacher.jpg'; // Ensure the correct path
 
 const GuestHomePage = () => {
-  const { data: courses, error, loading } = useGetRequest('guest/classes'); // Ensure the correct endpoint
+  const [courses, setCourses] = useState([]);
+
+  const { data, error, loading } = useGetRequest('guest/classes'); // Ensure the correct endpoint
+  useEffect(() => {
+    if (data) {
+      setCourses(data);
+    }
+  }, [data]);
 
   console.log('Loading:', loading);
   console.log('Error:', error);
