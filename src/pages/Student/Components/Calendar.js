@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom'; // Import useNavigate
 import './calendar.scss';
 import useGetRequest from '../../../hooks/useGetRequest';
 
@@ -6,20 +7,16 @@ const daysOfWeek = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Fri
 
 const Calendar = () => {
   const [currentDate, setCurrentDate] = useState(new Date());
-
   const [homework, setHomework] = useState([]);
-
-  // Fetch homework data from the server
-
-  const { data} = useGetRequest('student/homeworks');
+  const { data } = useGetRequest('student/homeworks');
+  const navigate = useNavigate(); // Initialize navigate
 
   useEffect(() => {
     if (data) {
-      console.log(data);
-      setHomework(data);
+      const flattenedHomework = data.flatMap((lesson) => lesson.homework);
+      setHomework(flattenedHomework);
     }
   }, [data]);
-  console.log(data);
 
   const startOfMonth = new Date(currentDate.getFullYear(), currentDate.getMonth(), 1);
   const endOfMonth = new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 0);
@@ -40,9 +37,18 @@ const Calendar = () => {
 
   // Get homework deadlines for the current month
   const deadlines = homework
-    .map((hw) => new Date(hw.deadline))
-    .filter((date) => date.getMonth() === currentDate.getMonth());
-    
+    .map((hw) => ({
+      date: new Date(hw.deadline),
+      id: hw._id, // Include homework ID
+    }))
+    .filter(({ date }) => date.getMonth() === currentDate.getMonth());
+
+  const handleDayClick = (day) => {
+    const deadline = deadlines.find(({ date }) => date.getDate() === day);
+    if (deadline) {
+      navigate(`/homework-submission/${deadline.id}`); // Navigate to specific homework
+    }
+  };
 
   return (
     <div className="calendar-container">
@@ -63,10 +69,13 @@ const Calendar = () => {
           <div key={index} className="calendar-day-empty"></div>
         ))}
         {daysInMonth.map((day) => {
-          const isDeadline = deadlines.some(date => date.getDate() === day);
-          console.log(`Day: ${day}, isDeadline: ${isDeadline}`);
+          const isDeadline = deadlines.some(({ date }) => date.getDate() === day);
           return (
-            <div key={day} className={`calendar-day ${isDeadline ? 'deadline' : ''}`}>
+            <div
+              key={day}
+              className={`calendar-day ${isDeadline ? 'deadline' : ''}`}
+              onClick={() => handleDayClick(day)} // Add click handler
+            >
               {day}
             </div>
           );
