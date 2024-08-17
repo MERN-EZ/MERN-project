@@ -5,7 +5,6 @@ import ExpandLessIcon from '@mui/icons-material/ExpandLess';
 import Button from '../../../components/common/Button/Button';
 import useDeleteRequest from '../../../hooks/useDeleteRequest';
 import Alert from '../../../components/common/Alert/Alert';
-// import { set } from 'mongoose';
 
 const Homework = ({ homework, index, lesson_id }) => {
   const [isOpen, setIsOpen] = useState(false);

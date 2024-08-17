@@ -1,5 +1,14 @@
 import React, { useState } from 'react';
-import { Container, Box, TextField, MenuItem, Stack, Alert, Card, CardContent} from '@mui/material';
+import {
+  Container,
+  Box,
+  TextField,
+  MenuItem,
+  Stack,
+  Alert,
+  Card,
+  CardContent,
+} from '@mui/material';
 import Button from '../../components/common/Button/Button';
 
 const CreateAssistant = () => {
@@ -12,21 +21,19 @@ const CreateAssistant = () => {
     email: '',
     phoneNumber: '',
   });
-  
+
   const [formErrors, setFormErrors] = useState({}); // newly added
   const [showForm, setShowForm] = useState(false);
   const [alert, setAlert] = useState({ type: '', message: '' });
 
-
-
-// Create Assitant is not yet done : need to go thro the code
+  // Create Assitant is not yet done : need to go thro the code
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    setFormData(prevState => ({ ...prevState, [name]: value }));
+    setFormData((prevState) => ({ ...prevState, [name]: value }));
   };
 
-
-  const validate = () => { // newly added
+  const validate = () => {
+    // newly added
     let errors = {};
 
     // Assistant ID validation (e.g., A001)
@@ -38,7 +45,8 @@ const CreateAssistant = () => {
     // Password validation (6 characters, 4 letters and 2 numbers)
     const passwordPattern = /^(?=.*[A-Za-z]{4,})(?=.*\d{2,})[A-Za-z\d]{6,}$/;
     if (!passwordPattern.test(formData.password)) {
-      errors.password = 'Password should be 6 characters long with 4 letters and 2 numbers.';
+      errors.password =
+        'Password should be 6 characters long with 4 letters and 2 numbers.';
     }
 
     // Email validation
@@ -61,7 +69,7 @@ const CreateAssistant = () => {
       errors.lastName = 'Last Name is required.';
     }
 
-  setFormErrors(errors); // newly added
+    setFormErrors(errors); // newly added
     return Object.keys(errors).length === 0;
   };
 
@@ -83,43 +91,60 @@ const CreateAssistant = () => {
   //   }
   // };
 
-
   // Newest form handling code
   const handleCreateAccount = () => {
     // Validation for all required fields
-    const isFormValid = Object.values(formData).every(value => value !== '');
-  
+    const isFormValid = Object.values(formData).every((value) => value !== '');
+
     if (!isFormValid) {
       setAlert({ type: 'error', message: 'Please fill in all fields.' });
       return; // Prevent the form from being submitted
     }
-  
+
     // Additional specific field validations (optional)
     if (!/^A\d{3}$/.test(formData.assistantId)) {
-      setAlert({ type: 'error', message: 'Assistant ID should be in the format A001.' });
+      setAlert({
+        type: 'error',
+        message: 'Assistant ID should be in the format A001.',
+      });
       return;
     }
-  
-    if (!/^(?=.*[a-zA-Z]{4,})(?=.*\d{2,})[a-zA-Z\d]{6,}$/.test(formData.password)) {
-      setAlert({ type: 'error', message: 'Password should be at least 6 characters with 4 letters and 2 numbers.' });
+
+    if (
+      !/^(?=.*[a-zA-Z]{4,})(?=.*\d{2,})[a-zA-Z\d]{6,}$/.test(formData.password)
+    ) {
+      setAlert({
+        type: 'error',
+        message:
+          'Password should be at least 6 characters with 4 letters and 2 numbers.',
+      });
       return;
     }
-  
+
     if (!/^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/.test(formData.email)) {
-      setAlert({ type: 'error', message: 'Please enter a valid email address.' });
+      setAlert({
+        type: 'error',
+        message: 'Please enter a valid email address.',
+      });
       return;
     }
-  
+
     if (!/^\d{10}$/.test(formData.phoneNumber)) {
-      setAlert({ type: 'error', message: 'Phone number should be 10 digits long.' });
+      setAlert({
+        type: 'error',
+        message: 'Phone number should be 10 digits long.',
+      });
       return;
     }
-  
+
     // If everything is valid, show success alert and reset form visibility
-    setAlert({ type: 'success', message: 'Assistant account created successfully.' });
+    setAlert({
+      type: 'success',
+      message: 'Assistant account created successfully.',
+    });
     setShowForm(false); // Hide the form after successful creation
   };
-  
+
   const handleCancel = () => {
     setAlert({ type: 'info', message: 'Assistant creation cancelled.' });
     setShowForm(false); // Hide the form
@@ -138,10 +163,10 @@ const CreateAssistant = () => {
 
       {/* Alert Message */}
       {alert.message && (
-        <Box sx={{ mt: 8 }}> {/* Adjust the margin-top value as needed */}
-          <Alert severity={alert.type}>
-            {alert.message}
-          </Alert>
+        <Box sx={{ mt: 8 }}>
+          {' '}
+          {/* Adjust the margin-top value as needed */}
+          <Alert severity={alert.type}>{alert.message}</Alert>
         </Box>
       )}
 
@@ -188,7 +213,7 @@ const CreateAssistant = () => {
                         error={!!formErrors.lastName}
                         helperText={formErrors.lastName}
                       />
-                        <TextField
+                      <TextField
                         type="password"
                         label="Password"
                         name="password"
@@ -196,12 +221,13 @@ const CreateAssistant = () => {
                         onChange={handleInputChange}
                         required
                         error={!!formErrors.password}
-                        helperText={formErrors.password || '6 characters, 4 letters, 2 numbers'}
+                        helperText={
+                          formErrors.password ||
+                          '6 characters, 4 letters, 2 numbers'
+                        }
                       />
                     </Stack>
-                    <Stack direction="row" spacing={2}>
-                      
-                    </Stack>
+                    <Stack direction="row" spacing={2}></Stack>
                     <Stack direction="row" spacing={2}>
                       <TextField
                         select
@@ -210,14 +236,13 @@ const CreateAssistant = () => {
                         value={formData.batch}
                         onChange={handleInputChange}
                         required
-
                         sx={{ minWidth: 210 }}
                       >
                         <MenuItem value="2024">2024</MenuItem>
                         <MenuItem value="2025">2025</MenuItem>
                         <MenuItem value="2026">2026</MenuItem>
                       </TextField>
-           
+
                       <TextField
                         label="Email"
                         name="email"
@@ -226,7 +251,9 @@ const CreateAssistant = () => {
                         onChange={handleInputChange}
                         required
                         error={!!formErrors.email}
-                        helperText={formErrors.email || 'e.g., user@example.com'}
+                        helperText={
+                          formErrors.email || 'e.g., user@example.com'
+                        }
                       />
                       <TextField
                         label="Phone Number"
@@ -236,11 +263,16 @@ const CreateAssistant = () => {
                         onChange={handleInputChange}
                         required
                         error={!!formErrors.phoneNumber}
-                        helperText={formErrors.phoneNumber || 'Format: 0774567290'}
-                    
+                        helperText={
+                          formErrors.phoneNumber || 'Format: 0774567290'
+                        }
                       />
                     </Stack>
-                    <Stack direction="row" spacing={2} justifyContent="flex-end">
+                    <Stack
+                      direction="row"
+                      spacing={2}
+                      justifyContent="flex-end"
+                    >
                       <Button
                         text="Create Account"
                         variant="primary"
@@ -264,17 +296,16 @@ const CreateAssistant = () => {
           {alert.message}
         </Alert>
       )}
-{/* Display Created Assistant Rows */}
+      {/* Display Created Assistant Rows */}
     </Container>
   );
 };
 
 export default CreateAssistant;
 
-
 // Add validations for the passowrd , email, phone number fileds
 // check the code for passowrd
-// Email --> validation --> @ 
+// Email --> validation --> @
 // Phone nu --> 10 characters
 // Asssitant Id --> Placeholder format --> like a defined format hint for the admin
 // Passowrd --> specific format hint is given
@@ -284,25 +315,15 @@ export default CreateAssistant;
 
 // Canceled --> Info Alter --> "Cancelled"
 
-
-// The created account should be displayed as a row 
+// The created account should be displayed as a row
 // Add Comments
 
 // use drawer for the 3rd page
 
-
-
 // what is  <form noValidate autoComplete="off"> ??
 // Even if the fileds are not filled --> "create account" the form closes --> whcih is wrong.
 // Check the fileds validation codes properly
-// check the form validation code properly --> should only close the form only if the filefds are 
+// check the form validation code properly --> should only close the form only if the filefds are
 // fillid properly and fileds are filled.
 
-
-
 // the created assiatnt should be stored in the DB and fetched and shown to the user.
-
-
-
-
-
