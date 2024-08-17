@@ -123,6 +123,14 @@ const RegistrationPage = () => {
               placeholder="Re-enter Password"
               name="confirmPassword"
             />
+            <TextField
+              label="Transaction ID of Admission Fee"
+              type="text"
+              value={formValues.transactionId}
+              onChange={handleChange}
+              placeholder="Enter Transaction ID"
+              name="transactionId"
+            />
           </div>
           <div className="actions">
             <Button
