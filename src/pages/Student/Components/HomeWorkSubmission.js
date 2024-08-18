@@ -2,20 +2,20 @@ import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import './homeWorkSubmission.scss';
 import useGetRequest from '../../../hooks/useGetRequest';
-import usePutRequest from '../../../hooks/usePutRequest'; 
+import usePostRequest from '../../../hooks/usePostRequest';
 
 const HomeworkSubmissionComponent = () => {
   const { homeworkId } = useParams();
   const navigate = useNavigate();
   const [expandedLesson, setExpandedLesson] = useState(null);
   const [expandedHomework, setExpandedHomework] = useState(null);
-  const [submissionLinks, setSubmissionLinks] = useState({});
+  const [submissionText, setSubmissionText] = useState({});
   const [submittedHomeworkIds, setSubmittedHomeworkIds] = useState(new Set());
 
   const [lessons, setLessons] = useState([]);
   const { data } = useGetRequest('student/homeworks');
-  const [putData, setPutData] = useState(null);
-  const { response, error, loading } = usePutRequest('student/homework-submissions', putData);
+  const [postData, setPostData] = useState(null);
+  const { response, error, loading } = usePostRequest('student/homework-submissions', postData);
 
   useEffect(() => {
     if (data) {
@@ -53,12 +53,12 @@ const HomeworkSubmissionComponent = () => {
 
   useEffect(() => {
     if (response) {
-      if (putData && putData.homeworkId) {
-        setSubmittedHomeworkIds(prevIds => new Set(prevIds).add(putData.homeworkId));
+      if (postData && postData.homeworkId) {
+        setSubmittedHomeworkIds(prevIds => new Set(prevIds).add(postData.homeworkId));
       }
-      setPutData(null); 
+      setPostData(null);
     }
-  }, [response, putData]);
+  }, [response, postData]);
 
   const toggleLesson = (index) => {
     setExpandedLesson(expandedLesson === index ? null : index);
@@ -73,12 +73,35 @@ const HomeworkSubmissionComponent = () => {
     navigate(`/homework-submission/${selectedHomework._id}#homeworksmore`);
   };
 
-  const handleLinkChange = (homeworkId, value) => {
-    setSubmissionLinks((prevLinks) => ({
-      ...prevLinks,
+  const handleTextChange = (homeworkId, value) => {
+    setSubmissionText((prevText) => ({
+      ...prevText,
       [homeworkId]: value,
     }));
   };
+
+  const submitHomework = (homeworkId) => {
+    const submissionTextValue = submissionText[homeworkId];
+    const studentId = '66bf72a3360ed91fa26e01d2'; // Replace with actual student ID
+
+    if (submissionTextValue) {
+      const selectedLesson = lessons[expandedLesson]; // Get the currently expanded lesson
+      const lessonId = selectedLesson._id; // Assuming each lesson has an _id field
+      console.log('Submitting homework:', homeworkId, 'with text:', submissionTextValue);
+      setPostData({
+        homeworkId,
+        studentId,
+        submissionText: submissionTextValue,
+        lessonId, // Include lessonId in postData
+      });
+
+      // After submitting, navigate to the new URL
+      navigate(`/student/homeworks/homework-submissions/${lessonId}/${homeworkId}`);
+    } else {
+      alert('Please enter the submission text');
+    }
+  };
+  
 
   const updateHomework = (homeworkId) => {
     console.log('Updating homework with ID:', homeworkId);
@@ -86,21 +109,6 @@ const HomeworkSubmissionComponent = () => {
 
   const deleteHomework = (homeworkId) => {
     console.log('Deleting homework with ID:', homeworkId);
-  };
-
-  const submitHomework = (homeworkId) => {
-    const submissionLink = submissionLinks[homeworkId];
-    const studentId = 'studentId123'; 
-
-    if (submissionLink) {
-      setPutData({
-        homeworkId,
-        studentId,
-        submissionLink,
-      });
-    } else {
-      alert('Please enter a submission link');
-    }
   };
 
   const getTimeLeft = (deadline) => {
@@ -166,14 +174,14 @@ const HomeworkSubmissionComponent = () => {
                           <strong>Time Left:</strong>{' '}
                           {getTimeLeft(homework.deadline)}
                         </div>
-                        <div className="submit-link">
+                        <div className="submit-text">
                           <div>
                             <input
                               type="text"
-                              placeholder="Enter Google link"
-                              value={submissionLinks[homework._id] || ''}
+                              placeholder="Enter your submission text"
+                              value={submissionText[homework._id] || ''}
                               onChange={(e) =>
-                                handleLinkChange(homework._id, e.target.value)
+                                handleTextChange(homework._id, e.target.value)
                               }
                               disabled={submittedHomeworkIds.has(homework._id)}
                             />
