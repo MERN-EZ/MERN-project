@@ -3,30 +3,34 @@ import { useParams, useNavigate } from 'react-router-dom';
 import './profile.scss';
 import useGetRequest from '../../../hooks/useGetRequest';
 
-const ProfileComponent = () => {
+const ProfilePage = () => {
     const { id } = useParams(); // Get the user ID from the URL
     const navigate = useNavigate();
     
     // Fetch user data from MongoDB using useGetRequest
     const { data, error, loading } = useGetRequest(`student/users/${id}`);
-    const [user, setUser] = useState(null);
+    const [student, setStudent] = useState(null);
 
     useEffect(() => {
         if (data) {
-            setUser(data);
+            setStudent(data);
         }
     }, [data]);
+
+    console.log('Loading:', loading);
+    console.log('Error:', error);
+    console.log('Student Data:', student);
 
     if (loading) {
         return <div>Loading...</div>;
     }
 
-    if (error || !user) {
+    if (error || !student) {
         return <div>{error || 'User not found'}</div>;
     }
 
     const handleEditProfileClick = () => {
-        navigate('/edit-profile', { state: { name: user.username } });
+        navigate('/edit-profile', { state: { name: student.username } });
     };
 
     const handlePaymentsClick = () => {
@@ -47,7 +51,7 @@ const ProfileComponent = () => {
                     <div className="profile-details">
                         <div className="profile-field">
                             <label>Name:</label>
-                            <span>{user.username}</span>
+                            <span>{student.username}</span>
                         </div>
                         <div className="profile-field">
                             <label>Password:</label>
@@ -56,15 +60,15 @@ const ProfileComponent = () => {
                         </div>
                         <div className="profile-field">
                             <label>Email address:</label>
-                            <span>{user.email}</span>
+                            <span>{student.email}</span>
                         </div>
                         <div className="profile-field">
                             <label>Contact no:</label>
-                            <span>{user.contactNo}</span>
+                            <span>{student.contactNo}</span>
                         </div>
                         <div className="profile-field">
                             <label>Year:</label>
-                            <span>{user.batch}</span>
+                            <span>{student.batch}</span>
                         </div>
                     </div>
                     <button className="edit-profile-btn" onClick={handleEditProfileClick}>
@@ -73,8 +77,8 @@ const ProfileComponent = () => {
                 </div>
                 <div className="class-details-container">
                     <div className="class-info">
-                        <h3>{user.classInfo.title}</h3>
-                        <p>{user.classInfo.location}</p>
+                        <h3>{student.classInfo.title}</h3>
+                        <p>{student.classInfo.location}</p>
                     </div>
                     <div className="class-actions">
                         <button className="payment-btn" onClick={handlePaymentsClick}>Payments</button>
@@ -86,4 +90,4 @@ const ProfileComponent = () => {
     );
 };
 
-export default ProfileComponent;
+export default ProfilePage;
