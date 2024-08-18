@@ -15,13 +15,13 @@ const HomeworkSubmissionComponent = () => {
   const [lessons, setLessons] = useState([]);
   const { data } = useGetRequest('student/homeworks');
   const [postData, setPostData] = useState(null);
-  const [postEndPoint , setPostEndpoint] = useState(null);
+  const [postEndPoint, setPostEndpoint] = useState(null);
   const { response, error, loading } = usePostRequest(postEndPoint, postData);
 
   useEffect(() => {
     if (data) {
       const groupedLessons = data.reduce((acc, item) => {
-        const existingLesson = acc.find(lesson => lesson._id === item._id);
+        const existingLesson = acc.find((lesson) => lesson._id === item._id);
         if (existingLesson) {
           existingLesson.homework.push(item.homework);
         } else {
@@ -33,7 +33,7 @@ const HomeworkSubmissionComponent = () => {
         }
         return acc;
       }, []);
-      
+
       setLessons(groupedLessons);
     }
   }, [data]);
@@ -56,7 +56,10 @@ const HomeworkSubmissionComponent = () => {
   useEffect(() => {
     if (response) {
       if (postData && postData.homeworkId) {
-        setSubmittedHomeworkIds(prevIds => new Set(prevIds).add(postData.homeworkId));
+        console.log(postData)
+        setSubmittedHomeworkIds((prevIds) =>
+          new Set(prevIds).add(postData.homeworkId)
+        );
       }
       setPostData(null);
     }
@@ -85,27 +88,33 @@ const HomeworkSubmissionComponent = () => {
   const submitHomework = (homeworkId) => {
     const submissionTextValue = submissionText[homeworkId];
     const studentId = '66bf72a3360ed91fa26e01d2'; // Replace with actual student ID
-  
+
     if (submissionTextValue) {
       const selectedLesson = lessons[expandedLesson]; // Get the currently expanded lesson
       console.log('Selected Lesson:', selectedLesson);
       const lessonId = selectedLesson._id; // Using _id for the lesson
       console.log('Selected lesson:', lessonId);
-      console.log('Submitting homework:', homeworkId, 'with text:', submissionTextValue);
-      
-      setPostEndpoint(`student/homework-submissions/${lessonId}/${homeworkId}`);
+      console.log(
+        'Submitting homework:',
+        homeworkId,
+        'with text:',
+        submissionTextValue
+      );
+
+      setPostEndpoint(
+        `student/homeworks/homework-submissions/${lessonId}/${homeworkId}`
+      );
 
       setPostData({
         studentId,
         submissionText: submissionTextValue,
+        homeworkId
       });
       // navigate(`/student/homeworks/homework-submissions/${lessonId}/${homeworkId}`);
     } else {
       alert('Please enter the submission text');
     }
   };
-  
-  
 
   const updateHomework = (homeworkId) => {
     console.log('Updating homework with ID:', homeworkId);
@@ -125,7 +134,9 @@ const HomeworkSubmissionComponent = () => {
     }
 
     const days = Math.floor(timeDiff / (1000 * 60 * 60 * 24));
-    const hours = Math.floor((timeDiff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    const hours = Math.floor(
+      (timeDiff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
+    );
     const minutes = Math.floor((timeDiff % (1000 * 60 * 60)) / (1000 * 60));
 
     return `${days} days, ${hours} hours, and ${minutes} minutes left`;
@@ -150,10 +161,7 @@ const HomeworkSubmissionComponent = () => {
             <div className="homework-list">
               {lesson.homework.length > 0 ? (
                 lesson.homework.map((homework, homeworkIndex) => (
-                  <div
-                    key={homework._id}
-                    className="homework-item"
-                  >
+                  <div key={homework._id} className="homework-item">
                     <div
                       className="homework-header"
                       onClick={() => toggleHomework(lessonIndex, homeworkIndex)}
@@ -198,8 +206,12 @@ const HomeworkSubmissionComponent = () => {
                           >
                             Submit Homework
                           </button>
-                          <button onClick={() => updateHomework(homework._id)}>Update Homework</button>
-                          <button onClick={() => deleteHomework(homework._id)}>Delete Homework</button>
+                          <button onClick={() => updateHomework(homework._id)}>
+                            Update Homework
+                          </button>
+                          <button onClick={() => deleteHomework(homework._id)}>
+                            Delete Homework
+                          </button>
                         </div>
                       </div>
                     )}
