@@ -54,11 +54,11 @@ const GuestHomePage = () => {
                 <p>Ongoing Lesson: {course.ongoingLesson}</p>
                 <p>
                   Admission Fee: Rs.{' '}
-                  {course.admissionFee ? course.admissionFee.toFixed(2) : 'N/A'}
+                  {course.admissionFee ? course.admissionFee.toFixed(2) : '-'}
                 </p>
                 <p>
                   Monthly Fee: Rs.{' '}
-                  {course.monthlyFee ? course.monthlyFee.toFixed(2) : 'N/A'}
+                  {course.monthlyFee ? course.monthlyFee.toFixed(2) : '-'}
                 </p>
                 <p>
                   To complete your registration, please pay the admission fee.
