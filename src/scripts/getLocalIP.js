@@ -20,7 +20,7 @@ const localIP = getLocalIP();
 if (localIP) {
   const rootPath = path.join(__dirname, '../..');
   const envPath = path.join(rootPath, '.env');
-  fs.writeFileSync(envPath, `REACT_APP_LOCAL_IP=${localIP}\n`);
+  //fs.writeFileSync(envPath, `REACT_APP_LOCAL_IP=${localIP}\n`);
   console.log(`Local IP address saved to ${envPath}`);
 } else {
   console.error('Unable to find local IP address.');
