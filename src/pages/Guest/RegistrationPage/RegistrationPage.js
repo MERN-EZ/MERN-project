@@ -15,12 +15,12 @@ const RegistrationPage = () => {
     firstName: '',
     lastName: '',
     yearOfOLs: year || '', // Pre-fill year if available
-    classLocation: '',
     contactNumber: '',
     email: '',
     username: '',
     password: '',
     confirmPassword: '',
+    transactionId: '',
   });
 
   const handleChange = (e) => {
@@ -80,7 +80,7 @@ const RegistrationPage = () => {
               name="lastName"
             />
             <TextField
-              label="Year of OLs"
+              label="Year of ALs"
               value={formValues.yearOfOLs}
               onChange={handleChange}
               placeholder="2025"
