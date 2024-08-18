@@ -8,7 +8,7 @@ const ProfilePage = () => {
     const navigate = useNavigate();
     
     // Fetch user data from MongoDB using useGetRequest
-    const { data, error, loading } = useGetRequest(`student/users/${id}`);
+    const { data, error, loading } = useGetRequest(`student/users/2024-0004`);
     const [student, setStudent] = useState(null);
 
     useEffect(() => {
