@@ -20,10 +20,13 @@ const StudentRoutes = () => (
     <Route path="/payments" element={<Payments />} />
     <Route path="/homework-submission" element={<HomeworkSubmission />} />
     <Route
+      path="/homework-submission/:lessonId/:homeworkId"
+      element={<HomeworkSubmission />} />
+    
+    <Route
       path="/homework-submission/:homeworkId"
-      element={<HomeworkSubmission />}
-    />
-
+      element={<HomeworkSubmission />} />
+    
     <Route path="*" element={<NotFound />} />
   </Routes>
 );

@@ -15,16 +15,18 @@ const HomeworkSubmissionComponent = () => {
   const [lessons, setLessons] = useState([]);
   const { data } = useGetRequest('student/homeworks');
   const [postData, setPostData] = useState(null);
-  const { response, error, loading } = usePostRequest('student/homework-submissions', postData);
+  const [postEndPoint , setPostEndpoint] = useState(null);
+  const { response, error, loading } = usePostRequest(postEndPoint, postData);
 
   useEffect(() => {
     if (data) {
       const groupedLessons = data.reduce((acc, item) => {
-        const existingLesson = acc.find(lesson => lesson.title === item.title);
+        const existingLesson = acc.find(lesson => lesson._id === item._id);
         if (existingLesson) {
           existingLesson.homework.push(item.homework);
         } else {
           acc.push({
+            _id: item._id, // Ensure _id is included
             title: item.title,
             homework: [item.homework],
           });
@@ -83,24 +85,26 @@ const HomeworkSubmissionComponent = () => {
   const submitHomework = (homeworkId) => {
     const submissionTextValue = submissionText[homeworkId];
     const studentId = '66bf72a3360ed91fa26e01d2'; // Replace with actual student ID
-
+  
     if (submissionTextValue) {
       const selectedLesson = lessons[expandedLesson]; // Get the currently expanded lesson
-      const lessonId = selectedLesson._id; // Assuming each lesson has an _id field
+      console.log('Selected Lesson:', selectedLesson);
+      const lessonId = selectedLesson._id; // Using _id for the lesson
+      console.log('Selected lesson:', lessonId);
       console.log('Submitting homework:', homeworkId, 'with text:', submissionTextValue);
+      
+      setPostEndpoint(`student/homework-submissions/${lessonId}/${homeworkId}`);
+
       setPostData({
-        homeworkId,
         studentId,
         submissionText: submissionTextValue,
-        lessonId, // Include lessonId in postData
       });
-
-      // After submitting, navigate to the new URL
-      navigate(`/student/homeworks/homework-submissions/${lessonId}/${homeworkId}`);
+      // navigate(`/student/homeworks/homework-submissions/${lessonId}/${homeworkId}`);
     } else {
       alert('Please enter the submission text');
     }
   };
+  
   
 
   const updateHomework = (homeworkId) => {
