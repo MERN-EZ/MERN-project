@@ -200,6 +200,20 @@ const HomeworkSubmissionComponent = () => {
     return `${days} days, ${hours} hours, and ${minutes} minutes left`;
   };
 
+  const convertToSriLankanTime = (utcDate) => {
+    const date = new Date(utcDate);
+    const options = {
+        timeZone: 'Asia/Colombo', // Timezone for Sri Lanka
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit',
+        second: '2-digit'
+    };
+    return date.toLocaleString('en-US', options);
+};
+
   if (getLoading || postLoading || putLoading) {
     return <div>Loading...</div>;
   }
@@ -249,10 +263,7 @@ const HomeworkSubmissionComponent = () => {
                           <strong>Description:</strong> {homework.description}
                         </p>
                         <p>
-                          <strong>Deadline:</strong> {homework.deadline}
-                        </p>
-                        <p>
-                          <strong>Reminders:</strong> {homework.reminders}
+                        <strong>Deadline:</strong> {convertToSriLankanTime(homework.deadline)}
                         </p>
                         <p>
                           <strong>Time left:</strong> {getTimeLeft(homework.deadline)}
