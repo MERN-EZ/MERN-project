@@ -3,6 +3,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import './homeWorkSubmission.scss';
 import useGetRequest from '../../../hooks/useGetRequest';
 import usePostRequest from '../../../hooks/usePostRequest';
+import usePutRequest from './../../../hooks/usePutRequest';
 
 const HomeworkSubmissionComponent = () => {
   const { homeworkId } = useParams();
@@ -11,22 +12,34 @@ const HomeworkSubmissionComponent = () => {
   const [expandedHomework, setExpandedHomework] = useState(null);
   const [submissionText, setSubmissionText] = useState({});
   const [submittedHomeworkIds, setSubmittedHomeworkIds] = useState(new Set());
+  const [editableHomeworkId, setEditableHomeworkId] = useState(null);
 
   const [lessons, setLessons] = useState([]);
-  const { data } = useGetRequest('student/homeworks');
+
   const [postData, setPostData] = useState(null);
   const [postEndPoint, setPostEndpoint] = useState(null);
-  const { response, error, loading } = usePostRequest(postEndPoint, postData);
+
+  const { data, error: getError, loading: getLoading } = useGetRequest('student/homeworks', []);
+  const { response, error: postError, loading: postLoading } = usePostRequest(postEndPoint, postData);
+
+  const [putData, setPutData] = useState(null);
+  const [putEndpoint, setPutEndpoint] = useState(null);
+  const { response: putResponse, error: putError, loading: putLoading } = usePutRequest(putEndpoint, putData);
+
+  useEffect(() => {
+    console.log('Updated submittedHomeworkIds:', submittedHomeworkIds);
+  }, [submittedHomeworkIds]);
 
   useEffect(() => {
     if (data) {
+      console.log('Homework data:', data);
       const groupedLessons = data.reduce((acc, item) => {
         const existingLesson = acc.find((lesson) => lesson._id === item._id);
         if (existingLesson) {
           existingLesson.homework.push(item.homework);
         } else {
           acc.push({
-            _id: item._id, // Ensure _id is included
+            _id: item._id,
             title: item.title,
             homework: [item.homework],
           });
@@ -34,7 +47,26 @@ const HomeworkSubmissionComponent = () => {
         return acc;
       }, []);
 
-      setLessons(groupedLessons);
+      const flattenedLessons = groupedLessons.map((lesson) => ({
+        ...lesson,
+        homework: lesson.homework.flat(),
+      }));
+
+      setLessons(flattenedLessons);
+
+      const studentId = '66bf72a3360ed91fa26e01d2';
+      setSubmittedHomeworkIds((prevIds) => {
+        const newIds = new Set(prevIds);
+        flattenedLessons.forEach((lesson) => {
+          lesson.homework.forEach((hw) => {
+            if (hw.submissions && hw.submissions.some((sub) => sub.studentId === studentId)) {
+              newIds.add(hw._id);
+            }
+          });
+        });
+        console.log('New submitted homework IDs:', newIds);
+        return newIds;
+      });
     }
   }, [data]);
 
@@ -56,7 +88,6 @@ const HomeworkSubmissionComponent = () => {
   useEffect(() => {
     if (response) {
       if (postData && postData.homeworkId) {
-        console.log(postData)
         setSubmittedHomeworkIds((prevIds) =>
           new Set(prevIds).add(postData.homeworkId)
         );
@@ -64,6 +95,14 @@ const HomeworkSubmissionComponent = () => {
       setPostData(null);
     }
   }, [response, postData]);
+
+  useEffect(() => {
+    if (putResponse) {
+      console.log('Homework updated successfully:', putResponse);
+      setEditableHomeworkId(null); // Disable edit mode after successful update
+      setPutData(null);
+    }
+  }, [putResponse]);
 
   const toggleLesson = (index) => {
     setExpandedLesson(expandedLesson === index ? null : index);
@@ -75,6 +114,7 @@ const HomeworkSubmissionComponent = () => {
     const selectedHomework = lessons[lessonIndex].homework[homeworkIndex];
     setExpandedHomework(homeworkIndex);
     setExpandedLesson(lessonIndex);
+    setEditableHomeworkId(null); // Exit edit mode when toggling homework
     navigate(`/homework-submission/${selectedHomework._id}#homeworksmore`);
   };
 
@@ -91,15 +131,7 @@ const HomeworkSubmissionComponent = () => {
 
     if (submissionTextValue) {
       const selectedLesson = lessons[expandedLesson]; // Get the currently expanded lesson
-      console.log('Selected Lesson:', selectedLesson);
       const lessonId = selectedLesson._id; // Using _id for the lesson
-      console.log('Selected lesson:', lessonId);
-      console.log(
-        'Submitting homework:',
-        homeworkId,
-        'with text:',
-        submissionTextValue
-      );
 
       setPostEndpoint(
         `student/homeworks/homework-submissions/${lessonId}/${homeworkId}`
@@ -108,20 +140,46 @@ const HomeworkSubmissionComponent = () => {
       setPostData({
         studentId,
         submissionText: submissionTextValue,
-        homeworkId
+        homeworkId,
       });
-      // navigate(`/student/homeworks/homework-submissions/${lessonId}/${homeworkId}`);
     } else {
       alert('Please enter the submission text');
     }
   };
 
   const updateHomework = (homeworkId) => {
-    console.log('Updating homework with ID:', homeworkId);
+    const submissionTextValue = submissionText[homeworkId];
+    const studentId = '66bf72a3360ed91fa26e01d2'; // Replace with actual student ID
+
+    if (submissionTextValue) {
+      const selectedLesson = lessons[expandedLesson]; // Get the currently expanded lesson
+      const lessonId = selectedLesson._id; // Using _id for the lesson
+
+      setPutEndpoint(
+        `student/homeworks/homework-submissions/${homeworkId}/${studentId}`
+      );
+
+      setPutData({
+        lessonId,
+        studentId,
+        submissionText: submissionTextValue,
+      });
+    } else {
+      alert('Please enter the submission text');
+    }
   };
 
   const deleteHomework = (homeworkId) => {
     console.log('Deleting homework with ID:', homeworkId);
+  };
+
+  const isHomeworkSubmitted = (homeworkId) => {
+    const isSubmitted = submittedHomeworkIds.has(homeworkId);
+    return isSubmitted;
+  };
+
+  const enableEditMode = (homeworkId) => {
+    setEditableHomeworkId(homeworkId);
   };
 
   const getTimeLeft = (deadline) => {
@@ -142,8 +200,20 @@ const HomeworkSubmissionComponent = () => {
     return `${days} days, ${hours} hours, and ${minutes} minutes left`;
   };
 
+  if (getLoading || postLoading || putLoading) {
+    return <div>Loading...</div>;
+  }
+
+  if (getError || postError || putError) {
+    return (
+      <div className="error">
+        An error occurred: {getError?.message || postError?.message || putError?.message}
+      </div>
+    );
+  }
+
   return (
-    <div className="homework-submission-container">
+    <div className="homework-submission-container" key={submittedHomeworkIds.size}>
       {lessons.map((lesson, lessonIndex) => (
         <div key={lessonIndex} className="lesson-section">
           <div
@@ -170,63 +240,72 @@ const HomeworkSubmissionComponent = () => {
                         Homework {homeworkIndex + 1}: {homework.title}
                       </span>
                       <span
-                        className={`arrow ${
-                          expandedHomework === homeworkIndex ? 'up' : 'down'
-                        }`}
+                        className={`arrow ${expandedHomework === homeworkIndex ? 'up' : 'down'}`}
                       ></span>
                     </div>
                     {expandedHomework === homeworkIndex && (
                       <div className="homework-details">
-                        <p>{homework.description}</p>
-                        <div className="deadline">
-                          <strong>Deadline:</strong>{' '}
-                          {new Date(homework.deadline).toLocaleString()}
-                        </div>
-                        <div className="time-left">
-                          <strong>Time Left:</strong>{' '}
-                          {getTimeLeft(homework.deadline)}
-                        </div>
-                        <div className="submit-text">
-                          <div>
-                            <input
-                              type="text"
-                              placeholder="Enter your submission text"
-                              value={submissionText[homework._id] || ''}
-                              onChange={(e) =>
-                                handleTextChange(homework._id, e.target.value)
+                        <p>
+                          <strong>Description:</strong> {homework.description}
+                        </p>
+                        <p>
+                          <strong>Deadline:</strong> {homework.deadline}
+                        </p>
+                        <p>
+                          <strong>Reminders:</strong> {homework.reminders}
+                        </p>
+                        <p>
+                          <strong>Time left:</strong> {getTimeLeft(homework.deadline)}
+                        </p>
+                        <textarea
+                          value={submissionText[homework._id] || ''}
+                          onChange={(e) =>
+                            handleTextChange(homework._id, e.target.value)
+                          }
+                          placeholder="Enter your submission here..."
+                          disabled={isHomeworkSubmitted(homework._id) && editableHomeworkId !== homework._id}
+                          className="submission-textarea"
+                        ></textarea>
+                        <div className="button-container">
+                          {isHomeworkSubmitted(homework._id) && editableHomeworkId !== homework._id ? (
+                            <>
+                              <button
+                                onClick={() => enableEditMode(homework._id)}
+                                className="update-btn"
+                              >
+                                Update Homework
+                              </button>
+                              <button
+                                onClick={() => deleteHomework(homework._id)}
+                                className="delete-btn"
+                              >
+                                Delete Homework
+                              </button>
+                            </>
+                          ) : (
+                            <button
+                              onClick={() =>
+                                isHomeworkSubmitted(homework._id)
+                                  ? updateHomework(homework._id)
+                                  : submitHomework(homework._id)
                               }
-                              disabled={submittedHomeworkIds.has(homework._id)}
-                            />
-                          </div>
-                        </div>
-                        <div className="submit-btn">
-                          <button
-                            onClick={() => submitHomework(homework._id)}
-                            disabled={submittedHomeworkIds.has(homework._id)}
-                          >
-                            Submit Homework
-                          </button>
-                          <button onClick={() => updateHomework(homework._id)}>
-                            Update Homework
-                          </button>
-                          <button onClick={() => deleteHomework(homework._id)}>
-                            Delete Homework
-                          </button>
+                              className="submit-btn"
+                            >
+                              {editableHomeworkId === homework._id ? 'Save' : 'Submit Homework'}
+                            </button>
+                          )}
                         </div>
                       </div>
                     )}
                   </div>
                 ))
               ) : (
-                <p>No homework assigned for this lesson.</p>
+                <p>No homework available for this lesson.</p>
               )}
             </div>
           )}
         </div>
       ))}
-      {loading && <p>Submitting...</p>}
-      {response && <p>Homework submitted successfully!</p>}
-      {error && <p>Error: {error.message}</p>}
     </div>
   );
 };
