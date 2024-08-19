@@ -2,39 +2,42 @@ import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import './homeWorkSubmission.scss';
 import useGetRequest from '../../../hooks/useGetRequest';
+import usePostRequest from '../../../hooks/usePostRequest';
 
 const HomeworkSubmissionComponent = () => {
   const { homeworkId } = useParams();
-  const navigate = useNavigate(); 
+  const navigate = useNavigate();
   const [expandedLesson, setExpandedLesson] = useState(null);
   const [expandedHomework, setExpandedHomework] = useState(null);
-  const [submissionLinks, setSubmissionLinks] = useState({});
-  const [submittedHomeworkIds, setSubmittedHomeworkIds] = useState(new Set()); 
+  const [submissionText, setSubmissionText] = useState({});
+  const [submittedHomeworkIds, setSubmittedHomeworkIds] = useState(new Set());
 
   const [lessons, setLessons] = useState([]);
   const { data } = useGetRequest('student/homeworks');
+  const [postData, setPostData] = useState(null);
+  const [postEndPoint, setPostEndpoint] = useState(null);
+  const { response, error, loading } = usePostRequest(postEndPoint, postData);
 
   useEffect(() => {
     if (data) {
-      // Group the homework by lesson title
       const groupedLessons = data.reduce((acc, item) => {
-        const existingLesson = acc.find(lesson => lesson.title === item.title);
+        const existingLesson = acc.find((lesson) => lesson._id === item._id);
         if (existingLesson) {
           existingLesson.homework.push(item.homework);
         } else {
           acc.push({
+            _id: item._id, // Ensure _id is included
             title: item.title,
             homework: [item.homework],
           });
         }
         return acc;
       }, []);
-      
+
       setLessons(groupedLessons);
     }
   }, [data]);
 
-  // Automatically expand the lesson and homework based on the homeworkId in the URL
   useEffect(() => {
     if (homeworkId && lessons.length > 0) {
       for (let i = 0; i < lessons.length; i++) {
@@ -50,6 +53,18 @@ const HomeworkSubmissionComponent = () => {
     }
   }, [homeworkId, lessons]);
 
+  useEffect(() => {
+    if (response) {
+      if (postData && postData.homeworkId) {
+        console.log(postData)
+        setSubmittedHomeworkIds((prevIds) =>
+          new Set(prevIds).add(postData.homeworkId)
+        );
+      }
+      setPostData(null);
+    }
+  }, [response, postData]);
+
   const toggleLesson = (index) => {
     setExpandedLesson(expandedLesson === index ? null : index);
     setExpandedHomework(null);
@@ -63,19 +78,42 @@ const HomeworkSubmissionComponent = () => {
     navigate(`/homework-submission/${selectedHomework._id}#homeworksmore`);
   };
 
-  const handleLinkChange = (homeworkId, value) => {
-    setSubmissionLinks((prevLinks) => ({
-      ...prevLinks,
+  const handleTextChange = (homeworkId, value) => {
+    setSubmissionText((prevText) => ({
+      ...prevText,
       [homeworkId]: value,
     }));
   };
 
   const submitHomework = (homeworkId) => {
-    console.log('Submitting homework with ID:', homeworkId);
-    setTimeout(() => {
-      setSubmittedHomeworkIds((prev) => new Set(prev).add(homeworkId));
-      console.log(`Homework with ID ${homeworkId} submitted successfully!`);
-    }, 1000);
+    const submissionTextValue = submissionText[homeworkId];
+    const studentId = '66bf72a3360ed91fa26e01d2'; // Replace with actual student ID
+
+    if (submissionTextValue) {
+      const selectedLesson = lessons[expandedLesson]; // Get the currently expanded lesson
+      console.log('Selected Lesson:', selectedLesson);
+      const lessonId = selectedLesson._id; // Using _id for the lesson
+      console.log('Selected lesson:', lessonId);
+      console.log(
+        'Submitting homework:',
+        homeworkId,
+        'with text:',
+        submissionTextValue
+      );
+
+      setPostEndpoint(
+        `student/homeworks/homework-submissions/${lessonId}/${homeworkId}`
+      );
+
+      setPostData({
+        studentId,
+        submissionText: submissionTextValue,
+        homeworkId
+      });
+      // navigate(`/student/homeworks/homework-submissions/${lessonId}/${homeworkId}`);
+    } else {
+      alert('Please enter the submission text');
+    }
   };
 
   const updateHomework = (homeworkId) => {
@@ -96,7 +134,9 @@ const HomeworkSubmissionComponent = () => {
     }
 
     const days = Math.floor(timeDiff / (1000 * 60 * 60 * 24));
-    const hours = Math.floor((timeDiff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    const hours = Math.floor(
+      (timeDiff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
+    );
     const minutes = Math.floor((timeDiff % (1000 * 60 * 60)) / (1000 * 60));
 
     return `${days} days, ${hours} hours, and ${minutes} minutes left`;
@@ -117,68 +157,76 @@ const HomeworkSubmissionComponent = () => {
               className={`arrow ${expandedLesson === lessonIndex ? 'up' : 'down'}`}
             ></span>
           </div>
-          {expandedLesson === lessonIndex && lesson.homework.length > 0 && (
+          {expandedLesson === lessonIndex && (
             <div className="homework-list">
-              {lesson.homework.map((homework, homeworkIndex) => (
-                <div
-                  key={homework._id}
-                  className="homework-item"
-                >
-                  <div
-                    className="homework-header"
-                    onClick={() => toggleHomework(lessonIndex, homeworkIndex)}
-                  >
-                    <span>
-                      Homework {homeworkIndex + 1}: {homework.title}
-                    </span>
-                    <span
-                      className={`arrow ${
-                        expandedHomework === homeworkIndex ? 'up' : 'down'
-                      }`}
-                    ></span>
-                  </div>
-                  {expandedHomework === homeworkIndex && (
-                    <div className="homework-details">
-                      <p>{homework.description}</p>
-                      <div className="deadline">
-                        <strong>Deadline:</strong>{' '}
-                        {new Date(homework.deadline).toLocaleString()}
-                      </div>
-                      <div className="time-left">
-                        <strong>Time Left:</strong>{' '}
-                        {getTimeLeft(homework.deadline)}
-                      </div>
-                      <div className="submit-link">
-                        <div>
-                          <input
-                            type="text"
-                            placeholder="Enter Google link"
-                            value={submissionLinks[homework._id] || ''}
-                            onChange={(e) =>
-                              handleLinkChange(homework._id, e.target.value)
-                            }
+              {lesson.homework.length > 0 ? (
+                lesson.homework.map((homework, homeworkIndex) => (
+                  <div key={homework._id} className="homework-item">
+                    <div
+                      className="homework-header"
+                      onClick={() => toggleHomework(lessonIndex, homeworkIndex)}
+                    >
+                      <span>
+                        Homework {homeworkIndex + 1}: {homework.title}
+                      </span>
+                      <span
+                        className={`arrow ${
+                          expandedHomework === homeworkIndex ? 'up' : 'down'
+                        }`}
+                      ></span>
+                    </div>
+                    {expandedHomework === homeworkIndex && (
+                      <div className="homework-details">
+                        <p>{homework.description}</p>
+                        <div className="deadline">
+                          <strong>Deadline:</strong>{' '}
+                          {new Date(homework.deadline).toLocaleString()}
+                        </div>
+                        <div className="time-left">
+                          <strong>Time Left:</strong>{' '}
+                          {getTimeLeft(homework.deadline)}
+                        </div>
+                        <div className="submit-text">
+                          <div>
+                            <input
+                              type="text"
+                              placeholder="Enter your submission text"
+                              value={submissionText[homework._id] || ''}
+                              onChange={(e) =>
+                                handleTextChange(homework._id, e.target.value)
+                              }
+                              disabled={submittedHomeworkIds.has(homework._id)}
+                            />
+                          </div>
+                        </div>
+                        <div className="submit-btn">
+                          <button
+                            onClick={() => submitHomework(homework._id)}
                             disabled={submittedHomeworkIds.has(homework._id)}
-                          />
+                          >
+                            Submit Homework
+                          </button>
+                          <button onClick={() => updateHomework(homework._id)}>
+                            Update Homework
+                          </button>
+                          <button onClick={() => deleteHomework(homework._id)}>
+                            Delete Homework
+                          </button>
                         </div>
                       </div>
-                      <div className="submit-btn">
-                        <button
-                          onClick={() => submitHomework(homework._id)}
-                          disabled={submittedHomeworkIds.has(homework._id)}
-                        >
-                          Submit Homework
-                        </button>
-                        <button onClick={() => updateHomework(homework._id)}>Update Homework</button>
-                        <button onClick={() => deleteHomework(homework._id)}>Delete Homework</button>
-                      </div>
-                    </div>
-                  )}
-                </div>
-              ))}
+                    )}
+                  </div>
+                ))
+              ) : (
+                <p>No homework assigned for this lesson.</p>
+              )}
             </div>
           )}
         </div>
       ))}
+      {loading && <p>Submitting...</p>}
+      {response && <p>Homework submitted successfully!</p>}
+      {error && <p>Error: {error.message}</p>}
     </div>
   );
 };
