@@ -289,7 +289,7 @@ const HomeworkSubmissionComponent = () => {
                                   ? updateHomework(homework._id)
                                   : submitHomework(homework._id)
                               }
-                              className="submit-btn"
+                              
                             >
                               {editableHomeworkId === homework._id ? 'Save' : 'Submit Homework'}
                             </button>
