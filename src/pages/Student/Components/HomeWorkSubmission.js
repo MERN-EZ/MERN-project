@@ -20,20 +20,32 @@ const HomeworkSubmissionComponent = () => {
   const [postData, setPostData] = useState(null);
   const [postEndPoint, setPostEndpoint] = useState(null);
 
-  const { data, error: getError, loading: getLoading } = useGetRequest('student/homeworks', []);
-  const { response, error: postError, loading: postLoading } = usePostRequest(postEndPoint, postData);
+  const {
+    data,
+    error: getError,
+    loading: getLoading,
+  } = useGetRequest('student/homeworks', []);
+  const {
+    response,
+    error: postError,
+    loading: postLoading,
+  } = usePostRequest(postEndPoint, postData);
 
   const [putData, setPutData] = useState(null);
   const [putEndpoint, setPutEndpoint] = useState(null);
-  const { response: putResponse, error: putError, loading: putLoading } = usePutRequest(putEndpoint, putData);
+  const {
+    response: putResponse,
+    error: putError,
+    loading: putLoading,
+  } = usePutRequest(putEndpoint, putData);
 
   const [deleteSubmissionData, setDeleteSubmissionData] = useState({
     homeworkId: null,
     studentId: null,
   });
-  const { data: deleteResponse, error: deleteError } = useDeleteRequest(
-    `student/homeworks/homework-submissions/${deleteSubmissionData.homeworkId}/${deleteSubmissionData.studentId}`
-  );
+  const [deleteEndpoint, setDeleteEndpoint] = useState(null);
+  const { data: deleteResponse, error: deleteError } =
+    useDeleteRequest(deleteEndpoint);
 
   useEffect(() => {
     console.log('Updated submittedHomeworkIds:', submittedHomeworkIds);
@@ -68,7 +80,10 @@ const HomeworkSubmissionComponent = () => {
         const newIds = new Set(prevIds);
         flattenedLessons.forEach((lesson) => {
           lesson.homework.forEach((hw) => {
-            if (hw.submissions && hw.submissions.some((sub) => sub.studentId === studentId)) {
+            if (
+              hw.submissions &&
+              hw.submissions.some((sub) => sub.studentId === studentId)
+            ) {
               newIds.add(hw._id);
             }
           });
@@ -110,6 +125,7 @@ const HomeworkSubmissionComponent = () => {
       console.log('Homework updated successfully:', putResponse);
       setEditableHomeworkId(null); // Disable edit mode after successful update
       setPutData(null);
+      setPutEndpoint(null);
     }
   }, [putResponse]);
 
@@ -128,9 +144,14 @@ const HomeworkSubmissionComponent = () => {
         return newIds;
       });
       setDeleteSubmissionData({ homeworkId: null, studentId: null });
+      setDeleteEndpoint(null);
     }
-  }, [deleteResponse, deleteSubmissionData.homeworkId, deleteSubmissionData.studentId]);
-  
+  }, [
+    deleteResponse,
+    deleteSubmissionData.homeworkId,
+    deleteSubmissionData.studentId,
+  ]);
+
   useEffect(() => {
     if (deleteError) {
       console.error('Error deleting submission:', deleteError);
@@ -143,6 +164,9 @@ const HomeworkSubmissionComponent = () => {
       homeworkId,
       studentId: '66bf72a3360ed91fa26e01d2', // Replace with actual student ID
     });
+    setDeleteEndpoint(
+      `student/homeworks/homework-submissions/${deleteSubmissionData.homeworkId}/${deleteSubmissionData.studentId}`
+    );
   };
 
   const toggleHomework = (lessonIndex, homeworkIndex) => {
@@ -159,8 +183,6 @@ const HomeworkSubmissionComponent = () => {
       [homeworkId]: value,
     }));
   };
-
-  
 
   const submitHomework = (homeworkId) => {
     const submissionTextValue = submissionText[homeworkId];
@@ -206,8 +228,6 @@ const HomeworkSubmissionComponent = () => {
     }
   };
 
- 
-
   const isHomeworkSubmitted = (homeworkId) => {
     console.log('submittedHomeworkIds:', submittedHomeworkIds);
     console.log('Type of submittedHomeworkIds:', typeof submittedHomeworkIds);
@@ -215,7 +235,6 @@ const HomeworkSubmissionComponent = () => {
     const isSubmitted = submittedHomeworkIds.has(homeworkId);
     return isSubmitted;
   };
-  
 
   const enableEditMode = (homeworkId) => {
     setEditableHomeworkId(homeworkId);
@@ -242,44 +261,46 @@ const HomeworkSubmissionComponent = () => {
   const convertToSriLankanTime = (utcDate) => {
     const date = new Date(utcDate);
     const options = {
-        timeZone: 'Asia/Colombo', // Timezone for Sri Lanka
-        year: 'numeric',
-        month: 'long',
-        day: 'numeric',
-        hour: '2-digit',
-        minute: '2-digit',
-        second: '2-digit'
+      timeZone: 'Asia/Colombo', // Timezone for Sri Lanka
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric',
+      hour: '2-digit',
+      minute: '2-digit',
+      second: '2-digit',
     };
     return date.toLocaleString('en-US', options);
-};
+  };
 
   if (getLoading || postLoading || putLoading) {
     return <div>Loading...</div>;
   }
 
-  if ( postError || putError) {
+  if (postError || putError) {
     return (
       <div className="error">
-        An error occurred: {getError?.message || postError?.message || putError?.message}
+        An error occurred:{' '}
+        {getError?.message || postError?.message || putError?.message}
       </div>
     );
   }
 
   if (getError) {
-      return(
-      <div className="homework-submission-container" >
+    return (
+      <div className="homework-submission-container">
         <div className="lesson-section">
           <div class="nohw">No homeworks available.</div>
         </div>
         {/* <img src="./../../../pages/Student/Images/File searching-rafiki.png" alt="homework" class="img" /> */}
       </div>
-      
-      );
-    } 
-  
+    );
+  }
 
   return (
-    <div className="homework-submission-container" key={submittedHomeworkIds.size}>
+    <div
+      className="homework-submission-container"
+      key={submittedHomeworkIds.size}
+    >
       {lessons.map((lesson, lessonIndex) => (
         <div key={lessonIndex} className="lesson-section">
           <div
@@ -315,10 +336,12 @@ const HomeworkSubmissionComponent = () => {
                           <strong>Description:</strong> {homework.description}
                         </p>
                         <p>
-                        <strong>Deadline:</strong> {convertToSriLankanTime(homework.deadline)}
+                          <strong>Deadline:</strong>{' '}
+                          {convertToSriLankanTime(homework.deadline)}
                         </p>
                         <p>
-                          <strong>Time left:</strong> {getTimeLeft(homework.deadline)}
+                          <strong>Time left:</strong>{' '}
+                          {getTimeLeft(homework.deadline)}
                         </p>
                         <textarea
                           value={submissionText[homework._id] || ''}
@@ -326,11 +349,15 @@ const HomeworkSubmissionComponent = () => {
                             handleTextChange(homework._id, e.target.value)
                           }
                           placeholder="Enter your submission here..."
-                          disabled={isHomeworkSubmitted(homework._id) && editableHomeworkId !== homework._id}
+                          disabled={
+                            isHomeworkSubmitted(homework._id) &&
+                            editableHomeworkId !== homework._id
+                          }
                           className="submission-textarea"
                         ></textarea>
                         <div className="button-container">
-                          {isHomeworkSubmitted(homework._id) && editableHomeworkId !== homework._id ? (
+                          {isHomeworkSubmitted(homework._id) &&
+                          editableHomeworkId !== homework._id ? (
                             <>
                               <button
                                 onClick={() => enableEditMode(homework._id)}
@@ -352,9 +379,10 @@ const HomeworkSubmissionComponent = () => {
                                   ? updateHomework(homework._id)
                                   : submitHomework(homework._id)
                               }
-                              
                             >
-                              {editableHomeworkId === homework._id ? 'Save' : 'Submit Homework'}
+                              {editableHomeworkId === homework._id
+                                ? 'Save'
+                                : 'Submit Homework'}
                             </button>
                           )}
                         </div>
