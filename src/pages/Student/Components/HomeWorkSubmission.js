@@ -146,11 +146,8 @@ const HomeworkSubmissionComponent = () => {
       setDeleteSubmissionData({ homeworkId: null, studentId: null });
       setDeleteEndpoint(null);
     }
-  }, [
-    deleteResponse,
-    deleteSubmissionData.homeworkId,
-    deleteSubmissionData.studentId,
-  ]);
+  }, [deleteResponse, deleteSubmissionData.homeworkId, deleteSubmissionData.studentId]);
+  
 
   useEffect(() => {
     if (deleteError) {
@@ -160,14 +157,19 @@ const HomeworkSubmissionComponent = () => {
   }, [deleteError]);
 
   const deleteHomework = (homeworkId) => {
+    const studentId = '66bf72a3360ed91fa26e01d2'; // Replace with actual student ID
+    
     setDeleteSubmissionData({
       homeworkId,
-      studentId: '66bf72a3360ed91fa26e01d2', // Replace with actual student ID
+      studentId
     });
+    
+    // Use homeworkId and studentId directly here
     setDeleteEndpoint(
-      `student/homeworks/homework-submissions/${deleteSubmissionData.homeworkId}/${deleteSubmissionData.studentId}`
+      `student/homeworks/homework-submissions/${homeworkId}/${studentId}`
     );
   };
+  
 
   const toggleHomework = (lessonIndex, homeworkIndex) => {
     const selectedHomework = lessons[lessonIndex].homework[homeworkIndex];
