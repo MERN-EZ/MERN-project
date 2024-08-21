@@ -1,109 +1,135 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './profile.scss';
+import profile from '../../../images/profile.png';
+import Button from '../../../components/common/Button/Button';
 import { useUser } from '../../../context/UserContext';
-//import useGetRequest from '../../../hooks/useGetRequest';
+import { useDB } from '../../../context/DatabaseContext';
+import { useUserRole } from '../../../context/UserRoleContext';
+import useDeleteRequest from '../../../hooks/useDeleteRequest';
+import Alert from '../../../components/common/Alert/Alert';
 
 const ProfilePage = () => {
-    //const { id } = useParams(); // Get the user ID from the URL
-    const { userDetails } = useUser(); // Get user details from UserContext
-    const [student, setStudent] = useState(userDetails);
-    const navigate = useNavigate();
-    
-    // Fetch user data from MongoDB using useGetRequest
-    //const { data, error, loading } = useGetRequest(`student/users/${id}`);
-    //const [student, setStudent] = useState(null);
+  const { userDetails, setUserDetails } = useUser();
+  const [student, setStudent] = useState(userDetails);
+  const { DB } = useDB();
+  const navigate = useNavigate();
+  const { setUserRole } = useUserRole();
 
-    //useEffect(() => {
-        //if (data) {
-            //setStudent(data);
-       //}
-    //}, [data]);
+  const [deleteEndpoint, setDeleteEndpoint] = useState(null);
+  const {
+    data: deleteResponse,
+    error: deleteError,
+    loading: deleteLoading,
+  } = useDeleteRequest(deleteEndpoint);
 
-    useEffect(() => {
-        if (userDetails) {
-            console.log('User Details:', userDetails); 
-            setStudent(userDetails);
-        }
-    }, [userDetails]);
-
-    //console.log('Loading:', loading);
-    //console.log('Error:', error);
-    //console.log('Student Data:', student);
-
-    //if (loading) {
-        //return <div>Loading...</div>;
-    //}
-
-    //if (error || !student) {
-        //return <div>{error || 'User not found'}</div>;
-    //}
-
-    if (!student) {
-        return <div>User not found</div>; // Adjust to your loading state
+  useEffect(() => {
+    if (userDetails) {
+      setStudent(userDetails);
     }
-    const handleEditProfileClick = () => {
-        navigate('/edit-profile', { state: { name: student.username } });
-    };
+  }, [userDetails]);
 
-    const handlePaymentsClick = () => {
-        navigate('/payments');
-    };
+  useEffect(() => {
+    if (deleteResponse) {
+      setUserDetails(null);
+      setUserRole('guest'); // Clear user details from context
+      navigate('/'); // Redirect to home or login page
+    }
+  }, [deleteResponse, navigate, setUserDetails, setUserRole]);
 
-    return (
-        <div className="profile-container">
-            <div className="profile-card">
-                <div className="profile-header">
-                    <div className="profile-photo">
-                        <img 
-                            src="https://via.placeholder.com/150" 
-                            alt="Profile" 
-                            className="profile-photo-img"
-                        />
-                    </div>
-                    <div className="profile-details">
-                    <div className="profile-field">
-                            <label>Name:</label>
-                            <span>{student.firstName}</span>
-                        </div>
-                        <div className="profile-field">
-                            <label>Username:</label>
-                            <span>{student.username}</span>
-                        </div>
-                        <div className="profile-field">
-                            <label>Password:</label>
-                            <span>********</span>
-                            <button className="change-password-btn">Change Password</button>
-                        </div>
-                        <div className="profile-field">
-                            <label>Email address:</label>
-                            <span>{student.email}</span>
-                        </div>
-                        <div className="profile-field">
-                            <label>Contact no:</label>
-                            <span>{student.contactNumber}</span>
-                        </div>
-                        <div className="profile-field">
-                            <label>Year:</label>
-                            <span>['db-name']</span>
-                        </div>
-                    </div>
-                    <button className="edit-profile-btn" onClick={handleEditProfileClick}>
-                        Edit profile
-                    </button>
-                </div>
-                <div className="class-details-container">
-                    <div className="class-info">
-                        
-                    </div>
-                    <div className="class-actions">
-                        <button className="payment-btn" onClick={handlePaymentsClick}>Payments</button>
-                        <button className="unroll-btn">Unroll</button>
-                    </div>
-                </div>
+  useEffect(() => {
+    if (deleteEndpoint) {
+      // This effect runs whenever deleteEndpoint changes, triggering the delete request
+      setDeleteEndpoint(deleteEndpoint);
+    }
+  }, [deleteEndpoint]);
+
+  const handleEditProfileClick = () => {
+    navigate('/edit-profile', { state: { name: student.username } });
+  };
+
+  const handlePaymentsClick = () => {
+    navigate('/payments');
+  };
+
+  const handleUnrollClick = () => {
+    // Set the endpoint for deletion and trigger the delete request
+    if (student.studentId) {
+      setDeleteEndpoint(`/student/delete-profile`);
+    }
+  };
+
+  const [showAlert, setShowAlert] = useState(false);
+  const handleAlertClick = () => {
+    setShowAlert(true);
+  };
+  const handleCancelAlert = () => {
+    setShowAlert(false);
+  };
+
+  if (deleteLoading) return <Alert message="Deleting..." variant="message" />;
+  if (deleteError)
+    return <Alert message={`Error: ${deleteError}`} variant="message" />;
+
+  if (!student) {
+    return <div>User not found</div>;
+  }
+
+  return (
+    <div className="profile-container">
+      <div className="profile-card">
+        <div className="profile-header">
+          <div className="profile-title">Profile</div>
+          <img src={profile} alt="profile" className="profile-photo-img" />
+          <div className="profile-details">
+            <div className="profile-field">
+              <label>Name:</label>
+              <span>
+                {student.firstName} {student.lastName}
+              </span>
             </div>
+            <div className="profile-field">
+              <label>Student ID:</label>
+              <span>{student.studentId}</span>
+            </div>
+            <div className="profile-field">
+              <label>Year:</label>
+              <span>{DB}</span>
+            </div>
+            <div className="profile-field">
+              <label>Username:</label>
+              <span>{student.username}</span>
+            </div>
+            <div className="profile-field">
+              <label>Email:</label>
+              <span>{student.email}</span>
+            </div>
+            <div className="profile-field">
+              <label>Contact no:</label>
+              <span>{student.contactNumber}</span>
+            </div>
+            <div className="profile-field">
+              <label>Registered Date:</label>
+              <span>{student.registeredDate}</span>
+            </div>
+          </div>
+          <Button
+            text="Edit profile"
+            variant="secondary"
+            onClick={handleEditProfileClick}
+          />
         </div>
-    );
+        <div className="profile-actions">
+          <Button
+            text="Payments"
+            variant="primary"
+            onClick={handlePaymentsClick}
+          />
+          <Button text="Unroll" variant="primary" onClick={handleUnrollClick} />
+        </div>
+      </div>
+    </div>
+  );
 };
 
 export default ProfilePage;
