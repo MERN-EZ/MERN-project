@@ -4,6 +4,7 @@ import './homeWorkSubmission.scss';
 import useGetRequest from '../../../hooks/useGetRequest';
 import usePostRequest from '../../../hooks/usePostRequest';
 import usePutRequest from './../../../hooks/usePutRequest';
+import useDeleteRequest from '../../../hooks/useDeleteRequest';
 
 const HomeworkSubmissionComponent = () => {
   const { homeworkId } = useParams();
@@ -25,6 +26,14 @@ const HomeworkSubmissionComponent = () => {
   const [putData, setPutData] = useState(null);
   const [putEndpoint, setPutEndpoint] = useState(null);
   const { response: putResponse, error: putError, loading: putLoading } = usePutRequest(putEndpoint, putData);
+
+  const [deleteSubmissionData, setDeleteSubmissionData] = useState({
+    homeworkId: null,
+    studentId: null,
+  });
+  const { data: deleteResponse, error: deleteError } = useDeleteRequest(
+    `student/homeworks/homework-submissions/${deleteSubmissionData.homeworkId}/${deleteSubmissionData.studentId}`
+  );
 
   useEffect(() => {
     console.log('Updated submittedHomeworkIds:', submittedHomeworkIds);
@@ -110,6 +119,32 @@ const HomeworkSubmissionComponent = () => {
     navigate('/homework-submission#homeworksmore');
   };
 
+  useEffect(() => {
+    if (deleteResponse) {
+      console.log('Submission deleted successfully:', deleteResponse);
+      setSubmittedHomeworkIds((prevIds) => {
+        const newIds = new Set(prevIds);
+        newIds.delete(deleteSubmissionData.homeworkId);
+        return newIds;
+      });
+      setDeleteSubmissionData({ homeworkId: null, studentId: null });
+    }
+  }, [deleteResponse, deleteSubmissionData.homeworkId, deleteSubmissionData.studentId]);
+  
+  useEffect(() => {
+    if (deleteError) {
+      console.error('Error deleting submission:', deleteError);
+      // Handle the error, e.g., display an error message
+    }
+  }, [deleteError]);
+
+  const deleteHomework = (homeworkId) => {
+    setDeleteSubmissionData({
+      homeworkId,
+      studentId: '66bf72a3360ed91fa26e01d2', // Replace with actual student ID
+    });
+  };
+
   const toggleHomework = (lessonIndex, homeworkIndex) => {
     const selectedHomework = lessons[lessonIndex].homework[homeworkIndex];
     setExpandedHomework(homeworkIndex);
@@ -124,6 +159,8 @@ const HomeworkSubmissionComponent = () => {
       [homeworkId]: value,
     }));
   };
+
+  
 
   const submitHomework = (homeworkId) => {
     const submissionTextValue = submissionText[homeworkId];
@@ -169,14 +206,16 @@ const HomeworkSubmissionComponent = () => {
     }
   };
 
-  const deleteHomework = (homeworkId) => {
-    console.log('Deleting homework with ID:', homeworkId);
-  };
+ 
 
   const isHomeworkSubmitted = (homeworkId) => {
+    console.log('submittedHomeworkIds:', submittedHomeworkIds);
+    console.log('Type of submittedHomeworkIds:', typeof submittedHomeworkIds);
+    console.log('Instance of Set:', submittedHomeworkIds instanceof Set);
     const isSubmitted = submittedHomeworkIds.has(homeworkId);
     return isSubmitted;
   };
+  
 
   const enableEditMode = (homeworkId) => {
     setEditableHomeworkId(homeworkId);
@@ -218,13 +257,26 @@ const HomeworkSubmissionComponent = () => {
     return <div>Loading...</div>;
   }
 
-  if (getError || postError || putError) {
+  if ( postError || putError) {
     return (
       <div className="error">
         An error occurred: {getError?.message || postError?.message || putError?.message}
       </div>
     );
   }
+
+  if (getError) {
+      return(
+      <div className="homework-submission-container" >
+        <div className="lesson-section">
+          <div class="nohw">No homeworks available.</div>
+        </div>
+        {/* <img src="./../../../pages/Student/Images/File searching-rafiki.png" alt="homework" class="img" /> */}
+      </div>
+      
+      );
+    } 
+  
 
   return (
     <div className="homework-submission-container" key={submittedHomeworkIds.size}>
