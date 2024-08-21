@@ -5,6 +5,11 @@
     padding: 20px;
     border-radius: 15px;
     box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+
+    .img {
+        max-width: 300px;
+        height: auto;
+      }
     margin-top: 7rem;
 
     .lesson-section {
@@ -12,6 +17,17 @@
         margin-bottom: 20px;
         border-radius: 10px;
 
+        .nohw{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100%;
+            font-weight: bold;
+            text-align: center;
+            
+        }
+
+        
         .lesson-header {
             display: flex;
             justify-content: space-between;
@@ -20,6 +36,7 @@
             cursor: pointer;
             background-color: #ffffff;
             border-radius: 10px;
+
 
             h3 {
                 font-size: 18px;

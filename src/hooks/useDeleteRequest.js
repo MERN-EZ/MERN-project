@@ -11,6 +11,7 @@ const useDeleteRequest = (endpoint) => {
   const { DB } = useDB();
 
   useEffect(() => {
+    if (!endpoint) return;
     const deleteRequest = async () => {
       setLoading(true);
       try {
