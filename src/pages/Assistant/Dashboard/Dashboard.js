@@ -6,25 +6,21 @@ const Dashboard = () => {
   // Sample data
   const classes = [
     {
-      className: 'GRADE 09',
+      className: '2024 O/L',
       date: '2024-08-10',
       time: '10:00 AM',
     },
     {
-      className: 'GRADE 08',
+      className: '2025 O/L',
       date: '2024-08-11',
       time: '1:00 PM',
     },
+
     {
-      className: 'GRADE 10',
-      date: '2024-08-12',
-      time: '3:00 PM',
+      className: '2026 O/L',
+      date: '2024-08-11',
+      time: '1:00 PM',
     },
-    {
-      className: 'GRADE 11',
-      date: '2024-08-13',
-      time: '2:00 PM',
-    }, // New card added
   ];
 
   // Sort classes so that "GRADE 08" comes before "GRADE 09"
@@ -56,13 +52,13 @@ const Dashboard = () => {
           <div className="quick-stats">
             <h2>Quick Stats</h2>
             <p>
-              Total Classes Today: <span>{totalClassesToday}</span>
+              Total Classes Today: <span>01</span>
             </p>
             <p>
-              Upcoming Classes: <span>{upcomingClasses}</span>
+              Upcoming Classes: <span>01</span>
             </p>
             <p>
-              Total Students: <span>{totalStudents}</span>
+              Total Students: <span>140</span>
             </p>
           </div>
         </div>
