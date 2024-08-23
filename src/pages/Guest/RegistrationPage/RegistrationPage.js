@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
+import Icon from '@mui/icons-material/AccountCircle';
 import Button from '../../../components/common/Button/Button';
 import './RegistrationPage.scss';
 
@@ -7,13 +8,13 @@ const RegistrationPage = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const query = new URLSearchParams(location.search);
-  const year = query.get('year');
+  const year = query.get('year') || '';
 
   // Initialize form state with year if available
   const [formValues, setFormValues] = useState({
     firstName: '',
     lastName: '',
-    yearOfALs: year || '',
+    yearOfALs: year,
     contactNumber: '',
     email: '',
     username: '',
@@ -23,6 +24,13 @@ const RegistrationPage = () => {
   });
 
   const [errors, setErrors] = useState({}); // State to hold validation errors
+
+  useEffect(() => {
+    setFormValues((prevValues) => ({
+      ...prevValues,
+      yearOfALs: year,
+    }));
+  }, [year]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -38,6 +46,7 @@ const RegistrationPage = () => {
     // Check required fields
     if (!formValues.firstName) newErrors.firstName = 'First Name is required';
     if (!formValues.lastName) newErrors.lastName = 'Last Name is required';
+    if (!formValues.yearOfALs) newErrors.yearOfALs = 'Year of ALs is required';
     if (!formValues.username) newErrors.username = 'Username is required';
     if (!formValues.email) newErrors.email = 'Email is required';
     if (!formValues.contactNumber)
@@ -66,10 +75,11 @@ const RegistrationPage = () => {
 
     try {
       console.log('Sending request');
-      const response = await fetch('/guest/register/', {
+      const response = await fetch('http://localhost:5000/guest/register', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
+          'db-name': formValues.yearOfALs,
         },
         body: JSON.stringify(formValues),
       });
@@ -79,20 +89,11 @@ const RegistrationPage = () => {
       //console.log('Response Headers:', [...response.headers.entries()]);
       const contentType = response.headers.get('Content-Type');
       //remove
-      //const data = await response.json();
-      let data;
-      if (contentType && contentType.includes('application/json')) {
-        data = await response.json();
-        console.log('Response Data:', data);
-      } else {
-        const text = await response.text();
-        console.error('Unexpected response format:', text);
-        alert('Received unexpected response format. Please try again later.');
-        return;
-      }
+      const data = await response.json();
+
       //remove later
       if (response.ok) {
-        alert('Registration request sent successfully');
+        alert('Registration request sent successfully. ');
         navigate('/'); // Redirect to a success page or another route
       } else {
         const errorMessage =
@@ -109,7 +110,10 @@ const RegistrationPage = () => {
   return (
     <div className="guest-register-container">
       <div className="guest-register-card">
-        <div className="register-title">Register Here</div>
+        <div className="register-title">
+          <Icon className="register-title-icon" />
+          Register Here
+        </div>
         <form onSubmit={handleSubmit}>
           <div className="form-group-row">
             <div className="form-group">
