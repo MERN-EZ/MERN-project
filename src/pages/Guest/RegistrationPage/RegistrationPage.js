@@ -65,7 +65,8 @@ const RegistrationPage = () => {
     }
 
     try {
-      const response = await fetch('/guest/register', {
+      console.log('Sending request');
+      const response = await fetch('/guest/register/', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -73,24 +74,41 @@ const RegistrationPage = () => {
         body: JSON.stringify(formValues),
       });
 
-      const data = await response.json();
-
-      if (response.ok) {
-        alert('Registration successful');
-        navigate('/success'); // Redirect to a success page or another route
+      console.log('Response received');
+      //console.log('Response Status:', response.status);
+      //console.log('Response Headers:', [...response.headers.entries()]);
+      const contentType = response.headers.get('Content-Type');
+      //remove
+      //const data = await response.json();
+      let data;
+      if (contentType && contentType.includes('application/json')) {
+        data = await response.json();
+        console.log('Response Data:', data);
       } else {
-        alert(data.message || 'Registration failed');
+        const text = await response.text();
+        console.error('Unexpected response format:', text);
+        alert('Received unexpected response format. Please try again later.');
+        return;
+      }
+      //remove later
+      if (response.ok) {
+        alert('Registration request sent successfully');
+        navigate('/'); // Redirect to a success page or another route
+      } else {
+        const errorMessage =
+          data.message ||
+          'Registration failed. Please check your input and try again.';
+        alert(errorMessage);
       }
     } catch (error) {
       console.error('Error registering user:', error);
-      alert('An error occurred. Please try again later.');
+      alert(`An error occurred: ${error.message}. Please try again later.`);
     }
   };
 
   return (
     <div className="guest-register-container">
       <div className="guest-register-card">
-        
         <div className="register-title">Register Here</div>
         <form onSubmit={handleSubmit}>
           <div className="form-group-row">
