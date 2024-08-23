@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { useDB } from '../context/DatabaseContext';
 
 const useDeleteRequest = (endpoint) => {
+  //const localIP = 'localhost';
   const localIP = process.env.REACT_APP_LOCAL_IP || 'localhost';
   const prefix = `http://${localIP}:5000/`;
 
