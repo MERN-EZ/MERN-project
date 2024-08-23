@@ -30,7 +30,6 @@ const HomeworkSubmissionComponent = () => {
     }
   }, [userDetails]);
 
-  
   const studentId = student.studentId;
   console.log("studentId",studentId);
 
@@ -211,6 +210,8 @@ const HomeworkSubmissionComponent = () => {
       setPostEndpoint(
         `student/homeworks/homework-submissions/${lessonId}/${homeworkId}`
       );
+      console.log("CHECK")
+      console.log("ID",studentId)
 
       setPostData({
         studentId,
