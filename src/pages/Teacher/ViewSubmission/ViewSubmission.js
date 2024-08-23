@@ -1,37 +1,56 @@
-import React, { useState } from 'react';
-import { useParams } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import { useLocation } from 'react-router-dom';
 import useGetRequest from '../../../hooks/useGetRequest';
 import './ViewSubmission.scss';
 
 const ViewSubmission = () => {
-  const { lessonId, homeworkId } = useParams();
-  const { data, error, loading } = useGetRequest(
-    `teacher/submissions/${lessonId}/${homeworkId}`
-  );
-  const [submission, setSubmission] = useState(null);
+  const location = useLocation();
+  const queryParams = new URLSearchParams(location.search);
+  const lessonId = queryParams.get('lessonId');
+  const homeworkId = queryParams.get('homeworkId');
+  console.log(lessonId, homeworkId);
+  const [endpoint, setEndpoint] = useState(null);
+  const { data, error, loading } = useGetRequest(endpoint);
+  const [submission, setSubmission] = useState([]);
+
+  useEffect(() => {
+    if (lessonId && homeworkId) {
+      setEndpoint(`teacher/submissions/${lessonId}/${homeworkId}`);
+    }
+  }, [lessonId, homeworkId]);
+
+  useEffect(() => {
+    if (data) {
+      setSubmission(data);
+    }
+  }, [data]);
 
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Error: {error}</p>;
-
-  if (data) {
-    setSubmission(data);
-  }
-
   return (
-    <div className="view-submission teacher">
-      <h1>Submissions</h1>
-      <div className="submission-details">
-        {submission ? (
-          submission.map((submission, index) => (
-            <Submission key={index} submission={submission} />
-          ))
-        ) : (
-          <p>No submissions</p>
-        )}
-      </div>
-      <div className="submission-content">
-        <p>{submission.content}</p>
-      </div>
+    <div className="teacher view-submission">
+      <section className="homework-rounded-edge-rectangle">
+        <h2 className="homework-header">Home Works</h2>
+        <div className="homework-items-container">
+          {submission.length === 0 ? (
+            <p>No submissions</p>
+          ) : (
+            <div className="homework-items">
+              {submission.map(({ _id, title, description }) => (
+                <div key={_id} className="homework-item">
+                  <div>
+                    <pre>- </pre>
+                    <span className="hw-title"> {title}</span>
+                  </div>
+                  <div>
+                    <pre className="des">* {description}</pre>
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
+      </section>
     </div>
   );
 };
