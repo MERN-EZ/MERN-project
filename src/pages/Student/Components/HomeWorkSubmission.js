@@ -222,6 +222,7 @@ const HomeworkSubmissionComponent = () => {
     } else {
       alert('Please enter the submission text');
     }
+    console.log('Post data:', postData);
   };
 
   const updateHomework = (homeworkId) => {
