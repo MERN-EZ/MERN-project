@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import './Home.scss';
 import useGetRequest from '../../../hooks/useGetRequest';
+import Alert from '../../../components/common/Alert/Alert';
 
 const GuestHomePage = () => {
   const { data, error, loading } = useGetRequest('teacher/class'); // Ensure the correct endpoint
@@ -26,8 +27,23 @@ const GuestHomePage = () => {
   // console.log('Error:', error);
   // console.log('Courses Data:', courses);
 
-  if (loading) return <p>Loading...</p>;
-  if (error) return <p>Error: {error}</p>;
+  const [showAlert, setShowAlert] = useState(true);
+  if (loading && showAlert)
+    return (
+      <Alert
+        message={'Loading...'}
+        variant={'message'}
+        onCancel={() => setShowAlert(false)}
+      />
+    );
+  if (error && showAlert)
+    return (
+      <Alert
+        message={'Error: ' + error}
+        variant={'message'}
+        onCancel={() => setShowAlert(false)}
+      />
+    );
 
   return (
     <div className="teacher-home container">

@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
+import Alert from '../../../components/common/Alert/Alert';
 import useGetRequest from '../../../hooks/useGetRequest';
 import './ViewSubmission.scss';
 
@@ -24,9 +25,23 @@ const ViewSubmission = () => {
       setSubmission(data);
     }
   }, [data]);
-
-  if (loading) return <p>Loading...</p>;
-  if (error) return <p>Error: {error}</p>;
+  const [showAlert, setShowAlert] = useState(false);
+  if (loading && showAlert)
+    return (
+      <Alert
+        message={'Loading...'}
+        variant={'message'}
+        onCancel={() => setShowAlert(false)}
+      />
+    );
+  if (error && showAlert)
+    return (
+      <Alert
+        message={'Error: ' + error}
+        variant={'message'}
+        onCancel={() => setShowAlert(false)}
+      />
+    );
   return (
     <div className="teacher view-submission">
       <section className="homework-rounded-edge-rectangle">
@@ -36,17 +51,20 @@ const ViewSubmission = () => {
             <p>No submissions</p>
           ) : (
             <div className="homework-items">
-              {submission.map(({ _id, title, description }) => (
-                <div key={_id} className="homework-item">
-                  <div>
-                    <pre>- </pre>
-                    <span className="hw-title"> {title}</span>
+              {submission.map(
+                ({ _id, studentId, submissionText, submissionDate }) => (
+                  <div key={_id} className="homework-item">
+                    <div>
+                      <span> {submissionDate.split('T')[0]}</span>
+                      <pre>- </pre>
+                      <span className="hw-title">{studentId}</span>
+                    </div>
+                    <div>
+                      <pre className="des">&gt;&gt; {submissionText}</pre>
+                    </div>
                   </div>
-                  <div>
-                    <pre className="des">* {description}</pre>
-                  </div>
-                </div>
-              ))}
+                )
+              )}
             </div>
           )}
         </div>
@@ -56,17 +74,3 @@ const ViewSubmission = () => {
 };
 
 export default ViewSubmission;
-
-const Submission = ({ submission }) => {
-  return (
-    <div className="submission">
-      <div className="submission-header">
-        <h3>{submission.student}</h3>
-        <p>{submission.date}</p>
-      </div>
-      <div className="submission-content">
-        <p>{submission.content}</p>
-      </div>
-    </div>
-  );
-};
