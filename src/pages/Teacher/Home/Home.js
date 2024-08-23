@@ -57,7 +57,7 @@ const GuestHomePage = () => {
                 <div
                   key={_id}
                   className="homework-item"
-                  // onClick={() => handleDeadlineClick(_id)}
+                  onClick={() => (window.location.href = `/homework`)}
                 >
                   <div>
                     <span> {deadline.split('T')[0]}</span>
