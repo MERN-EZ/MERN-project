@@ -1,115 +1,59 @@
 .profile-container {
-    background-color: #e0f7fa;
-    padding: 20px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
+  background-color: #e0f7fa;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .profile-card {
-    background-color: white;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    width: 350px;
-    padding: 20px;
+  background-color: white;
+  border-radius: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  width: 450px;
+  height: 680px;
+  padding: 35px;
+  margin-top: 30px;
 
-    .profile-header {
+  .profile-header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-bottom: 10px;
+    color: #071952;
+
+    .profile-title {
+      font-size: 30px;
+      font-weight: bold;
+      margin-bottom: 25px;
+    }
+
+    .profile-details {
+      width: 100%;
+      margin-top: 10px;
+      margin-bottom: 15px;
+      margin-top: 30px;
+
+      .profile-field {
         display: flex;
-        flex-direction: column;
-        align-items: center;
-        border-bottom: 1px solid #ccc;
-        padding-bottom: 20px;
+        justify-content: space-between;
+        margin-bottom: 10px;
 
-        .profile-icon {
-            font-size: 50px;
-            color: #00796b;
+        label {
+          font-weight: bold;
         }
-
-        .profile-details {
-            width: 100%;
-            margin-top: 15px;
-
-            .profile-field {
-                display: flex;
-                justify-content: space-between;
-                margin-bottom: 10px;
-
-                label {
-                    font-weight: bold;
-                }
-
-                span {
-                    color: #00796b;
-                }
-            }
-
-            .change-password-btn {
-                background: none;
-                border: none;
-                color: #00796b;
-                cursor: pointer;
-            }
-        }
-
-        .edit-profile-btn {
-            margin-top: 15px;
-            padding: 10px;
-            background-color: #00796b;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-    }
-
-    .class-details-container {
-        margin-top: 20px;
-        padding-top: 20px;
-        border-top: 1px solid #ccc;
-
-        .class-info {
-            h3 {
-                margin: 0;
-                font-size: 18px;
-                color: #00796b;
-            }
-
-            p {
-                margin: 0;
-                color: #616161;
-            }
-        }
-
-        .class-actions {
-            margin-top: 15px;
-            display: flex;
-            justify-content: space-between;
-
-            button {
-                background-color: #00796b;
-                color: white;
-                border: none;
-                padding: 10px;
-                border-radius: 5px;
-                cursor: pointer;
-
-                &.unroll-btn {
-                    background-color: #e53935;
-                }
-            }
-        }
-    }
-
-    .profile-photo {
-        text-align: center;
-        margin-bottom: 20px;
+      }
     }
 
     .profile-photo-img {
-        width: 150px;
-        height: 150px;
-        border-radius: 50%;
-        object-fit: cover;
+      width: 200px;
+      height: 150px;
+      object-fit: cover;
+      border-radius: 50%;
     }
+  }
+
+  .profile-actions {
+    display: flex;
+    justify-content: space-between;
+  }
 }
