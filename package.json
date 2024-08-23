@@ -19,7 +19,7 @@
     "web-vitals": "^2.1.4"
   },
   "scripts": {
-    "start": "npm run get-ip && react-scripts start",
+    "start": "react-scripts start",
     "share": "node src/scripts/getLocalIP.js && react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",

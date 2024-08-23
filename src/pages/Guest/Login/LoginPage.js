@@ -5,13 +5,23 @@ import Button from '../../../components/common/Button/Button';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import LockIcon from '@mui/icons-material/Lock';
 import LoginIcon from '@mui/icons-material/Login';
+import useLogin from '../../../hooks/useLogin';
+import { useNavigate } from 'react-router-dom';
+//import alert from '../../../components/common/Alert/Alert'; // Adjust the path as needed
 import './LoginPage.scss';
+import { useUserRole } from '../../../context/UserRoleContext';
+
 
 const LoginPage = () => {
   const [formValues, setFormValues] = useState({
-    email: '',
+    username: '',
     password: '',
+    year: '',
   });
+  const { login, loading, error } = useLogin();
+  const {userRole, setUserRole} = useUserRole();
+  const [alert, setAlert] = useState({ show: false, message: '', variant: 'info' });
+  const navigate = useNavigate(); // Initialize navigate
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -21,8 +31,31 @@ const LoginPage = () => {
     });
   };
 
-  const handleLogin = () => {
-    console.log('Login button clicked');
+  const handleLogin = async () => {
+    try {
+      const { username, password, year } = formValues;
+      const loginSuccess = await login(username, password, year); // Call your login hook
+
+      if (loginSuccess) {
+        setUserRole('student');
+        navigate('/'); // Redirect to Student Home page on success
+      } else {
+        setAlert({
+          show: true,
+          message: 'Login failed. Please check your credentials.',
+          variant: 'error',
+        });
+        // Handle login failure (e.g., show an error message)
+        console.error('Login failed');
+      }
+    } catch (error) {
+      setAlert({
+        show: true,
+        message: 'An error occurred during login. Please try again later.',
+        variant: 'error',
+      });
+      console.error('An error occurred during login:', error);
+    }
   };
 
   return (
@@ -38,9 +71,9 @@ const LoginPage = () => {
         <div className="inputContainer">
           <TextField
             placeholder="Enter Username/Email"
-            value={formValues.email}
+            value={formValues.username}
             onChange={handleChange}
-            name="email"
+            name="username"
             InputProps={{
               startAdornment: (
                 <InputAdornment position="start">
@@ -68,9 +101,20 @@ const LoginPage = () => {
             fullWidth
           />
         </div>
+        <div className="inputContainer">
+          <TextField
+            placeholder="Enter Year"
+            value={formValues.year}
+            onChange={handleChange}
+            name="year"
+            fullWidth
+          />
+        </div>
         <div className="actions">
           <Button text="Log In" variant="secondary" onClick={handleLogin} />
         </div>
+        {loading && <div>Loading...</div>}
+        {error && <div>{error}</div>}
       </div>
     </div>
   );

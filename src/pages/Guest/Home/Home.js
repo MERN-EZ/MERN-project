@@ -7,7 +7,7 @@ import Teacher from '../../../images/Teacher.jpg'; // Ensure the correct path
 
 const GuestHomePage = () => {
   const [courses, setCourses] = useState([]);
-
+  console.log('Before get request');
   const { data, error, loading } = useGetRequest('guest/classes'); // Ensure the correct endpoint
   useEffect(() => {
     if (data) {
