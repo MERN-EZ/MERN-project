@@ -7,8 +7,9 @@ import LockIcon from '@mui/icons-material/Lock';
 import LoginIcon from '@mui/icons-material/Login';
 import useLogin from '../../../hooks/useLogin';
 import { useNavigate } from 'react-router-dom';
-import alert from '../../../components/common/Alert/Alert'; // Adjust the path as needed
+//import alert from '../../../components/common/Alert/Alert'; // Adjust the path as needed
 import './LoginPage.scss';
+import { useUserRole } from '../../../context/UserRoleContext';
 
 
 const LoginPage = () => {
@@ -18,6 +19,7 @@ const LoginPage = () => {
     year: '',
   });
   const { login, loading, error } = useLogin();
+  const {userRole, setUserRole} = useUserRole();
   const [alert, setAlert] = useState({ show: false, message: '', variant: 'info' });
   const navigate = useNavigate(); // Initialize navigate
 
@@ -35,6 +37,7 @@ const LoginPage = () => {
       const loginSuccess = await login(username, password, year); // Call your login hook
 
       if (loginSuccess) {
+        setUserRole('student');
         navigate('/'); // Redirect to Student Home page on success
       } else {
         setAlert({
