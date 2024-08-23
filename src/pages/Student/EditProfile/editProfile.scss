@@ -1,0 +1,70 @@
+.edit-profile-container {
+  background-color: #e0f7fa;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.edit-profile-card {
+  background-color: white;
+  border-radius: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  width: 400px;
+  max-height: 680px;
+  padding: 35px;
+  margin-top: 30px;
+
+  .profile-title {
+    font-size: 30px;
+    font-weight: bold;
+    margin-bottom: 25px;
+    justify-content: center;
+    display: flex;
+  }
+
+  .form-group {
+    position: relative; // Ensure positioning for error messages
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    margin-bottom: 15px;
+
+    label {
+      font-weight: bold;
+      color: #071952;
+      margin-bottom: 5px;
+      font-size: 16px;
+    }
+
+    input {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      font-size: 16px;
+      color: #071952;
+      outline: none;
+      transition: border-color 0.3s ease;
+      margin-bottom: 5px;
+
+      &:focus {
+        border-color: #071952;
+        box-shadow: 0 0 5px rgba(7, 25, 82, 0.3);
+      }
+    }
+
+    .error-message {
+      color: red; // Set text color to red
+      font-size: 0.75rem; // Smaller font size for error messages
+      position: absolute;
+      bottom: -1rem; // Adjust positioning to fit your layout
+      right: 0;
+    }
+  }
+
+  .profile-actions {
+    margin-top: 10px;
+    display: flex;
+    justify-content: center;
+  }
+}
