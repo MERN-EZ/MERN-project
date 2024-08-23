@@ -20,7 +20,7 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "get-ip": "node src/scripts/getLocalIP.js",
+    "share": "node src/scripts/getLocalIP.js && react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
