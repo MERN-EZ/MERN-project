@@ -5,6 +5,7 @@ import useGetRequest from '../../../hooks/useGetRequest';
 import usePostRequest from '../../../hooks/usePostRequest';
 import usePutRequest from './../../../hooks/usePutRequest';
 import useDeleteRequest from '../../../hooks/useDeleteRequest';
+import { useUser } from '../../../context/UserContext';
 
 const HomeworkSubmissionComponent = () => {
   const { homeworkId } = useParams();
@@ -19,6 +20,18 @@ const HomeworkSubmissionComponent = () => {
 
   const [postData, setPostData] = useState(null);
   const [postEndPoint, setPostEndpoint] = useState(null);
+  
+  const { userDetails } = useUser();
+  const [student, setStudent] = useState(userDetails);
+  console.log("student details", userDetails)
+  useEffect(() => {
+    if (userDetails) {
+      setStudent(userDetails);
+    }
+  }, [userDetails]);
+
+  const studentId = student.studentId;
+  console.log("studentId",studentId);
 
   const {
     data,
@@ -75,7 +88,7 @@ const HomeworkSubmissionComponent = () => {
 
       setLessons(flattenedLessons);
 
-      const studentId = '66bf72a3360ed91fa26e01d2';
+      
       setSubmittedHomeworkIds((prevIds) => {
         const newIds = new Set(prevIds);
         flattenedLessons.forEach((lesson) => {
@@ -92,7 +105,7 @@ const HomeworkSubmissionComponent = () => {
         return newIds;
       });
     }
-  }, [data]);
+  }, [data, studentId]);
 
   useEffect(() => {
     if (homeworkId && lessons.length > 0) {
@@ -157,7 +170,7 @@ const HomeworkSubmissionComponent = () => {
   }, [deleteError]);
 
   const deleteHomework = (homeworkId) => {
-    const studentId = '66bf72a3360ed91fa26e01d2'; // Replace with actual student ID
+   
     
     setDeleteSubmissionData({
       homeworkId,
@@ -188,7 +201,7 @@ const HomeworkSubmissionComponent = () => {
 
   const submitHomework = (homeworkId) => {
     const submissionTextValue = submissionText[homeworkId];
-    const studentId = '66bf72a3360ed91fa26e01d2'; // Replace with actual student ID
+ 
 
     if (submissionTextValue) {
       const selectedLesson = lessons[expandedLesson]; // Get the currently expanded lesson
@@ -197,20 +210,24 @@ const HomeworkSubmissionComponent = () => {
       setPostEndpoint(
         `student/homeworks/homework-submissions/${lessonId}/${homeworkId}`
       );
+      console.log("CHECK")
+      console.log("ID",studentId)
 
       setPostData({
         studentId,
         submissionText: submissionTextValue,
         homeworkId,
       });
+      console.log('Post data:', postData);
     } else {
       alert('Please enter the submission text');
     }
+    console.log('Post data:', postData);
   };
 
   const updateHomework = (homeworkId) => {
     const submissionTextValue = submissionText[homeworkId];
-    const studentId = '66bf72a3360ed91fa26e01d2'; // Replace with actual student ID
+     // Replace with actual student ID
 
     if (submissionTextValue) {
       const selectedLesson = lessons[expandedLesson]; // Get the currently expanded lesson
