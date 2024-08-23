@@ -14,6 +14,7 @@ const useGetRequest = (endpoint) => {
 
   useEffect(() => {
     const getRequest = async () => {
+      if (!endpoint) return;
       setLoading(true);
       try {
         const response = await fetch(prefix + endpoint, {

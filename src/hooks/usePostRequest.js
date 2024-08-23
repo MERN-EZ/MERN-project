@@ -26,11 +26,16 @@ const usePostRequest = (endpoint, requestData) => {
           },
           body: urlEncodedData,
         });
-        setResponse(await response.json());
+
+        if(response.ok) {
+          setResponse(await response.json());
+          console.log('response', response);
+        }
 
         if (!response.ok) {
           const data = await response.json();
           setError(data.error || 'Failed to post');
+          console.log('error', error);
         }
       } catch (error) {
         setError(error.message);
@@ -42,7 +47,7 @@ const usePostRequest = (endpoint, requestData) => {
     if (endpoint && requestData) {
       postRequest();
     }
-  }, [prefix, endpoint, requestData, DB]);
+  }, [prefix, endpoint, requestData, DB , error]);
 
   return { response, error, loading };
 };
