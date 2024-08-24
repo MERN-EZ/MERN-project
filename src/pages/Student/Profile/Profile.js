@@ -34,9 +34,11 @@ const ProfilePage = () => {
 
   useEffect(() => {
     if (deleteResponse) {
+      console.log('Delete Response:', deleteResponse);
       setUserDetails(null);
-      setUserRole('guest');
+      console.log('User DEt:', userDetails);
       setShowSuccessAlert(true);
+      console.log('Success Alert Triggered');
     }
   }, [deleteResponse, setUserDetails, setUserRole]);
 
@@ -49,9 +51,7 @@ const ProfilePage = () => {
   };
 
   const handleConfirmUnroll = () => {
-    if (student.studentId) {
-      setDeleteEndpoint(`/student/delete-profile`);
-    }
+    setDeleteEndpoint(`/student/delete-profile?studentId=${student.studentId}`);
     setShowAlert(false);
   };
 
@@ -61,6 +61,8 @@ const ProfilePage = () => {
 
   const handleSuccessAlertClose = () => {
     setShowSuccessAlert(false);
+    setUserRole('guest');
+    console.log('Navigating to home');
     navigate('/');
   };
 
@@ -134,7 +136,7 @@ const ProfilePage = () => {
         <Alert
           message="You have unrolled successfully!"
           variant="success"
-          onCancel={handleSuccessAlertClose}
+          onClose={handleSuccessAlertClose}
         />
       )}
     </div>
