@@ -48,10 +48,7 @@ The application uses context providers to manage global state:
 - **UserContext**: Manages user details and authentication state. Defined in `src/context/UserContext.js`.
 - **UserRoleContext**: Manages user roles. Defined in `src/context/UserRoleContext.js`.
 - **DatabaseContext**: Manages database connections and state. Defined in `src/context/DatabaseContext.js`.
-
-### Backend Connection
-
-The application connects to a backend server using Axios for API requests. The backend URL is configured in the custom hooks, such as in `src/hooks/useLogin.js`.
+-
 
 ## Setup
 
