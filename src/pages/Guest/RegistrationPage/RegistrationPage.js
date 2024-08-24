@@ -74,7 +74,6 @@ const RegistrationPage = () => {
     }
 
     try {
-      console.log('Sending request');
       const response = await fetch('http://localhost:5000/guest/register', {
         method: 'POST',
         headers: {
@@ -87,7 +86,7 @@ const RegistrationPage = () => {
       console.log('Response received');
       //console.log('Response Status:', response.status);
       //console.log('Response Headers:', [...response.headers.entries()]);
-      const contentType = response.headers.get('Content-Type');
+      //const contentType = response.headers.get('Content-Type');
       //remove
       const data = await response.json();
 

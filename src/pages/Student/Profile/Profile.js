@@ -17,6 +17,9 @@ const ProfilePage = () => {
   const { setUserRole } = useUserRole();
 
   const [deleteEndpoint, setDeleteEndpoint] = useState(null);
+  const [showAlert, setShowAlert] = useState(false);
+  const [showSuccessAlert, setShowSuccessAlert] = useState(false);
+
   const {
     data: deleteResponse,
     error: deleteError,
@@ -32,39 +35,33 @@ const ProfilePage = () => {
   useEffect(() => {
     if (deleteResponse) {
       setUserDetails(null);
-      setUserRole('guest'); // Clear user details from context
-      navigate('/'); // Redirect to home or login page
+      setUserRole('guest');
+      setShowSuccessAlert(true);
     }
-  }, [deleteResponse, navigate, setUserDetails, setUserRole]);
-
-  useEffect(() => {
-    if (deleteEndpoint) {
-      // This effect runs whenever deleteEndpoint changes, triggering the delete request
-      setDeleteEndpoint(deleteEndpoint);
-    }
-  }, [deleteEndpoint]);
+  }, [deleteResponse, setUserDetails, setUserRole]);
 
   const handleEditProfileClick = () => {
     navigate('/edit-profile', { state: { name: student.username } });
   };
 
-  const handlePaymentsClick = () => {
-    navigate('/payments');
+  const handleUnrollClick = () => {
+    setShowAlert(true);
   };
 
-  const handleUnrollClick = () => {
-    // Set the endpoint for deletion and trigger the delete request
+  const handleConfirmUnroll = () => {
     if (student.studentId) {
       setDeleteEndpoint(`/student/delete-profile`);
     }
+    setShowAlert(false);
   };
 
-  const [showAlert, setShowAlert] = useState(false);
-  const handleAlertClick = () => {
-    setShowAlert(true);
-  };
-  const handleCancelAlert = () => {
+  const handleCancelUnroll = () => {
     setShowAlert(false);
+  };
+
+  const handleSuccessAlertClose = () => {
+    setShowSuccessAlert(false);
+    navigate('/');
   };
 
   if (deleteLoading) return <Alert message="Deleting..." variant="message" />;
@@ -113,21 +110,33 @@ const ProfilePage = () => {
               <span>{student.registeredDate}</span>
             </div>
           </div>
+        </div>
+        <div className="profile-actions">
           <Button
             text="Edit profile"
             variant="secondary"
             onClick={handleEditProfileClick}
           />
-        </div>
-        <div className="profile-actions">
-          <Button
-            text="Payments"
-            variant="primary"
-            onClick={handlePaymentsClick}
-          />
           <Button text="Unroll" variant="primary" onClick={handleUnrollClick} />
         </div>
       </div>
+
+      {showAlert && (
+        <Alert
+          message="Are you sure you want to unroll from this class?"
+          variant="action"
+          onConfirm={handleConfirmUnroll}
+          onCancel={handleCancelUnroll}
+        />
+      )}
+
+      {showSuccessAlert && (
+        <Alert
+          message="You have unrolled successfully!"
+          variant="success"
+          onCancel={handleSuccessAlertClose}
+        />
+      )}
     </div>
   );
 };
