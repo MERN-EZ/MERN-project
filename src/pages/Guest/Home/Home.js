@@ -4,6 +4,7 @@ import './Home.scss';
 import Button from '../../../components/common/Button/Button';
 import useGetRequest from '../../../hooks/useGetRequest';
 import Teacher from '../../../images/Teacher.jpg'; // Ensure the correct path
+import Alert from '../../../components/common/Alert/Alert';
 
 const GuestHomePage = () => {
   const [courses, setCourses] = useState([]);
@@ -19,8 +20,23 @@ const GuestHomePage = () => {
   console.log('Error:', error);
   console.log('Courses Data:', courses);
 
-  if (loading) return <p>Loading...</p>;
-  if (error) return <p>Error: {error}</p>;
+  const [showAlert, setShowAlert] = useState(true);
+  if (loading && showAlert)
+    return (
+      <Alert
+        message={'Loading...'}
+        variant={'message'}
+        onCancel={() => setShowAlert(false)}
+      />
+    );
+  if (error && showAlert)
+    return (
+      <Alert
+        message={'Error: ' + error}
+        variant={'message'}
+        onCancel={() => setShowAlert(false)}
+      />
+    );
 
   return (
     <div className="guest-home container">
