@@ -20,8 +20,17 @@ const localIP = getLocalIP();
 if (localIP) {
   const rootPath = path.join(__dirname, '../..');
   const envPath = path.join(rootPath, '.env');
-  fs.writeFileSync(envPath, `REACT_APP_LOCAL_IP=${localIP}\n`);
-  console.log(`Local IP address saved to ${envPath}`);
+  const existingEnv = fs.readFileSync(envPath, 'utf8');
+  const envContent = `REACT_APP_LOCAL_IP=${localIP}\n`;
+
+  if (!existingEnv.includes('REACT_APP_LOCAL_IP')) {
+    fs.writeFileSync(envPath, envContent);
+    console.log(`Local IP address saved to ${envPath}`);
+  } else {
+    console.log(
+      'Local IP address already exists in .env file. Skipping overwrite.'
+    );
+  }
 } else {
   console.error('Unable to find local IP address.');
 }

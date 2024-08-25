@@ -42,15 +42,8 @@
     gap: 20px; /* Added gap between text fields */
     width: 100%;
     margin-bottom: 10px;
-    align-items: center; /* Increased margin */
   }
-  .inputContainer {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-bottom: 10px;
-  }
-
+  
   .actions {
     display: flex;
     justify-content: space-between;

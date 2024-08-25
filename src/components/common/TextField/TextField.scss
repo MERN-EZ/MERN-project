@@ -4,7 +4,7 @@
   margin-bottom: 20px; /* Space between fields */
 
   label {
-    margin-left: 10px; /* Adjusted space between label and input */
+    /* Adjusted space between label and input */
     font-weight: bold;
     font-size: 1rem;
     color: var(--text-fields-alt-text-color);
@@ -13,9 +13,8 @@
   }
 
   input {
-    align-items: right;
+    margin-left: 10px;
     width: 100%;
-    padding: 10px;
     font-size: 2rem;
     border: 1px solid #ccc;
     border-radius: 4px;
