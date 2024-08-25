@@ -51,7 +51,7 @@ const ProfilePage = () => {
   };
 
   const handleConfirmUnroll = () => {
-    setDeleteEndpoint(`/student/delete-profile?studentId=${student.studentId}`);
+    setDeleteEndpoint(`student/delete-profile?studentId=${student.studentId}`);
     setShowAlert(false);
   };
 

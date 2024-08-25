@@ -1,7 +1,7 @@
 import React from 'react';
 import './Alert.css';
 
-const Alert = ({ message, onConfirm, onCancel, variant, onClose }) => {
+const Alert = ({ message, onConfirm, onCancel, variant }) => {
   return (
     <div className="alert">
       <div className="alert-content">
@@ -12,7 +12,7 @@ const Alert = ({ message, onConfirm, onCancel, variant, onClose }) => {
             <button onClick={onCancel}>Cancel</button>
           </>
         ) : (
-          <button onClick={onClose}>Close</button>
+          <button onClick={onCancel}>Close</button>
         )}
       </div>
     </div>

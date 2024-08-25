@@ -4,7 +4,7 @@ import { useDB } from '../context/DatabaseContext';
 const useDeleteRequest = (endpoint) => {
   //const localIP = 'localhost';
   const localIP = process.env.REACT_APP_LOCAL_IP || 'localhost';
-  const prefix = `http://${localIP}:5000`;
+  const prefix = `http://${localIP}:5000/`;
 
   const [data, setData] = useState(null);
   const [error, setError] = useState(null);
