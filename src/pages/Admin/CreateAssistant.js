@@ -1,4 +1,4 @@
-import React, { useState, useEffect  } from 'react';
+import React, { useState } from 'react';
 import {
   Container,
   Box,
@@ -10,6 +10,8 @@ import {
   Typography,
 } from '@mui/material';
 import Button from '../../components/common/Button/Button';
+import usePostRequest from '../../hooks/usePostRequest';
+import useGetRequest from '../../hooks/useGetRequest';
 
 const CreateAssistant = () => {
   const [formData, setFormData] = useState({
@@ -27,24 +29,6 @@ const CreateAssistant = () => {
 
   // State to control form visibility
   const [showForm, setShowForm] = useState(false);
-
-  // State to manage the list of assistants
-  const [assistants, setAssistants] = useState([]);
-
-    // Fetch assistants from the server
-    const fetchAssistants = async () => {
-      try {
-        const response = await fetch('/admin/assistants');
-        setAssistants(response.data);
-      } catch (error) {
-        console.error('Error fetching assistants:', error);
-      }
-    };
-  
-    useEffect(() => {
-      // Fetch assistants when the component mounts
-      fetchAssistants();
-    }, []);
 
 
   const handleInputChange = (e) => {
@@ -93,35 +77,27 @@ const CreateAssistant = () => {
     return Object.keys(errors).length === 0;
   };
 
-  // const handleCreateAccount = async () => {
-  //   if (validate()) {
-  //     try {
-  //       // Submit the form data to create a new assistant
-  //       await post('/assistant/users', formData);
+  // Post the form data - Create an assistant
+  const { response} = usePostRequest('/admin/assistants', formData);
 
-  //       // Fetch the updated list of assistants
-  //       fetchAssistants();
+   // Fetch created assistants using the useGetRequest hook
+   const { data: assistants, error: getError, loading: fetching } = useGetRequest('/admin/assistants');
 
-  //       // Clear the form and hide it
-  //       setFormData({
-  //         assistantId: '',
-  //         firstName: '',
-  //         lastName: '',
-  //         batch: '',
-  //         password: '',
-  //         email: '',
-  //         phoneNumber: '',
-  //       });
-  //       setShowForm(false);
-  //       alert('Assistant account created successfully.');
-  //     } catch (error) {
-  //       console.error('Error creating assistant:', error);
-  //       alert('Failed to create assistant. Please try again.');
-  //     }
-  //   } else {
-  //     alert('Please fill in all fields correctly.');
-  //   }
-  // };
+  const handleCreateAccount = async () => {
+    if (validate()) {
+      try {
+        // Submit the form data to create a new assistant
+        await response;
+        setShowForm(false);
+        alert('Assistant account created successfully.');
+      } catch (error) {
+        console.error('Error creating assistant:', error);
+        alert('Failed to create assistant. Please try again.');
+      }
+    } else {
+      alert('Please fill in all fields correctly.');
+    }
+  };
 
   const handleCancel = () => {
     alert('Assistant creation cancelled.');
@@ -257,26 +233,26 @@ const CreateAssistant = () => {
           </Card>
         </Box>
       )}
-      {/* Display List of Assistants */}
-        <Box sx={{ marginTop: '20px' }}>
+ {/* Display List of Assistants */}
+ <Box sx={{ marginTop: '20px' }}>
         <Typography variant="h6" gutterBottom>
           Created Assistants
         </Typography>
-        <Stack spacing={2}>
-          {assistants.map((assistant) => (
-            <Card key={assistant._id} sx={{ minWidth: 275, boxShadow: 3 }}>
-              <CardContent>
-                <Typography variant="h6">
-                  {assistant.firstName} {assistant.lastName}
-                </Typography>
-                <Typography variant="body2">ID: {assistant.assistantId}</Typography>
-                <Typography variant="body2">Email: {assistant.email}</Typography>
-                <Typography variant="body2">Phone: {assistant.phoneNumber}</Typography>
-                <Typography variant="body2">Batch: {assistant.batch}</Typography>
-              </CardContent>
-            </Card>
-          ))}
-        </Stack>
+        {fetching && <p>Loading...</p>}
+        {getError && <p>Error fetching data: {getError.message}</p>}
+        {assistants?.map((assistant) => (
+          <Card key={assistant._id} sx={{ marginBottom: '10px', boxShadow: 1 }}>
+            <CardContent>
+              <Typography variant="h6">
+                {assistant.firstName} {assistant.lastName}
+              </Typography>
+              <Typography variant="body2">ID: {assistant.assistantId}</Typography>
+              <Typography variant="body2">Email: {assistant.email}</Typography>
+              <Typography variant="body2">Phone: {assistant.phoneNumber}</Typography>
+              <Typography variant="body2">Batch: {assistant.batch}</Typography>
+            </CardContent>
+          </Card>
+        ))}
       </Box>
     </Container>
   );
