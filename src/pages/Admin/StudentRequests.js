@@ -73,18 +73,13 @@ const StudentRequests = () => {
             ? { ...request, status: 'Rejected' }
             : request
         )
-      );
+      ); 
 
       setRejectEndpoint(null);
     }
   }, [rejectData]);
 
   // Handle the "Accept" action for a student request
-  // const handleAccept = (studentId) => {
-  //   alert(`Student with ID ${studentId} request successfully Approved.`);
-  //   setAcceptEndpoint(`student/requests/accept/${studentId}`);
-  // };
-
   const handleAccept = (studentId) => {
     if (
       window.confirm(
@@ -94,8 +89,12 @@ const StudentRequests = () => {
       setAcceptEndpoint(`student/requests/accept/${studentId}`);
     }
   };
-  // Handle the "Reject" action for a student request
+  // const handleAccept = (studentId) => {
+  //   alert(`Student with ID ${studentId} request successfully Approved.`);
+  //   setAcceptEndpoint(`student/requests/accept/${studentId}`);
+  // };
 
+  // Handle the "Reject" action for a student request
   const handleReject = (studentId) => {
     if (
       window.confirm(
