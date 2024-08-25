@@ -8,8 +8,8 @@ const assistant_tabs = [
 ];
 const admin_tabs = [
   { text: 'Home', url: '/home', isActive: true },
-  { text: 'Requests', url: '/requests', isActive: false },
-  { text: 'Announcements', url: '/announcements', isActive: false },
+  { text: 'Student Requests', url: '/requests', isActive: false },
+  { text: 'Create Assistant', url: '/createAssistant', isActive: false },
   { text: 'Student Management', url: '/StudentManagement', isActive: false },
 ];
 
