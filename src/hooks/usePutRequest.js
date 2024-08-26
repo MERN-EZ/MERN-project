@@ -4,7 +4,7 @@ import { useDB } from '../context/DatabaseContext';
 const usePutRequest = (endpoint, requestData) => {
   //const localIP = 'localhost';
   const localIP = process.env.REACT_APP_LOCAL_IP || 'localhost';
-  const prefix = `http://${localIP}:5000/`;
+  const prefix = `http://mern-project-backend-production.up.railway.app:8080/`;
 
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
