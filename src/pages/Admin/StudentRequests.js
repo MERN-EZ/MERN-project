@@ -39,19 +39,23 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 const StudentRequests = () => {
   // Fetch student requests data
   const { data, error, loading } = useGetRequest('student/requests');
-  const [requests, setRequests] = useState(data || []);
-  const [acceptEndpoint, setAcceptEndpoint] = useState(null);
-  const [rejectEndpoint, setRejectEndpoint] = useState(null);
+  
+  const [requests, setRequests] = useState(data || []); // State to store student requests
+  const [acceptEndpoint, setAcceptEndpoint] = useState(null); // State to store the accept endpoint URL
+  const [rejectEndpoint, setRejectEndpoint] = useState(null); // State to store the reject endpoint URL
 
   const { data: acceptData } = usePutRequest(acceptEndpoint, {});
   const { data: rejectData } = usePutRequest(rejectEndpoint, {});
 
+  // Update requests state when new data is fetched
   useEffect(() => {
     if (data) setRequests(data);
   }, [data]);
 
+  // Handle the response from accepting a student request
   useEffect(() => {
     if (acceptData) {
+      // Remove the accepted request from the list
       setRequests((prevRequests) =>
         prevRequests.filter(
           (request) => request.studentId !== acceptData.studentId
@@ -61,12 +65,15 @@ const StudentRequests = () => {
       //   request.studentId === acceptData.studentId ? { ...request, status: 'Approved' } : request
       // ));
 
-      setAcceptEndpoint(null);
+      setAcceptEndpoint(null); // Reset the accept endpoint state
     }
   }, [acceptData]);
 
+
+   // Handle the response from rejecting a student request
   useEffect(() => {
     if (rejectData) {
+      // Update the status of the rejected request
       setRequests((prevRequests) =>
         prevRequests.map((request) =>
           request.studentId === rejectData.studentId
@@ -75,7 +82,7 @@ const StudentRequests = () => {
         )
       ); 
 
-      setRejectEndpoint(null);
+      setRejectEndpoint(null); // Reset the reject endpoint state // Reset to null after processing
     }
   }, [rejectData]);
 
@@ -86,6 +93,8 @@ const StudentRequests = () => {
         `Are you sure you want to accept the student with ID ${studentId}?`
       )
     ) {
+
+      // Set the accept endpoint URL for the specific student request
       setAcceptEndpoint(`student/requests/accept/${studentId}`);
     }
   };
@@ -101,6 +110,7 @@ const StudentRequests = () => {
         `Are you sure you want to reject the student with ID ${studentId}?`
       )
     ) {
+      // Set the reject endpoint URL for the specific student request
       setRejectEndpoint(`student/requests/reject/${studentId}`);
     }
   };
@@ -111,9 +121,10 @@ const StudentRequests = () => {
   // };
 
   if (loading) return <Alert message="Loading..." variant="message" />;
-  if (error) return <p>{error}</p>;
+  if (error) return <p>{error}</p>; // Display error message if there was an error fetching data
 
   return (
+    // Table container for displaying student requests
     <TableContainer component={Paper} className="table-container">
       <Table sx={{ minWidth: 700 }} aria-label="customized table">
         <TableHead>
@@ -155,7 +166,7 @@ const StudentRequests = () => {
                     variant="contained"
                     color="success"
                     onClick={() => handleAccept(request.studentId)}
-                    disabled={request.status !== 'Pending'}
+                    //disabled={request.status !== 'Pending'}
                   >
                     Accept
                   </Button>
