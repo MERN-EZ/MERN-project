@@ -4,7 +4,7 @@ import { useDB } from '../context/DatabaseContext';
 const useDeleteRequest = (endpoint) => {
   //const localIP = 'localhost';
   const localIP = process.env.REACT_APP_LOCAL_IP || 'localhost';
-  const prefix = `https://mern-project-backend-production.up.railway.app:8080/`;
+  const prefix = `https://mern-project-backend-production.up.railway.app/`;
 
   const [data, setData] = useState(null);
   const [error, setError] = useState(null);

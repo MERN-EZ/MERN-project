@@ -2,12 +2,12 @@ import { useDB } from '../context/DatabaseContext';
 import { useUser } from '../context/UserContext';
 import { useState } from 'react';
 import axios from 'axios';
-import {useUserRole} from '../context/UserRoleContext';
+import { useUserRole } from '../context/UserRoleContext';
 
 const useLogin = () => {
   const { DB, setDB } = useDB();
   const { setUserDetails } = useUser();
-  const {userRole, setUserRole} = useUserRole();
+  const { userRole, setUserRole } = useUserRole();
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
 
@@ -17,9 +17,10 @@ const useLogin = () => {
 
     try {
       setDB(year);
-      const response = await axios.post(`http://localhost:5000/guest/auth/login`, 
+      const response = await axios.post(
+        `https://localhost:5000/guest/auth/login`,
         { username, password, year },
-        {headers: {'db-name': DB,},}
+        { headers: { 'db-name': DB } }
       );
       setUserRole('student');
       setUserDetails(response.data);
