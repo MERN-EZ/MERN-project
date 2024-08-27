@@ -136,7 +136,7 @@ const ProfilePage = () => {
         <Alert
           message="You have unrolled successfully!"
           variant="success"
-          onClose={handleSuccessAlertClose}
+          onCancel={handleSuccessAlertClose}
         />
       )}
     </div>
