@@ -8,10 +8,11 @@ import {
   Card,
   CardContent,
   Typography,
+  IconButton,
 } from '@mui/material';
+import EditIcon from '@mui/icons-material/Edit';
+import DeleteIcon from '@mui/icons-material/Delete';
 import Button from '../../components/common/Button/Button';
-import usePostRequest from '../../hooks/usePostRequest';
-import useGetRequest from '../../hooks/useGetRequest';
 
 const CreateAssistant = () => {
   const [formData, setFormData] = useState({
@@ -24,85 +25,57 @@ const CreateAssistant = () => {
     phoneNumber: '',
   });
 
-  // State to manage form errors for validation
-  const [formErrors, setFormErrors] = useState({});
-
   // State to control form visibility
   const [showForm, setShowForm] = useState(false);
-
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData((prevState) => ({ ...prevState, [name]: value }));
   };
 
-  // Validate the form fields before submission
-  const validate = () => {
-    let errors = {};
-
-    // Assistant ID validation (e.g., A001)
-    const assistantIdPattern = /^A\d{3}$/;
-    if (!assistantIdPattern.test(formData.assistantId)) {
-      errors.assistantId = 'Assistant ID should be in the format A001.';
-    }
-
-    // Password validation (6 characters, 4 letters, 2 numbers)
-    const passwordPattern = /^(?=.*[A-Za-z]{4,})(?=.*\d{2,})[A-Za-z\d]{6,}$/;
-    if (!passwordPattern.test(formData.password)) {
-      errors.password =
-        'Password should be 6 characters long with 4 letters and 2 numbers.';
-    }
-
-    // Email validation
-    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailPattern.test(formData.email)) {
-      errors.email = 'Please enter a valid email address.';
-    }
-
-    // Phone number validation (10 digits)
-    const phonePattern = /^\d{10}$/;
-    if (!phonePattern.test(formData.phoneNumber)) {
-      errors.phoneNumber = 'Phone number should be exactly 10 digits.';
-    }
-
-    // First Name and Last Name validation
-    if (!formData.firstName) {
-      errors.firstName = 'First Name is required.';
-    }
-    if (!formData.lastName) {
-      errors.lastName = 'Last Name is required.';
-    }
-
-    setFormErrors(errors);
-    return Object.keys(errors).length === 0;
-  };
-
-  // Post the form data - Create an assistant
-  const { response} = usePostRequest('/admin/assistants', formData);
-
-   // Fetch created assistants using the useGetRequest hook
-   const { data: assistants, error: getError, loading: fetching } = useGetRequest('/admin/assistants');
-
-  const handleCreateAccount = async () => {
-    if (validate()) {
-      try {
-        // Submit the form data to create a new assistant
-        await response;
-        setShowForm(false);
-        alert('Assistant account created successfully.');
-      } catch (error) {
-        console.error('Error creating assistant:', error);
-        alert('Failed to create assistant. Please try again.');
-      }
-    } else {
-      alert('Please fill in all fields correctly.');
-    }
+  const handleCreateAccount = () => {
+    // This is where you would handle the creation of a new assistant.
+    // For now, we'll just hide the form and show a success message.
+    //setShowForm(false);
+    alert('Assistant account created successfully.');
+    setShowForm(false);
   };
 
   const handleCancel = () => {
     alert('Assistant creation cancelled.');
     setShowForm(false); // Hide the form
   };
+
+  // Dummy data for assistants
+  const dummyAssistants = [
+    {
+      _id: '1',
+      assistantId: 'A001',
+      firstName: 'John',
+      lastName: 'Doe',
+      email: 'john.doe@example.com',
+      phoneNumber: '0774567890',
+      batch: '2024',
+    },
+    {
+      _id: '2',
+      assistantId: 'A002',
+      firstName: 'Jane',
+      lastName: 'Smith',
+      email: 'jane.smith@example.com',
+      phoneNumber: '0774567891',
+      batch: '2025',
+    },
+    {
+      _id: '3',
+      assistantId: 'A003',
+      firstName: 'Alice',
+      lastName: 'Johnson',
+      email: 'alice.johnson@example.com',
+      phoneNumber: '0774567892',
+      batch: '2026',
+    },
+  ];
 
   return (
     <Container sx={{ position: 'relative', paddingTop: '20px' }}>
@@ -136,8 +109,6 @@ const CreateAssistant = () => {
                       value={formData.assistantId}
                       onChange={handleInputChange}
                       required
-                      error={!!formErrors.assistantId}
-                      helperText={formErrors.assistantId || 'Format: A001'}
                     />
                     <TextField
                       label="First Name"
@@ -145,8 +116,6 @@ const CreateAssistant = () => {
                       value={formData.firstName}
                       onChange={handleInputChange}
                       required
-                      error={!!formErrors.firstName}
-                      helperText={formErrors.firstName}
                     />
                     <TextField
                       label="Last Name"
@@ -154,8 +123,6 @@ const CreateAssistant = () => {
                       value={formData.lastName}
                       onChange={handleInputChange}
                       required
-                      error={!!formErrors.lastName}
-                      helperText={formErrors.lastName}
                     />
                     <TextField
                       type="password"
@@ -164,11 +131,6 @@ const CreateAssistant = () => {
                       value={formData.password}
                       onChange={handleInputChange}
                       required
-                      error={!!formErrors.password}
-                      helperText={
-                        formErrors.password ||
-                        '6 characters, 4 letters, 2 numbers'
-                      }
                     />
                   </Stack>
                   <Stack direction="row" spacing={2}>
@@ -193,10 +155,6 @@ const CreateAssistant = () => {
                       value={formData.email}
                       onChange={handleInputChange}
                       required
-                      error={!!formErrors.email}
-                      helperText={
-                        formErrors.email || 'e.g., user@example.com'
-                      }
                     />
                     <TextField
                       label="Phone Number"
@@ -205,10 +163,6 @@ const CreateAssistant = () => {
                       value={formData.phoneNumber}
                       onChange={handleInputChange}
                       required
-                      error={!!formErrors.phoneNumber}
-                      helperText={
-                        formErrors.phoneNumber || 'Format: 0774567290'
-                      }
                     />
                   </Stack>
                   <Stack
@@ -233,23 +187,31 @@ const CreateAssistant = () => {
           </Card>
         </Box>
       )}
- {/* Display List of Assistants */}
- <Box sx={{ marginTop: '20px' }}>
+      {/* Display List of Assistants */}
+      <Box sx={{ marginTop: '80px', marginLeft: '-120px' }}>
         <Typography variant="h6" gutterBottom>
           Created Assistants
         </Typography>
-        {fetching && <p>Loading...</p>}
-        {getError && <p>Error fetching data: {getError.message}</p>}
-        {assistants?.map((assistant) => (
+        {dummyAssistants.map((assistant) => (
           <Card key={assistant._id} sx={{ marginBottom: '10px', boxShadow: 1 }}>
-            <CardContent>
-              <Typography variant="h6">
-                {assistant.firstName} {assistant.lastName}
-              </Typography>
-              <Typography variant="body2">ID: {assistant.assistantId}</Typography>
-              <Typography variant="body2">Email: {assistant.email}</Typography>
-              <Typography variant="body2">Phone: {assistant.phoneNumber}</Typography>
-              <Typography variant="body2">Batch: {assistant.batch}</Typography>
+            <CardContent sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+              <Box>
+                <Typography variant="h6">
+                  {assistant.firstName} {assistant.lastName}
+                </Typography>
+                <Typography variant="body2">ID: {assistant.assistantId}</Typography>
+                <Typography variant="body2">Email: {assistant.email}</Typography>
+                <Typography variant="body2">Phone: {assistant.phoneNumber}</Typography>
+                <Typography variant="body2">Batch: {assistant.batch}</Typography>
+              </Box>
+              <Box>
+                <IconButton aria-label="edit" onClick={() => console.log('Edit', assistant._id)}>
+                  <EditIcon />
+                </IconButton>
+                <IconButton aria-label="delete" onClick={() => console.log('Delete', assistant._id)}>
+                  <DeleteIcon />
+                </IconButton>
+              </Box>
             </CardContent>
           </Card>
         ))}

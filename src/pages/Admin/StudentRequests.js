@@ -56,6 +56,9 @@ const StudentRequests = () => {
   useEffect(() => {
     if (acceptData) {
       // Remove the accepted request from the list
+
+      console.log('Accepted student:', acceptData);
+
       setRequests((prevRequests) =>
         prevRequests.filter(
           (request) => request.studentId !== acceptData.studentId
@@ -74,6 +77,9 @@ const StudentRequests = () => {
   useEffect(() => {
     if (rejectData) {
       // Update the status of the rejected request
+
+      console.log('Rejected student:', rejectData);
+      
       setRequests((prevRequests) =>
         prevRequests.map((request) =>
           request.studentId === rejectData.studentId
@@ -88,6 +94,7 @@ const StudentRequests = () => {
 
   // Handle the "Accept" action for a student request
   const handleAccept = (studentId) => {
+    console.log(`Accepting student with ID: ${studentId}`); 
     if (
       window.confirm(
         `Are you sure you want to accept the student with ID ${studentId}?`
@@ -105,6 +112,7 @@ const StudentRequests = () => {
 
   // Handle the "Reject" action for a student request
   const handleReject = (studentId) => {
+    console.log(`Rejecting student with ID: ${studentId}`);
     if (
       window.confirm(
         `Are you sure you want to reject the student with ID ${studentId}?`
@@ -134,7 +142,6 @@ const StudentRequests = () => {
             <StyledTableCell align="center">Last Name</StyledTableCell>
             <StyledTableCell align="center">Email</StyledTableCell>
             <StyledTableCell align="center">Registered Date</StyledTableCell>
-
             <StyledTableCell align="center">Transaction ID</StyledTableCell>
             <StyledTableCell align="center">Action</StyledTableCell>
           </TableRow>
@@ -189,3 +196,30 @@ const StudentRequests = () => {
 };
 
 export default StudentRequests;
+
+
+// useEffect(() => {
+//   if (acceptData) {
+//     console.log('Accepted student:', acceptData);
+
+//     setRequests((prevRequests) =>
+//       prevRequests.filter(
+//         (request) => request.studentId !== acceptData.studentId
+//       )
+//     );
+//     setAcceptEndpoint(null);
+//   }
+
+//   if (rejectData) {
+//     console.log('Rejected student:', rejectData);
+
+//     setRequests((prevRequests) =>
+//       prevRequests.map((request) =>
+//         request.studentId === rejectData.studentId
+//           ? { ...request, status: 'Rejected' }
+//           : request
+//       )
+//     );
+//     setRejectEndpoint(null);
+//   }
+// }, [acceptData, rejectData]);
