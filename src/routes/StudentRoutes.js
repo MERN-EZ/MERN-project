@@ -9,6 +9,7 @@ import Payments from '../pages/Student/Components/Payments';
 import HomeworkSubmission from '../pages/Student/Components/HomeWorkSubmission';
 import NotFound from '../pages/NotFound/NotFound';
 import StudentSupportPage from '../pages/Student/StudentSupportPage/StudentSupportPage';
+import Logout from '../pages/Student/Logout/logout';
 
 const StudentRoutes = () => (
   <Routes>
@@ -24,6 +25,7 @@ const StudentRoutes = () => (
     />
     <Route path="/payments" element={<Payments />} />
     <Route path="/homework-submission" element={<HomeworkSubmission />} />
+    <Route path="/logout" element={<Logout />} />
     <Route
       path="/homework-submission/:lessonId/:homeworkId"
       element={<HomeworkSubmission />}

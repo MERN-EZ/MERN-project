@@ -1,13 +1,14 @@
 import React from 'react';
 import HomeIcon from '@mui/icons-material/Home';
 // import InfoIcon from '@mui/icons-material/Info';
-import NotificationsActiveIcon from '@mui/icons-material/NotificationsActive';
+// import NotificationsActiveIcon from '@mui/icons-material/NotificationsActive';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import QuizIcon from '@mui/icons-material/Quiz';
 import ContactMailIcon from '@mui/icons-material/ContactMail';
 // import FileCopyIcon from '@mui/icons-material/FileCopy';
 import AdminPanelSettingsIcon from '@mui/icons-material/AdminPanelSettings';
 import AssistantIcon from '@mui/icons-material/Assistant';
+import LogoutIcon from '@mui/icons-material/Logout';
 
 const navLinks_teacher = [
   { path: '/', name: 'Home', exact: true, icon: <HomeIcon /> },
@@ -16,13 +17,9 @@ const navLinks_teacher = [
 
 const navLinks_student = [
   { path: '/', name: 'Home', exact: true, icon: <HomeIcon /> },
-  {
-    path: '/notification',
-    name: 'Notification',
-    icon: <NotificationsActiveIcon />,
-  },
   { path: '/student/StudentSupportPage', name: 'StudentSupportPage', icon: <QuizIcon /> },
   { path: '/student/users', name: 'Profile', icon: <AccountCircleIcon /> },
+  { path: '/student/logout', name: 'Logout', icon: <LogoutIcon/> },
 ];
 
 const navLinks_admin = [
