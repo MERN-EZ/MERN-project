@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useDB } from '../../../context/DatabaseContext';
 import Button from '../../../components/common/Button/Button';
 import { useUser } from '../../../context/UserContext';
 import Alert from '../../../components/common/Alert/Alert';
+import usePostRequest from '../../../hooks/usePostRequest';
 import './StudentSupportPage.scss';
 
 const StudentSupportPage = () => {
@@ -12,7 +13,35 @@ const StudentSupportPage = () => {
   const [alertMessage, setAlertMessage] = useState(null);
   const [alertType, setAlertType] = useState('');
 
-  const handleSend = async () => {
+  const [postData, setPostData] = useState(null);
+  const [postEndpoint, setPostEndpoint] = useState(null);
+
+  const { response, error: postError, loading: postLoading } = usePostRequest(postEndpoint, postData, {
+    'Content-Type': 'application/json',
+  });
+  
+
+  useEffect(() => {
+    console.log('response', response);
+    // Handle response or error from the POST request
+    if (response) {
+      console.log('response', response);
+      setAlertMessage('Your message has been sent successfully.');
+      setAlertType('success');
+      setMessage(''); // Clear the textarea
+      setPostData(null); // Reset postData after the request is completed
+      setPostEndpoint(null); // Reset postEndpoint after the request is completed
+    }
+    console.log('postError', postError);
+    if (postError) {
+      setAlertMessage('Failed to send message. Please try again later.');
+      setAlertType('error');
+      setPostData(null); // Reset postData after the request is completed
+      setPostEndpoint(null); // Reset postEndpoint after the request is completed
+    }
+  }, [response, postError]);
+
+  const handleSend = () => {
     if (!message.trim()) {
       setAlertMessage('Please enter a message.');
       setAlertType('error');
@@ -27,40 +56,21 @@ const StudentSupportPage = () => {
       batch: DB,
     };
 
-    try {
-      const response = await fetch(`/student/support`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(supportData),
-      });
-
-      const data = await response.json();
-
-      if (response.ok) {
-        setAlertMessage('Your message has been sent successfully.');
-        setAlertType('success');
-        setMessage(''); // Clear the textarea
-      } else {
-        setAlertMessage(data.message || 'Something went wrong.');
-        setAlertType('error');
-      }
-    } catch (error) {
-      setAlertMessage('Failed to send message. Please try again later.');
-      setAlertType('error');
-    }
+    setPostData(supportData);
+    setPostEndpoint('student/StudentSupportPage/support');
   };
+
+  if (postLoading) {
+    return <div>Sending message...</div>;
+  }
 
   return (
     <div className="student-support-page">
       <h1>Student Support</h1>
-
       <p>
         We're here to ensure you have the best experience in your ICT class.
         Don’t hesitate to ask questions or suggest improvements—we’re listening!
       </p>
-
       <div className="student-info">
         <p>
           <strong>Student ID:</strong> {userDetails.studentId}
@@ -69,7 +79,6 @@ const StudentSupportPage = () => {
           <strong>Email:</strong> {userDetails.email}
         </p>
       </div>
-
       <div className="form-group">
         <label>Message:</label>
         <textarea
@@ -78,9 +87,11 @@ const StudentSupportPage = () => {
           placeholder="Type your question or suggestion here..."
         />
       </div>
-
-      <Button onClick={handleSend}>Send Message</Button>
-
+      <div>
+        <Button onClick={handleSend} style={{ display: 'block', margin: '10px auto' }}>
+          Send Message
+        </Button>
+      </div>
       {alertMessage && <Alert type={alertType}>{alertMessage}</Alert>}
     </div>
   );
