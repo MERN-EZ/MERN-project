@@ -9,6 +9,8 @@ import Payments from '../pages/Student/Components/Payments';
 import HomeworkSubmission from '../pages/Student/Components/HomeWorkSubmission';
 import NotFound from '../pages/NotFound/NotFound';
 // import Logout from '../pages/Student/Logout/logout';
+import StudentSupportPage from '../pages/Student/StudentSupportPage/StudentSupportPage';
+import Logout from '../pages/Student/Logout/logout';
 
 const StudentRoutes = () => (
   <Routes>
@@ -18,17 +20,23 @@ const StudentRoutes = () => (
     <Route path="/student/users" element={<Profile />} />
     <Route path="/student/users/:id" element={<Profile />} />
     <Route path="/edit-profile" element={<EditProfile />} />
+    <Route
+      path="/student/StudentSupportPage"
+      element={<StudentSupportPage />}
+    />
     <Route path="/payments" element={<Payments />} />
     <Route path="/homework-submission" element={<HomeworkSubmission />} />
     {/* <Route path="/logout" element={<Logout />} /> */}
     <Route
       path="/homework-submission/:lessonId/:homeworkId"
-      element={<HomeworkSubmission />} />
-    
+      element={<HomeworkSubmission />}
+    />
+
     <Route
       path="/homework-submission/:homeworkId"
-      element={<HomeworkSubmission />} />
-    
+      element={<HomeworkSubmission />}
+    />
+
     <Route path="*" element={<NotFound />} />
   </Routes>
 );
