@@ -17,7 +17,7 @@ const usePutRequest = (endpoint, requestData) => {
       setLoading(true);
       try {
         const urlEncodedData = new URLSearchParams(requestData).toString();
-
+        console.log("Awaitinggg...");
         const response = await fetch(`${prefix}${endpoint}`, {
           method: 'PUT',
           headers: {
