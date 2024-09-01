@@ -72,10 +72,9 @@ const LoginPage = () => {
       } else {
         setAlert({
           show: true,
-          message: 'Login failed. Please check your credentials.',
+          message: error || 'Login failed. Please check your credentials.',
           variant: 'error',
         });
-        console.error('Login failed');
       }
     } catch (error) {
       setAlert({
@@ -114,7 +113,7 @@ const LoginPage = () => {
         </div>
         <div className="inputContainer">
           <TextField
-            placeholder="Enter Username/Email"
+            placeholder="Enter Username"
             value={formValues.username}
             onChange={handleChange}
             name="username"
