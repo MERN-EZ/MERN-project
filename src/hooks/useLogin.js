@@ -7,13 +7,13 @@ import { useUserRole } from '../context/UserRoleContext';
 const useLogin = () => {
   const { DB, setDB } = useDB();
   const { setUserDetails } = useUser();
-  const { userRole, setUserRole } = useUserRole();
+  const { setUserRole } = useUserRole();
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
 
   const login = async (username, password, year) => {
     setLoading(true);
-    //setError(null);
+    setError(null);
 
     try {
       setDB(year);
@@ -28,7 +28,8 @@ const useLogin = () => {
       localStorage.setItem('userDetails', JSON.stringify(response.data));
       return true;
     } catch (err) {
-      setError(err.response ? err.response.data.message : 'Login failed');
+      const errorMessage = err.response?.data?.message || 'Login failed';
+      setError(errorMessage);
       return false;
     } finally {
       setLoading(false);

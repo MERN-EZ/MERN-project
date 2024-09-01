@@ -46,11 +46,17 @@ const RegistrationPage = () => {
     // Check required fields
     if (!formValues.firstName) newErrors.firstName = 'First Name is required';
     if (!formValues.lastName) newErrors.lastName = 'Last Name is required';
-    if (!formValues.yearOfALs) newErrors.yearOfALs = 'Year of ALs is required';
     if (!formValues.username) newErrors.username = 'Username is required';
     if (!formValues.email) newErrors.email = 'Email is required';
     if (!formValues.contactNumber)
       newErrors.contactNumber = 'Contact Number is required';
+
+    const validYears = ['2024', '2025', '2026'];
+    if (!formValues.yearOfALs) {
+      newErrors.yearOfALs = 'Year of ALs is required';
+    } else if (!validYears.includes(formValues.yearOfALs)) {
+      newErrors.yearOfALs = 'Please enter valid year';
+    }
 
     // Check password fields
     if (!formValues.password) {
