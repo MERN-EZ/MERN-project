@@ -8,7 +8,7 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background-color: var(--body-background-color);
+    background-color: #abdae1;
   }
 
   .header-content {
@@ -22,13 +22,13 @@
   }
 
   .primary-header-title {
-    color: var(--primary-header-topic-color);
+    color: #071952;
     font-size: 2.5rem;
     margin: 0;
   }
 
   .primary-header-author {
-    color: var(--primary-header-profilename-color);
+    color: #000000;
     font-size: 2rem;
   }
 
@@ -52,15 +52,15 @@
   }
 
   .course-card {
-    background-color: var(--rectangle-box-background-color);
+    background-color: #ffffff;
     padding: 2rem;
-    box-shadow: 0 0 10px var(--box-shadow-color);
+    box-shadow: #0719522f;
     border-radius: 10px;
     width: 30%; /* Adjusted width to fit cards side by side */
     position: relative;
 
     h2 {
-      color: var(--secondary-header-text-color);
+      color: #071952;
       font-size: 1.2rem;
       margin-bottom: 0.5rem;
       margin-top: 0;
@@ -75,17 +75,17 @@
 
     .course-location,
     .course-time {
-      color: var(--secondary-header-text-color);
+      color: #071952;
       font-size: 0.9rem;
       margin: 0.5rem 0;
     }
 
     .ongoing-lesson {
       margin-top: 1rem;
-      color: var(--secondary-header-text-color);
+      color: #071952;
       font-size: 0.9rem;
       padding: 1rem;
-      background-color: var(--rounded-edge-square-background-color);
+      background-color: #ebf4f6;
       border-radius: 10px;
     }
   }

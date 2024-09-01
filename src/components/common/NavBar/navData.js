@@ -17,9 +17,13 @@ const navLinks_teacher = [
 
 const navLinks_student = [
   { path: '/', name: 'Home', exact: true, icon: <HomeIcon /> },
-  { path: '/student/StudentSupportPage', name: 'StudentSupportPage', icon: <QuizIcon /> },
+  {
+    path: '/student/StudentSupportPage',
+    name: 'Inquiries',
+    icon: <QuizIcon />,
+  },
   { path: '/student/users', name: 'Profile', icon: <AccountCircleIcon /> },
-  { path: '/student/logout', name: 'Logout', icon: <LogoutIcon/> },
+  { path: '/student/logout', name: 'Logout', icon: <LogoutIcon /> },
 ];
 
 const navLinks_admin = [
