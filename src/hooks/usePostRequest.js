@@ -4,7 +4,7 @@ import { useDB } from '../context/DatabaseContext';
 const usePostRequest = (endpoint, requestData) => {
   //const localIP = 'localhost';
   const localIP = process.env.REACT_APP_LOCAL_IP || 'localhost';
-  const prefix = `http://${localIP}:5000/`;
+  const prefix = `https://mern-project-backend-production.up.railway.app/`;
 
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -27,7 +27,7 @@ const usePostRequest = (endpoint, requestData) => {
           body: urlEncodedData,
         });
 
-        if(response.ok) {
+        if (response.ok) {
           setResponse(await response.json());
           console.log('response', response);
         }
@@ -47,7 +47,7 @@ const usePostRequest = (endpoint, requestData) => {
     if (endpoint && requestData) {
       postRequest();
     }
-  }, [prefix, endpoint, requestData, DB , error]);
+  }, [prefix, endpoint, requestData, DB, error]);
 
   return { response, error, loading };
 };
