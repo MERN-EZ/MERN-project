@@ -5,23 +5,28 @@ import axios from 'axios';
 import { useUserRole } from '../context/UserRoleContext';
 
 const useLogin = () => {
-  const { DB, setDB } = useDB();
+  const { setDB } = useDB();
   const { setUserDetails } = useUser();
-  const { userRole, setUserRole } = useUserRole();
+  const { setUserRole } = useUserRole();
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
 
+  // List of valid years (databases)
+
   const login = async (username, password, year) => {
     setLoading(true);
-    //setError(null);
 
     try {
       setDB(year);
       const response = await axios.post(
-        `https://mern-project-backend-production.up.railway.app/guest/auth/login`,
+        `http://localhost:5000/guest/auth/login`,
         { username, password, year },
-        { headers: { 'db-name': DB } }
+        { headers: { 'db-name': year } }
       );
+
+      const actualYear = response.data.batch;
+      setDB(actualYear);
+
       setUserRole('student');
       setUserDetails(response.data);
 

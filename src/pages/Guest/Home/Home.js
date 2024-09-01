@@ -56,17 +56,17 @@ const GuestHomePage = () => {
           </div>
         </div>
       </header>
-      <section className="course-section">
+      <section className="class-section">
         {courses && courses.length > 0 ? (
           courses.map((course, index) => (
-            <div className="course-card" key={index}>
+            <div className="class-card" key={index}>
               <h2>{course.name}</h2>
-              <p className="course-location">{course.location}</p>
-              <p className="course-time">{course.time}</p>
+              <p className="class-location">{course.location}</p>
+              <p className="class-time">{course.time}</p>
               <Link to={`/register?year=${course.year}`}>
                 <Button text="Enroll the Class" variant="primary" />
               </Link>
-              <div className="ongoing-lesson">
+              <div className="class-details">
                 <p>Ongoing Lesson: {course.ongoingLesson}</p>
                 <p>
                   Admission Fee: Rs.{' '}
