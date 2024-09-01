@@ -18,6 +18,7 @@ import usePutRequest from '../../hooks/usePutRequest';
 import useDeleteRequest from '../../hooks/useDeleteRequest';
 
 const CreateAssistant = () => {
+  // State to manage form input data
   const [formData, setFormData] = useState({
     assistantId: '',
     firstName: '',
@@ -30,115 +31,116 @@ const CreateAssistant = () => {
   // State to control form visibility
   const [showForm, setShowForm] = useState(false);
 
-  // State to Track the Assistant Being Edited
+  // State to track the assistant being edited
   const [editingAssistant, setEditingAssistant] = useState(null);
+
+  // State to manage PUT request data and endpoint for updating an assistant
   const [putEndpoint, setPutEndpoint] = useState(null);
   const [putData, setPutData] = useState(null);
 
-  // Create a new Assisitant
+  // State to store the endpoint for deleting an assistant
+  const [deleteEndpoint, setDeleteEndpoint] = useState(null);
+
+  // Hook for creating a new assistant
   const {
     response: postResponse,
     error: postError,
     loading: post,
   } = usePostRequest('admin/assistants', formData);
+
+  // Hook for updating an assistant
   const { data: updateResponse, error: updateError } = usePutRequest(
     putEndpoint,
     putData
   );
 
-  const [deleteEndpoint, setDeleteEndpoint] = useState(null); // State to store the endpoint for deletion
+  // Hook for deleting an assistant
+  const {
+    data,
+    error: deleteError,
+    loading: deleteLoading,
+  } = useDeleteRequest(deleteEndpoint);
 
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    console.log(`Input Change - ${name}: ${value}`);
-    setFormData((prevState) => ({ ...prevState, [name]: value }));
-  };
-
-  // const handleCreateAccount = () => {
-  //   // This is where you would handle the creation of a new assistant.
-  //   // For now, we'll just hide the form and show a success message.
-  //   //setShowForm(false);
-  //   console.log('Form Data on Create:', formData);
-  //   alert('Assistant account created successfully.');
-  //   setShowForm(false);
-  // };
-
-  const handleCreateOrUpdateAccount = () => {
-    if (editingAssistant) {
-      // Update existing assistant
-      const updateData = { ...formData };
-
-      // Log the data being sent
-      console.log('Updating assistant with data:', updateData);
-
-      setPutData(updateData);
-      if (!updateData.password) {
-        delete updateData.password; // Exclude password if not provided
-      }
-      setPutEndpoint(`admin/assistants/${editingAssistant}`);
-    } else {
-      // Create new assistant
-      //console.log('Creating new assistant with data:', formData);
-      post(formData); // Trigger the post request
-      //alert('Assistant account created successfully.');
-    }
-    setShowForm(false);
-  };
-
-  const handleCancel = () => {
-    alert('Assistant creation cancelled.');
-    setShowForm(false); // Hide the form
-  };
-
-  // Populate Form with Assistant Data
-  const handleEdit = (assistant) => {
-    setFormData({
-      assistantId: assistant.assistantId,
-      firstName: assistant.firstName,
-      lastName: assistant.lastName,
-      password: '', // Leave password blank for security reasons
-      email: assistant.email,
-      phoneNumber: assistant.phoneNumber,
-    });
-    setEditingAssistant(assistant._id);
-    setShowForm(true);
-  };
-
-  useEffect(() => {
-    if (postResponse) {
-      alert('Assistant created successfully.');
-      // Optionally refetch assistants or update state to reflect changes
-    }
-    if (postError) {
-      alert('Failed to create assistant.');
-      console.error(postError);
-    }
-  }, [postResponse, postError]);
-
-  useEffect(() => {
-    if (updateResponse) {
-      console.log('Update response:', updateResponse);
-
-      alert('Assistant updated successfully.');
-      setEditingAssistant(null); // Reset editing state
-      // Optionally refetch assistants or update state to reflect changes
-    }
-    if (updateError) {
-      alert('Failed to update assistant.');
-      console.error(updateError);
-    }
-  }, [updateResponse, updateError]);
-
-  // Fetch created assistants from the database
+  // Hook for fetching the list of assistants
   const {
     data: assistants,
     error,
     loading,
   } = useGetRequest('admin/assistants');
 
-  console.log('Fetched assistants:', assistants); // Log fetched assistants
-  // console.log('Loading state:', loading); // Log loading state
-  // console.log('Error state:', error); // Log error state
+  console.log('Fetched assistants:', assistants);
+
+  // Expression for validating assistant ID in the format A001
+  const assistantIdRegex = /^A\d{3}$/;
+  // Expression for validating email
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+  // Handle input changes in the form fields
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    console.log(`Input Change - ${name}: ${value}`);
+    setFormData((prevState) => ({ ...prevState, [name]: value }));
+  };
+
+  // Handle creating or updating an assistant
+  const handleCreateOrUpdateAccount = () => {
+    // Check if all required fields are filled
+    if (!formData.assistantId || !formData.firstName || !formData.lastName || !formData.password || !formData.email || !formData.phoneNumber) {
+      alert('Please fill all required fields.');
+      return; // Prevent further execution if fields are missing
+    }
+
+    // Validate assistant ID
+    if (!assistantIdRegex.test(formData.assistantId)) {
+      alert('Assistant ID must be in the format A001.');
+      return; // Prevent further execution if assistant ID format is invalid
+    }
+
+    // Validate email
+    if (!emailRegex.test(formData.email)) {
+      alert('Please enter a valid email address.');
+      return; // Prevent further execution if email format is invalid
+    }
+
+    // Proceed with creating or updating the assistant
+    if (editingAssistant) {
+      // If editing, update the existing assistant
+      const updateData = { ...formData };
+      if (!updateData.password) {
+        delete updateData.password; // what's happening here??? // Exclude password if not provided
+      }
+      console.log('Updating assistant with data:', updateData);
+      setPutData(updateData);
+      setPutEndpoint(`admin/assistants/${editingAssistant}`);
+    } else {
+      // If not editing, create a new assistant
+      console.log('Creating new assistant with data:', formData);
+      post(); // Trigger the post request using usePostRequest hook
+      alert('Assistant account created successfully.');
+    }
+    // Hide the form after submission
+    setShowForm(false);
+  };
+
+  // Handle form cancellation
+  const handleCancel = () => {
+    alert('Assistant creation cancelled.');
+    setShowForm(false); // Hide the form
+  };
+
+  // Populate form with the selected assistant's data for editing
+  const handleEdit = (assistant) => {
+    setFormData({
+      assistantId: assistant.assistantId,
+      firstName: assistant.firstName,
+      lastName: assistant.lastName,
+      password: '',
+      email: assistant.email,
+      phoneNumber: assistant.phoneNumber,
+    });
+    setEditingAssistant(assistant._id);
+    setShowForm(true); // Show the form for editing
+  };
 
   // Handle assistant deletion
   const handleDelete = (assistantId) => {
@@ -153,13 +155,31 @@ const CreateAssistant = () => {
     }
   };
 
-  // Watch for changes in deleteEndpoint and trigger the delete request
-  const {
-    data,
-    error: deleteError,
-    loading: deleteLoading,
-  } = useDeleteRequest(deleteEndpoint);
+  // Effect to handle the result of the create assistant request
+  // useEffect(() => {
+  //   if (postResponse) {
+  //     alert('Assistant created successfully.');
+  //   }
+  //   if (postError) {
+  //     alert('Failed to create assistant.');
+  //     console.error(postError);
+  //   }
+  // }, [postResponse, postError]);
 
+  // Effect to handle the result of the update assistant request
+  useEffect(() => {
+    if (updateResponse) {
+      console.log('Update response:', updateResponse);
+      alert('Assistant updated successfully.');
+      setEditingAssistant(null); // Reset editing state
+    }
+    if (updateError) {
+      alert('Failed to update assistant.');
+      console.error(updateError);
+    }
+  }, [updateResponse, updateError]);
+
+  // Effect to handle the result of the delete assistant request
   useEffect(() => {
     if (deleteEndpoint && !deleteLoading) {
       if (deleteError) {
@@ -167,8 +187,7 @@ const CreateAssistant = () => {
         console.error('Delete error:', deleteError);
       } else if (data) {
         alert('Assistant deleted successfully.');
-        // Optionally, you can refetch the assistants list or remove the deleted assistant from state
-        console.log('Deleted assistant data:', data); // Log the data of the deleted assistant
+        console.log('Deleted assistant data:', data);
         setDeleteEndpoint(null); // Clear the endpoint after successful deletion
       }
     }
@@ -185,7 +204,7 @@ const CreateAssistant = () => {
         />
       </Box>
 
-      {/* Form Card */}
+      {/* Form Card for creating or editing an assistant */}
       {showForm && (
         <Box
           sx={{
@@ -206,6 +225,12 @@ const CreateAssistant = () => {
                       value={formData.assistantId}
                       onChange={handleInputChange}
                       required
+                      error={!assistantIdRegex.test(formData.assistantId) && formData.assistantId !== ''}
+                      helperText={
+                        !assistantIdRegex.test(formData.assistantId) && formData.assistantId !== ''
+                          ? 'Assistant ID must be in the format A001.'
+                          : ''
+                      }
                     />
                     <TextField
                       label="First Name"
@@ -239,6 +264,12 @@ const CreateAssistant = () => {
                       value={formData.email}
                       onChange={handleInputChange}
                       required
+                      error={!emailRegex.test(formData.email) && formData.email !== ''}
+                      helperText={
+                        !emailRegex.test(formData.email) && formData.email !== ''
+                          ? 'Please enter a valid email address.'
+                          : ''
+                      }
                     />
                     <TextField
                       label="Phone Number"
@@ -247,6 +278,7 @@ const CreateAssistant = () => {
                       value={formData.phoneNumber}
                       onChange={handleInputChange}
                       required
+                      inputProps={{ maxLength: 10 }}
                     />
                   </Stack>
                   <Stack direction="row" spacing={2} justifyContent="flex-end">
@@ -310,7 +342,7 @@ const CreateAssistant = () => {
                 <Box>
                   <IconButton
                     aria-label="edit"
-                    onClick={() => handleEdit(assistant)} //put assistant._id and see
+                    onClick={() => handleEdit(assistant)}
                   >
                     <EditIcon />
                   </IconButton>
