@@ -13,15 +13,15 @@ const admin_tabs = [
   { text: 'Student Management', url: '/StudentManagement', isActive: false },
 ];
 
-const guest_tabs = [
+/* const guest_tabs = [
   { text: 'Register', url: '/register', isActive: true },
   { text: 'Login', url: '/login', isActive: false },
-];
+]; */
 
 export {
   // student_tabs,
   teacher_tabs,
   assistant_tabs,
   admin_tabs,
-  guest_tabs,
+  //guest_tabs,
 };

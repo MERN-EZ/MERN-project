@@ -2,25 +2,31 @@ import { useDB } from '../context/DatabaseContext';
 import { useUser } from '../context/UserContext';
 import { useState } from 'react';
 import axios from 'axios';
-import {useUserRole} from '../context/UserRoleContext';
+import { useUserRole } from '../context/UserRoleContext';
 
 const useLogin = () => {
-  const { DB, setDB } = useDB();
+  const { setDB } = useDB();
   const { setUserDetails } = useUser();
-  const {userRole, setUserRole} = useUserRole();
+  const { setUserRole } = useUserRole();
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
 
+  // List of valid years (databases)
+
   const login = async (username, password, year) => {
     setLoading(true);
-    //setError(null);
 
     try {
       setDB(year);
-      const response = await axios.post(`http://localhost:5000/guest/auth/login`, 
+      const response = await axios.post(
+        `http://localhost:5000/guest/auth/login`,
         { username, password, year },
-        {headers: {'db-name': DB,},}
+        { headers: { 'db-name': year } }
       );
+
+      const actualYear = response.data.batch;
+      setDB(actualYear);
+
       setUserRole('student');
       setUserDetails(response.data);
 

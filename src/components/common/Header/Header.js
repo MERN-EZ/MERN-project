@@ -6,7 +6,7 @@ import {
   teacher_tabs,
   assistant_tabs,
   admin_tabs,
-  guest_tabs,
+  //guest_tabs,
 } from './tabs';
 import { useDB } from '../../../context/DatabaseContext';
 
@@ -19,7 +19,7 @@ const Header = () => {
     // student: student_tabs,
     admin: admin_tabs,
     assistant: assistant_tabs,
-    guest: guest_tabs,
+    //guest: guest_tabs,
   };
   const tab_buttons = tabButtonsMap[userRole] || [];
 
@@ -40,9 +40,9 @@ const Header = () => {
     'teacher',
     'admin',
     'assistant',
-    'guest',
+    //'guest',
   ];
-  const rolesWithSubHeaderTabs = ['teacher', 'admin', 'assistant', 'guest'];
+  const rolesWithSubHeaderTabs = ['teacher', 'admin', 'assistant'];
   const rolesWithSubHeaderText = ['student', 'teacher', 'admin', 'assistant'];
 
   const handleDBChange = (event) => {

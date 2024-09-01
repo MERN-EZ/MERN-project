@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import Icon from '@mui/icons-material/AccountCircle';
+import Icon from '@mui/icons-material/PersonAddAlt';
 import Button from '../../../components/common/Button/Button';
 import './RegistrationPage.scss';
 
