@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   Container,
   Box,
@@ -13,6 +13,8 @@ import {
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import Button from '../../components/common/Button/Button';
+import useGetRequest from '../../hooks/useGetRequest';
+import useDeleteRequest from '../../hooks/useDeleteRequest';
 
 const CreateAssistant = () => {
   const [formData, setFormData] = useState({
@@ -28,8 +30,11 @@ const CreateAssistant = () => {
   // State to control form visibility
   const [showForm, setShowForm] = useState(false);
 
+  const [deleteEndpoint, setDeleteEndpoint] = useState(null); // State to store the endpoint for deletion
+
   const handleInputChange = (e) => {
     const { name, value } = e.target;
+    console.log(`Input Change - ${name}: ${value}`);
     setFormData((prevState) => ({ ...prevState, [name]: value }));
   };
 
@@ -37,6 +42,7 @@ const CreateAssistant = () => {
     // This is where you would handle the creation of a new assistant.
     // For now, we'll just hide the form and show a success message.
     //setShowForm(false);
+    console.log('Form Data on Create:', formData);
     alert('Assistant account created successfully.');
     setShowForm(false);
   };
@@ -46,36 +52,50 @@ const CreateAssistant = () => {
     setShowForm(false); // Hide the form
   };
 
-  // Dummy data for assistants
-  const dummyAssistants = [
-    {
-      _id: '1',
-      assistantId: 'A001',
-      firstName: 'John',
-      lastName: 'Doe',
-      email: 'john.doe@example.com',
-      phoneNumber: '0774567890',
-      batch: '2024',
-    },
-    {
-      _id: '2',
-      assistantId: 'A002',
-      firstName: 'Jane',
-      lastName: 'Smith',
-      email: 'jane.smith@example.com',
-      phoneNumber: '0774567891',
-      batch: '2025',
-    },
-    {
-      _id: '3',
-      assistantId: 'A003',
-      firstName: 'Alice',
-      lastName: 'Johnson',
-      email: 'alice.johnson@example.com',
-      phoneNumber: '0774567892',
-      batch: '2026',
-    },
-  ];
+  // Fetch created assistants from the database
+  const {
+    data: assistants,
+    error,
+    loading,
+  } = useGetRequest('admin/assistants');
+
+  // console.log('Fetched assistants:', assistants); // Log fetched assistants
+  // console.log('Loading state:', loading); // Log loading state
+  // console.log('Error state:', error); // Log error state
+
+  // Handle assistant deletion
+  const handleDelete = (assistantId) => {
+    console.log(`Attempting to delete assistant with ID: ${assistantId}`); // Log the assistant ID
+    const confirmed = window.confirm(
+      'Are you sure you want to delete this assistant?'
+    );
+    if (confirmed) {
+      const endpoint = `admin/assistants/${assistantId}`;
+      console.log(`Delete endpoint set: ${endpoint}`); // Log the delete endpoint
+      setDeleteEndpoint(endpoint); // Set the endpoint in state
+    }
+  };
+
+  // Watch for changes in deleteEndpoint and trigger the delete request
+  const {
+    data,
+    error: deleteError,
+    loading: deleteLoading,
+  } = useDeleteRequest(deleteEndpoint);
+
+  useEffect(() => {
+    if (deleteEndpoint && !deleteLoading) {
+      if (deleteError) {
+        alert('Failed to delete assistant.');
+        console.error('Delete error:', deleteError);
+      } else if (data) {
+        alert('Assistant deleted successfully.');
+        // Optionally, you can refetch the assistants list or remove the deleted assistant from state
+        console.log('Deleted assistant data:', data); // Log the data of the deleted assistant
+        setDeleteEndpoint(null); // Clear the endpoint after successful deletion
+      }
+    }
+  }, [deleteEndpoint, deleteError, deleteLoading, data]);
 
   return (
     <Container sx={{ position: 'relative', paddingTop: '20px' }}>
@@ -165,11 +185,7 @@ const CreateAssistant = () => {
                       required
                     />
                   </Stack>
-                  <Stack
-                    direction="row"
-                    spacing={2}
-                    justifyContent="flex-end"
-                  >
+                  <Stack direction="row" spacing={2} justifyContent="flex-end">
                     <Button
                       text="Create Account"
                       variant="primary"
@@ -192,29 +208,56 @@ const CreateAssistant = () => {
         <Typography variant="h6" gutterBottom>
           Created Assistants
         </Typography>
-        {dummyAssistants.map((assistant) => (
-          <Card key={assistant._id} sx={{ marginBottom: '10px', boxShadow: 1 }}>
-            <CardContent sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-              <Box>
-                <Typography variant="h6">
-                  {assistant.firstName} {assistant.lastName}
-                </Typography>
-                <Typography variant="body2">ID: {assistant.assistantId}</Typography>
-                <Typography variant="body2">Email: {assistant.email}</Typography>
-                <Typography variant="body2">Phone: {assistant.phoneNumber}</Typography>
-                <Typography variant="body2">Batch: {assistant.batch}</Typography>
-              </Box>
-              <Box>
-                <IconButton aria-label="edit" onClick={() => console.log('Edit', assistant._id)}>
-                  <EditIcon />
-                </IconButton>
-                <IconButton aria-label="delete" onClick={() => console.log('Delete', assistant._id)}>
-                  <DeleteIcon />
-                </IconButton>
-              </Box>
-            </CardContent>
-          </Card>
-        ))}
+        {loading && <Typography>Loading...</Typography>}
+        {error && (
+          <Typography color="error">
+            Failed to load assistants: {error}
+          </Typography>
+        )}
+        {assistants &&
+          assistants.map((assistant) => (
+            <Card
+              key={assistant._id}
+              sx={{ marginBottom: '10px', boxShadow: 1 }}
+            >
+              <CardContent
+                sx={{
+                  display: 'flex',
+                  justifyContent: 'space-between',
+                  alignItems: 'center',
+                }}
+              >
+                <Box>
+                  <Typography variant="h6">
+                    {assistant.firstName} {assistant.lastName}
+                  </Typography>
+                  <Typography variant="body2">
+                    ID: {assistant.assistantId}
+                  </Typography>
+                  <Typography variant="body2">
+                    Email: {assistant.email}
+                  </Typography>
+                  <Typography variant="body2">
+                    Phone: {assistant.phoneNumber}
+                  </Typography>
+                </Box>
+                <Box>
+                  <IconButton
+                    aria-label="edit"
+                    onClick={() => console.log('Edit', assistant._id)}
+                  >
+                    <EditIcon />
+                  </IconButton>
+                  <IconButton
+                    aria-label="delete"
+                    onClick={() => handleDelete(assistant._id)}
+                  >
+                    <DeleteIcon />
+                  </IconButton>
+                </Box>
+              </CardContent>
+            </Card>
+          ))}
       </Box>
     </Container>
   );
