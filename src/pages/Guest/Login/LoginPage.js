@@ -50,7 +50,7 @@ const LoginPage = () => {
     if (!validYears.includes(year)) {
       setAlert({
         show: true,
-        message: 'Invalid year. Please enter a valid year (2024, 2025, 2026).',
+        message: 'Invalid year. Please enter a valid year.',
         variant: 'error',
       });
       return false;
