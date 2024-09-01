@@ -3,13 +3,13 @@
   justify-content: center;
   align-items: center;
   height: 100vh;
-  background-color: var(--body-background-color);
+  background-color: #abdae1;
 
   .card {
-    background-color: var(--rectangle-box-background-color);
+    background-color: #ffffff;
     padding: 2rem;
     border-radius: 15px;
-    box-shadow: var(--box-shadow-color, 0 4px 8px rgba(0, 0, 0, 0.1));
+    box-shadow: #0719522f;
     width: 400px;
   }
 
@@ -25,12 +25,12 @@
       font-size: 1.5rem;
       display: flex;
       align-items: center;
-      color: var(--primary-header-topic-color);
+      color: #071952;
     }
 
     .icon {
       margin-right: 0.5rem;
-      color: var(--primary-header-icon-color);
+      color: hsl(226, 84%, 17%);
     }
   }
 
@@ -42,7 +42,7 @@
 
     .icon {
       margin-right: 0.5rem;
-      color: var(--primary-header-icon-color);
+      color: hsl(226, 84%, 17%);
     }
   }
 
@@ -62,7 +62,7 @@
     margin-bottom: 1.5rem;
 
     a {
-      color: var(--link-as-text-color); // Use link text color variable
+      color: #012dc0; // Use link text color variable
       text-decoration-color: #012dc0;
       margin-left: 0.5rem;
 
