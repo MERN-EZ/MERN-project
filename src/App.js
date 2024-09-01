@@ -4,6 +4,7 @@ import { ThemeProvider } from './context/ThemeContext';
 import { UserProvider } from './context/UserContext';
 import { useUserRole } from './context/UserRoleContext';
 import { DBProvider } from './context/DatabaseContext';
+import { AuthProvider } from './context/AuthContext';
 import NavBar from './components/common/NavBar/NavBar';
 import Header from './components/common/Header/Header';
 import TeacherRoutes from './routes/TeacherRoutes';
@@ -23,17 +24,19 @@ function App() {
         marginTop: userRole !== 'guest' ? '4rem' : '2.5rem',
       }}
     >
-      <ThemeProvider>
-        <DBProvider>
-          <UserProvider>
-            <Router>
-              <Header />
-              <NavBar />
-              <AppRoutes />
-            </Router>
-          </UserProvider>
-        </DBProvider>
-      </ThemeProvider>
+      <AuthProvider>
+        <ThemeProvider>
+          <DBProvider>
+            <UserProvider>
+              <Router>
+                <Header />
+                <NavBar />
+                <AppRoutes />
+              </Router>
+            </UserProvider>
+          </DBProvider>
+        </ThemeProvider>
+      </AuthProvider>
     </div>
   );
 }

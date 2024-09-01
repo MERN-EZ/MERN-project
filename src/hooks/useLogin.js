@@ -1,4 +1,5 @@
 import { useDB } from '../context/DatabaseContext';
+import { useAuth } from '../context/AuthContext';
 import { useUser } from '../context/UserContext';
 import { useState } from 'react';
 import axios from 'axios';
@@ -6,6 +7,7 @@ import { useUserRole } from '../context/UserRoleContext';
 
 const useLogin = () => {
   const { DB, setDB } = useDB();
+  const { setAuth } = useAuth();
   const { setUserDetails } = useUser();
   const { setUserRole } = useUserRole();
   const [error, setError] = useState(null);
@@ -22,10 +24,15 @@ const useLogin = () => {
         { username, password, year },
         { headers: { 'db-name': DB } }
       );
-      setUserRole('student');
-      setUserDetails(response.data);
+      const { userDetails, token } = response.data;
 
-      localStorage.setItem('userDetails', JSON.stringify(response.data));
+      setUserRole('student');
+      setUserDetails(userDetails);
+      setAuth(token);
+
+      localStorage.setItem('userDetails', JSON.stringify(userDetails));
+      localStorage.setItem('Auth', token);
+
       return true;
     } catch (err) {
       const errorMessage = err.response?.data?.message || 'Login failed';
