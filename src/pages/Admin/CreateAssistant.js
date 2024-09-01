@@ -3,7 +3,6 @@ import {
   Container,
   Box,
   TextField,
-  MenuItem,
   Stack,
   Card,
   CardContent,
@@ -14,6 +13,8 @@ import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import Button from '../../components/common/Button/Button';
 import useGetRequest from '../../hooks/useGetRequest';
+import usePostRequest from '../../hooks/usePostRequest';
+import usePutRequest from '../../hooks/usePutRequest';
 import useDeleteRequest from '../../hooks/useDeleteRequest';
 
 const CreateAssistant = () => {
@@ -21,7 +22,6 @@ const CreateAssistant = () => {
     assistantId: '',
     firstName: '',
     lastName: '',
-    batch: '',
     password: '',
     email: '',
     phoneNumber: '',
@@ -29,6 +29,22 @@ const CreateAssistant = () => {
 
   // State to control form visibility
   const [showForm, setShowForm] = useState(false);
+
+  // State to Track the Assistant Being Edited
+  const [editingAssistant, setEditingAssistant] = useState(null);
+  const [putEndpoint, setPutEndpoint] = useState(null);
+  const [putData, setPutData] = useState(null);
+
+  // Create a new Assisitant
+  const {
+    response: postResponse,
+    error: postError,
+    loading: post,
+  } = usePostRequest('admin/assistants', formData);
+  const { data: updateResponse, error: updateError } = usePutRequest(
+    putEndpoint,
+    putData
+  );
 
   const [deleteEndpoint, setDeleteEndpoint] = useState(null); // State to store the endpoint for deletion
 
@@ -38,12 +54,34 @@ const CreateAssistant = () => {
     setFormData((prevState) => ({ ...prevState, [name]: value }));
   };
 
-  const handleCreateAccount = () => {
-    // This is where you would handle the creation of a new assistant.
-    // For now, we'll just hide the form and show a success message.
-    //setShowForm(false);
-    console.log('Form Data on Create:', formData);
-    alert('Assistant account created successfully.');
+  // const handleCreateAccount = () => {
+  //   // This is where you would handle the creation of a new assistant.
+  //   // For now, we'll just hide the form and show a success message.
+  //   //setShowForm(false);
+  //   console.log('Form Data on Create:', formData);
+  //   alert('Assistant account created successfully.');
+  //   setShowForm(false);
+  // };
+
+  const handleCreateOrUpdateAccount = () => {
+    if (editingAssistant) {
+      // Update existing assistant
+      const updateData = { ...formData };
+
+      // Log the data being sent
+      console.log('Updating assistant with data:', updateData);
+
+      setPutData(updateData);
+      if (!updateData.password) {
+        delete updateData.password; // Exclude password if not provided
+      }
+      setPutEndpoint(`admin/assistants/${editingAssistant}`);
+    } else {
+      // Create new assistant
+      //console.log('Creating new assistant with data:', formData);
+      post(formData); // Trigger the post request
+      //alert('Assistant account created successfully.');
+    }
     setShowForm(false);
   };
 
@@ -52,6 +90,45 @@ const CreateAssistant = () => {
     setShowForm(false); // Hide the form
   };
 
+  // Populate Form with Assistant Data
+  const handleEdit = (assistant) => {
+    setFormData({
+      assistantId: assistant.assistantId,
+      firstName: assistant.firstName,
+      lastName: assistant.lastName,
+      password: '', // Leave password blank for security reasons
+      email: assistant.email,
+      phoneNumber: assistant.phoneNumber,
+    });
+    setEditingAssistant(assistant._id);
+    setShowForm(true);
+  };
+
+  useEffect(() => {
+    if (postResponse) {
+      alert('Assistant created successfully.');
+      // Optionally refetch assistants or update state to reflect changes
+    }
+    if (postError) {
+      alert('Failed to create assistant.');
+      console.error(postError);
+    }
+  }, [postResponse, postError]);
+
+  useEffect(() => {
+    if (updateResponse) {
+      console.log('Update response:', updateResponse);
+
+      alert('Assistant updated successfully.');
+      setEditingAssistant(null); // Reset editing state
+      // Optionally refetch assistants or update state to reflect changes
+    }
+    if (updateError) {
+      alert('Failed to update assistant.');
+      console.error(updateError);
+    }
+  }, [updateResponse, updateError]);
+
   // Fetch created assistants from the database
   const {
     data: assistants,
@@ -59,7 +136,7 @@ const CreateAssistant = () => {
     loading,
   } = useGetRequest('admin/assistants');
 
-  // console.log('Fetched assistants:', assistants); // Log fetched assistants
+  console.log('Fetched assistants:', assistants); // Log fetched assistants
   // console.log('Loading state:', loading); // Log loading state
   // console.log('Error state:', error); // Log error state
 
@@ -144,6 +221,8 @@ const CreateAssistant = () => {
                       onChange={handleInputChange}
                       required
                     />
+                  </Stack>
+                  <Stack direction="row" spacing={2}>
                     <TextField
                       type="password"
                       label="Password"
@@ -152,21 +231,6 @@ const CreateAssistant = () => {
                       onChange={handleInputChange}
                       required
                     />
-                  </Stack>
-                  <Stack direction="row" spacing={2}>
-                    <TextField
-                      select
-                      label="Batch"
-                      name="batch"
-                      value={formData.batch}
-                      onChange={handleInputChange}
-                      required
-                      sx={{ minWidth: 210 }}
-                    >
-                      <MenuItem value="2024">2024</MenuItem>
-                      <MenuItem value="2025">2025</MenuItem>
-                      <MenuItem value="2026">2026</MenuItem>
-                    </TextField>
 
                     <TextField
                       label="Email"
@@ -187,9 +251,11 @@ const CreateAssistant = () => {
                   </Stack>
                   <Stack direction="row" spacing={2} justifyContent="flex-end">
                     <Button
-                      text="Create Account"
+                      text={
+                        editingAssistant ? 'Update Account' : 'Create Account'
+                      }
                       variant="primary"
-                      onClick={handleCreateAccount}
+                      onClick={handleCreateOrUpdateAccount}
                     />
                     <Button
                       text="Cancel"
@@ -244,7 +310,7 @@ const CreateAssistant = () => {
                 <Box>
                   <IconButton
                     aria-label="edit"
-                    onClick={() => console.log('Edit', assistant._id)}
+                    onClick={() => handleEdit(assistant)} //put assistant._id and see
                   >
                     <EditIcon />
                   </IconButton>
