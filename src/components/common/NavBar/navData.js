@@ -12,6 +12,7 @@ import AdminPanelSettingsIcon from '@mui/icons-material/AdminPanelSettings';
 import AssistantIcon from '@mui/icons-material/Assistant';
 import LogoutIcon from '@mui/icons-material/Logout';
 
+
 const navLinks_teacher = [
   { path: '/', name: 'Home', exact: true, icon: <HomeIcon /> },
   { path: '/homework', name: 'Homework', icon: <ContactMailIcon /> },
@@ -41,6 +42,7 @@ const navLinks_assistant = [
 const navLinks_guest = [
   { path: '/login', name: 'Login', exact: true, icon: <LoginIcon /> },
   { path: '/register', name: 'Register', icon: <PersonAddAlt /> },
+  { path: '/staffLogin', name: 'staffLogin', icon: <AdminPanelSettingsIcon /> },
 ];
 
 export {
