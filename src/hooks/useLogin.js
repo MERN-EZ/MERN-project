@@ -3,7 +3,6 @@ import { useUser } from '../context/UserContext';
 import { useState } from 'react';
 import axios from 'axios';
 import { useUserRole } from '../context/UserRoleContext';
-import { useUserRole } from '../context/UserRoleContext';
 
 const useLogin = () => {
   const { setDB } = useDB();
