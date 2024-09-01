@@ -74,17 +74,14 @@ const RegistrationPage = () => {
     }
 
     try {
-      const response = await fetch(
-        'https://mern-project-backend-production.up.railway.app/guest/register',
-        {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            'db-name': formValues.yearOfALs,
-          },
-          body: JSON.stringify(formValues),
-        }
-      );
+      const response = await fetch('http://localhost:5000/guest/register', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'db-name': formValues.yearOfALs,
+        },
+        body: JSON.stringify(formValues),
+      });
 
       console.log('Response received');
       //console.log('Response Status:', response.status);
