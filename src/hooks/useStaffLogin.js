@@ -5,7 +5,7 @@ import { useState } from 'react';
 import axios from 'axios';
 import { useUserRole } from '../context/UserRoleContext';
 
-const useLogin = () => {
+const useStaffLogin = () => {
   const { DB, setDB } = useDB();
   const { setAuth } = useAuth();
   const { setUserDetails } = useUser();
@@ -13,24 +13,24 @@ const useLogin = () => {
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
 
-  const login = async (username, password, year) => {
+  const login = async (username, password, userRole) => {
     setLoading(true);
     setError(null);
 
     try {
-      setDB(year);
+      setDB('2024');
       const response = await axios.post(
-        `http://localhost:5000/guest/auth/login`,
-        { username, password, year },
+        `http://localhost:5000/guest/auth/login/staff`,
+        { username, password, role: userRole },
         { headers: { 'db-name': DB } }
       );
-      const { userDetails, token } = response.data;
+      const { token, role } = response.data;
 
-      setUserRole('student');
-      setUserDetails(userDetails);
+      setUserRole(role);
+      setUserDetails({});
       setAuth(token);
 
-      localStorage.setItem('userDetails', JSON.stringify(userDetails));
+      localStorage.setItem('userDetails', JSON.stringify({}));
       localStorage.setItem('Auth', token);
 
       return true;
@@ -46,4 +46,4 @@ const useLogin = () => {
   return { login, loading, error };
 };
 
-export default useLogin;
+export default useStaffLogin;
