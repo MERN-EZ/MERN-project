@@ -151,6 +151,7 @@ const CreateAssistant = () => {
       phoneNumber: assistant.phoneNumber,
     });
     setEditingAssistant(assistant._id);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
     setShowForm(true); // Show the form for editing
   };
 
@@ -213,7 +214,18 @@ const CreateAssistant = () => {
         <Button
           text="Create Assistant Account &nbsp;&nbsp;+"
           variant="primary"
-          onClick={() => setShowForm(true)}
+          onClick={() => {
+            setShowForm(true);
+            setFormData({
+              assistantId: '',
+              firstName: '',
+              lastName: '',
+              username: '',
+              password: '',
+              email: '',
+              phoneNumber: '',
+            });
+          }}
         />
       </Box>
 
