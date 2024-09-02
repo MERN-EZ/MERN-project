@@ -12,7 +12,7 @@ const GuestHomePage = () => {
   }, [data]);
 
   const [homework, setHomework] = useState([]);
-  const { data: homeworkData } = useGetRequest('student/homeworks');
+  const { data: homeworkData } = useGetRequest('teacher/homework');
 
   useEffect(() => {
     if (homeworkData) {
