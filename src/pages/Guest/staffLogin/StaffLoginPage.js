@@ -7,8 +7,8 @@ import LockIcon from '@mui/icons-material/Lock';
 import LoginIcon from '@mui/icons-material/Login';
 import WorkIcon from '@mui/icons-material/Work';
 import { useNavigate } from 'react-router-dom';
-import Alert from '../../../components/common/Alert/Alert'; // Ensure correct path
-import './StaffLoginPage.scss'; // Ensure correct path
+import Alert from '../../../components/common/Alert/Alert';
+import './StaffLoginPage.scss';
 import { useUserRole } from '../../../context/UserRoleContext';
 import useStaffLogin from '../../../hooks/useStaffLogin';
 import useAssistantLogin from '../../../hooks/useAssistantLogin';
@@ -29,7 +29,7 @@ const LoginPage = () => {
     message: '',
     variant: 'info',
   });
-  const navigate = useNavigate(); // Initialize navigate
+  const navigate = useNavigate();
 
   const handleChange = (e) => {
     const { name, value } = e.target;

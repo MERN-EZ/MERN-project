@@ -16,8 +16,8 @@
 
   .register-title {
     display: flex;
-    align-items: center; /* Align items vertically in the center */
-    font-size: 26px; /* Adjust as needed */
+    align-items: center;
+    font-size: 26px;
     font-weight: bold;
     color: #071952;
     margin-bottom: 20px;
@@ -25,10 +25,10 @@
   }
 
   .register-title-icon {
-    margin-right: 8px; /* Space between icon and text */
-    font-size: 30px; /* Adjust size to match the title font size */
-    line-height: 1; /* Ensure the icon's line-height matches the title */
-    vertical-align: middle; /* Ensure the icon aligns with the middle of the text */
+    margin-right: 8px;
+    font-size: 30px;
+    line-height: 1;
+    vertical-align: middle;
   }
 
   .form-group-row {

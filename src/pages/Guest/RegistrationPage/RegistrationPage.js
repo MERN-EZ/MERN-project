@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import Icon from '@mui/icons-material/PersonAddAlt';
+import Alert from '../../../components/common/Alert/Alert';
 import Button from '../../../components/common/Button/Button';
 import './RegistrationPage.scss';
 
@@ -9,8 +10,12 @@ const RegistrationPage = () => {
   const navigate = useNavigate();
   const query = new URLSearchParams(location.search);
   const year = query.get('year') || '';
+  const [alert, setAlert] = useState({
+    show: false,
+    message: '',
+    variant: 'info',
+  });
 
-  // Initialize form state with year if available
   const [formValues, setFormValues] = useState({
     firstName: '',
     lastName: '',
@@ -23,7 +28,7 @@ const RegistrationPage = () => {
     transactionId: '',
   });
 
-  const [errors, setErrors] = useState({}); // State to hold validation errors
+  const [errors, setErrors] = useState({});
 
   useEffect(() => {
     setFormValues((prevValues) => ({
@@ -43,22 +48,22 @@ const RegistrationPage = () => {
   const validateForm = () => {
     const newErrors = {};
 
-    // Check required fields
     if (!formValues.firstName) newErrors.firstName = 'First Name is required';
     if (!formValues.lastName) newErrors.lastName = 'Last Name is required';
     if (!formValues.username) newErrors.username = 'Username is required';
     if (!formValues.email) newErrors.email = 'Email is required';
     if (!formValues.contactNumber)
       newErrors.contactNumber = 'Contact Number is required';
+    if (!formValues.transactionId)
+      newErrors.transactionId = 'Transaction ID is required';
 
     const validYears = ['2024', '2025', '2026'];
     if (!formValues.yearOfALs) {
       newErrors.yearOfALs = 'Year of ALs is required';
     } else if (!validYears.includes(formValues.yearOfALs)) {
-      newErrors.yearOfALs = 'Please enter valid year';
+      newErrors.yearOfALs = 'Please enter a valid year';
     }
 
-    // Check password fields
     if (!formValues.password) {
       newErrors.password = 'Password is required';
     } else if (formValues.password !== formValues.confirmPassword) {
@@ -67,7 +72,6 @@ const RegistrationPage = () => {
 
     setErrors(newErrors);
 
-    // Return true if no errors, false otherwise
     return Object.keys(newErrors).length === 0;
   };
 
@@ -75,7 +79,11 @@ const RegistrationPage = () => {
     e.preventDefault();
 
     if (!validateForm()) {
-      console.log('Form has validation errors.');
+      setAlert({
+        show: true,
+        message: 'Please enter correct details.',
+        variant: 'error',
+      });
       return;
     }
 
@@ -89,27 +97,42 @@ const RegistrationPage = () => {
         body: JSON.stringify(formValues),
       });
 
-      console.log('Response received');
-      //console.log('Response Status:', response.status);
-      //console.log('Response Headers:', [...response.headers.entries()]);
-      //const contentType = response.headers.get('Content-Type');
-      //remove
       const data = await response.json();
 
-      //remove later
       if (response.ok) {
-        alert('Registration request sent successfully. ');
-        navigate('/'); // Redirect to a success page or another route
+        setAlert({
+          show: true,
+          message: 'Registration request sent successfully.',
+          variant: 'success',
+        });
+
+        setTimeout(() => {
+          navigate('/');
+        }, 2000);
       } else {
         const errorMessage =
           data.message ||
-          'Registration failed. Please check your input and try again.';
-        alert(errorMessage);
+          'Registration failed. Please check your details and try again.';
+        setAlert({
+          show: true,
+          message: errorMessage,
+          variant: 'error',
+        });
       }
     } catch (error) {
-      console.error('Error registering user:', error);
-      alert(`An error occurred: ${error.message}. Please try again later.`);
+      setAlert({
+        show: true,
+        message: `An error occurred: ${error.message}. Please try again later.`,
+        variant: 'error',
+      });
     }
+  };
+
+  const handleCloseAlert = () => {
+    setAlert({
+      ...alert,
+      show: false,
+    });
   };
 
   return (
@@ -119,6 +142,14 @@ const RegistrationPage = () => {
           <Icon className="register-title-icon" />
           Register Here
         </div>
+        {alert.show && (
+          <Alert
+            variant={alert.variant}
+            message={alert.message}
+            onConfirm={handleCloseAlert}
+            onCancel={handleCloseAlert}
+          />
+        )}
         <form onSubmit={handleSubmit}>
           <div className="form-group-row">
             <div className="form-group">

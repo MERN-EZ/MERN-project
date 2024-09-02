@@ -8,7 +8,7 @@ import LoginIcon from '@mui/icons-material/Login';
 import BatchIcon from '@mui/icons-material/School';
 import useLogin from '../../../hooks/useLogin';
 import { useNavigate } from 'react-router-dom';
-import Alert from '../../../components/common/Alert/Alert'; // Ensure correct path
+import Alert from '../../../components/common/Alert/Alert';
 import './LoginPage.scss';
 import { useUserRole } from '../../../context/UserRoleContext';
 
@@ -25,7 +25,7 @@ const LoginPage = () => {
     message: '',
     variant: 'info',
   });
-  const navigate = useNavigate(); // Initialize navigate
+  const navigate = useNavigate();
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -46,11 +46,11 @@ const LoginPage = () => {
       return false;
     }
 
-    const validYears = ['2024', '2025', '2026']; // Define valid years
+    const validYears = ['2024', '2025', '2026'];
     if (!validYears.includes(year)) {
       setAlert({
         show: true,
-        message: 'Invalid year. Please enter a valid year (2024, 2025, 2026).',
+        message: 'Invalid year. Please enter a valid year.',
         variant: 'error',
       });
       return false;
@@ -60,15 +60,22 @@ const LoginPage = () => {
   };
 
   const handleLogin = async () => {
+    setAlert({
+      show: false,
+      message: '',
+      variant: 'info',
+    });
+
     if (!validateForm()) return;
 
     try {
       const { username, password, year } = formValues;
-      const loginSuccess = await login(username, password, year); // Call your login hook
+      
+      const loginSuccess = await login(username, password, year);
 
       if (loginSuccess) {
         setUserRole('student');
-        navigate('/'); // Redirect to Student Home page on success
+        navigate('/');
       } else {
         setAlert({
           show: true,

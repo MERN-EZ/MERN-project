@@ -1,18 +1,17 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useUser } from '../../../context/UserContext';
-import usePutRequest from '../../../hooks/usePutRequest'; // Ensure correct custom hook import
+import usePutRequest from '../../../hooks/usePutRequest';
 import Button from '../../../components/common/Button/Button';
 import './editProfile.scss';
 
 const EditProfilePage = () => {
-  const { userDetails, setUserDetails } = useUser(); // Get and set user details from UserContext
+  const { userDetails, setUserDetails } = useUser();
   const [profileData, setProfileData] = useState(userDetails);
-  const [submitData, setSubmitData] = useState(null); // State to trigger the PUT request
-  const [errors, setErrors] = useState({}); // State to store validation errors
+  const [submitData, setSubmitData] = useState(null);
+  const [errors, setErrors] = useState({});
   const navigate = useNavigate();
 
-  // Custom hook to make PUT requests, triggered by the `submitData` state
   const { response, error, loading } = usePutRequest(
     'student/edit-profile',
     submitData
@@ -20,14 +19,14 @@ const EditProfilePage = () => {
 
   useEffect(() => {
     if (userDetails) {
-      setProfileData(userDetails); // Prefill the form with user details
+      setProfileData(userDetails);
     }
   }, [userDetails]);
 
   useEffect(() => {
     if (response && !error) {
-      setUserDetails(response); // Update UserContext with the new data
-      navigate('/student/users'); // Navigate to the profile page
+      setUserDetails(response);
+      navigate('/student/users');
     }
   }, [response, error, navigate, setUserDetails]);
 
@@ -55,12 +54,12 @@ const EditProfilePage = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     if (validateForm()) {
-      setSubmitData({ studentId: profileData.studentId, ...profileData }); // Include studentId in the request
+      setSubmitData({ studentId: profileData.studentId, ...profileData });
     }
   };
 
   if (loading) return <p>Loading...</p>;
-  if (error) return <p>Error: {error}</p>; // Handle loading state
+  if (error) return <p>Error: {error}</p>;
 
   return (
     <div className="edit-profile-container">
