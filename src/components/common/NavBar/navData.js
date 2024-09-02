@@ -15,6 +15,7 @@ import LogoutIcon from '@mui/icons-material/Logout';
 const navLinks_teacher = [
   { path: '/', name: 'Home', exact: true, icon: <HomeIcon /> },
   { path: '/homework', name: 'Homework', icon: <ContactMailIcon /> },
+  { path: '/feedback', name: 'Feedback', icon: <AssistantIcon /> },
   { path: '/logout', name: 'Logout', icon: <LogoutIcon /> },
 ];
 

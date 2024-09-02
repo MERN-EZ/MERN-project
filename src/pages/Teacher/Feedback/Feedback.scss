@@ -1,0 +1,84 @@
+.teacher.view-feedback {
+  padding: 1rem;
+  .homework-rounded-edge-rectangle {
+    background-color: var(--rectangle-box-background-color);
+    padding: 1.3rem 2rem;
+    box-shadow: 0 0 10px var(--box-shadow-color);
+    border-radius: 10px;
+    margin: 2rem 6rem;
+    position: relative;
+
+    .homework-header {
+      margin: 0;
+      font-size: 1.5rem;
+    }
+
+    .homework-items-container {
+      overflow-y: auto;
+      overflow-x: hidden;
+
+      .homework-items {
+        display: flex;
+        align-items: start;
+        flex-direction: column;
+        gap: 0.8rem;
+        margin: 1rem 0;
+        .deleteContainer {
+          display: flex;
+          justify-content: flex-end;
+          width: 100%;
+          overflow: visible;
+          height: 0;
+          .delete {
+            position: relative;
+            left: 1.1rem;
+            bottom: 1.4rem;
+            cursor: pointer;
+            font-size: 1.8rem;
+            color: var(--delete-color);
+            &:hover {
+              transform: scale(1.1);
+            }
+          }
+        }
+
+        .homework-item {
+          background-color: var(--rounded-edge-square-background-color);
+          padding: 0.5rem 1rem;
+          border-radius: 10px;
+          width: 100%;
+          margin: 4px;
+
+          &:hover {
+            box-shadow: 0 0 2px rgba(30, 24, 155, 0.532);
+          }
+          div:first-child {
+            display: flex;
+            align-items: center;
+            span:first-child {
+              font-size: 0.9rem;
+              font-weight: 300;
+              margin-right: 0.5rem;
+            }
+            .hw-title {
+              font-size: 1rem;
+              font-weight: 300;
+            }
+          }
+          .des {
+            font-size: 0.9rem;
+            font-weight: 300;
+            margin-top: 0.5rem;
+            font-family: 'Poppins', sans-serif;
+            display: flex;
+            align-self: start;
+            span {
+              display: flex;
+              align-items: center;
+            }
+          }
+        }
+      }
+    }
+  }
+}
