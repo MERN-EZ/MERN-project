@@ -1,15 +1,15 @@
 import React from 'react';
 import { Route, Routes } from 'react-router-dom';
 import StudentHomePage from '../pages/Student/Home/Home';
-import StudentSchedulePage from '../pages/Student/Components/SchedulePage';
+import StudentSchedulePage from '../pages/Student/CalendarPage/SchedulePage';
 import Notification from '../pages/Student/Components/Notification';
 import Profile from '../pages/Student/Profile/Profile';
 import EditProfile from '../pages/Student/EditProfile/EditProfile';
 import Payments from '../pages/Student/Components/Payments';
 import HomeworkSubmission from '../pages/Student/Components/HomeWorkSubmission';
-import NotFound from '../pages/NotFound/NotFound';
+import NotFound from '../components/common/NotFound/NotFound';
 import StudentSupportPage from '../pages/Student/StudentSupportPage/StudentSupportPage';
-import Logout from '../pages/Student/Logout/logout';
+import Logout from '../components/common/Logout/logout';
 
 const StudentRoutes = () => (
   <Routes>

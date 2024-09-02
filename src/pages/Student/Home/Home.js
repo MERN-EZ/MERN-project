@@ -20,14 +20,12 @@ const calculateTimeRemaining = (deadline) => {
 };
 
 const RegStudentLanding = () => {
-
-  const { data: course } = useGetRequest('teacher/class'); 
+  const { data: course } = useGetRequest('student/class'); // Ensure the correct endpoint
   const [courses, setCourses] = useState([]);
 
   useEffect(() => {
     if (course) setCourses(course[0]);
   }, [course]);
-
 
   const [homework, setHomework] = useState([]);
   const { data } = useGetRequest('student/homeworks');

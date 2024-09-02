@@ -15,6 +15,8 @@ import LogoutIcon from '@mui/icons-material/Logout';
 const navLinks_teacher = [
   { path: '/', name: 'Home', exact: true, icon: <HomeIcon /> },
   { path: '/homework', name: 'Homework', icon: <ContactMailIcon /> },
+  { path: '/feedback', name: 'Feedback', icon: <AssistantIcon /> },
+  { path: '/logout', name: 'Logout', icon: <LogoutIcon /> },
 ];
 
 const navLinks_student = [
@@ -25,27 +27,26 @@ const navLinks_student = [
     icon: <QuizIcon />,
   },
   { path: '/student/users', name: 'Profile', icon: <AccountCircleIcon /> },
-  { path: '/student/logout', name: 'Logout', icon: <LogoutIcon /> },
+  { path: '/logout', name: 'Logout', icon: <LogoutIcon /> },
 ];
 
 const navLinks_admin = [
   { path: '/', name: 'Home', exact: true, icon: <HomeIcon /> },
   { path: '/admin', name: 'Admin Panel', icon: <AdminPanelSettingsIcon /> },
+  { path: '/logout', name: 'Logout', icon: <LogoutIcon /> },
 ];
 
 const navLinks_assistant = [
   { path: '/', name: 'Home', exact: true, icon: <HomeIcon /> },
   { path: '/assistant', name: 'Assistant', icon: <AssistantIcon /> },
+  { path: '/logout', name: 'Logout', icon: <LogoutIcon /> },
 ];
 
 const navLinks_guest = [
-  { path: '/login', name: 'Login', exact: true, icon: <LoginIcon /> },
+  { path: '/', name: 'Home', exact: true, icon: <HomeIcon /> },
   { path: '/register', name: 'Register', icon: <PersonAddAlt /> },
-  {
-    path: '/staffLogin',
-    name: 'Staff Login',
-    icon: <AdminPanelSettingsIcon />,
-  },
+  { path: '/login', name: 'Login', exact: true, icon: <LoginIcon /> },
+  { path: '/staffLogin', name: 'staffLogin', icon: <AdminPanelSettingsIcon /> },
 ];
 
 export {

@@ -112,7 +112,7 @@ const RegistrationPage = () => {
       } else {
         const errorMessage =
           data.message ||
-          'Registration failed. Please check your input and try again.';
+          'Registration failed. Please check your details and try again.';
         setAlert({
           show: true,
           message: errorMessage,

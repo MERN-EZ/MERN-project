@@ -6,19 +6,23 @@ import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import LockIcon from '@mui/icons-material/Lock';
 import LoginIcon from '@mui/icons-material/Login';
 import WorkIcon from '@mui/icons-material/Work';
-import useLogin from '../../../hooks/useLogin';
 import { useNavigate } from 'react-router-dom';
 import Alert from '../../../components/common/Alert/Alert';
 import './StaffLoginPage.scss';
 import { useUserRole } from '../../../context/UserRoleContext';
+import useStaffLogin from '../../../hooks/useStaffLogin';
+import useAssistantLogin from '../../../hooks/useAssistantLogin';
 
 const LoginPage = () => {
   const [formValues, setFormValues] = useState({
     username: '',
     password: '',
-    role: '',
+    role: 'teacher',
+    year: '',
   });
-  const { login, loading } = useLogin();
+  const { login: StaffLogin, loading: StaffLoading } = useStaffLogin();
+  const { login: AssistantLogin, loading: AssistantLoading } =
+    useAssistantLogin();
   const { setUserRole } = useUserRole();
   const [alert, setAlert] = useState({
     show: false,
@@ -52,9 +56,13 @@ const LoginPage = () => {
     if (!validateForm()) return;
 
     try {
-      const { username, password, role } = formValues;
-      const loginSuccess = await login(username, password, role);
-
+      const { username, password, role, year } = formValues;
+      let loginSuccess = null;
+      if (role === 'assistant') {
+        loginSuccess = await AssistantLogin(username, password, year); // Call your login hook
+      } else {
+        loginSuccess = await StaffLogin(username, password, role); // Call your login hook
+      }
       if (loginSuccess) {
         if (role === 'admin') {
           setUserRole('admin');
@@ -105,6 +113,18 @@ const LoginPage = () => {
         </div>
         <br></br>
         <div className="inputContainer">
+          <select
+            value={formValues.role}
+            onChange={handleChange}
+            name="role"
+            className="select"
+          >
+            <option value="teacher">Teacher</option>
+            <option value="admin">Admin</option>
+            <option value="assistant">Assistant</option>
+          </select>
+        </div>
+        <div className="inputContainer">
           <TextField
             placeholder="Enter Username/Email"
             value={formValues.username}
@@ -137,26 +157,28 @@ const LoginPage = () => {
             fullWidth
           />
         </div>
-        <div className="inputContainer">
-          <TextField
-            placeholder="Enter your role"
-            value={formValues.year}
-            onChange={handleChange}
-            name="role"
-            InputProps={{
-              startAdornment: (
-                <InputAdornment position="start">
-                  <WorkIcon className="icon" />
-                </InputAdornment>
-              ),
-            }}
-            fullWidth
-          />
-        </div>
+        {formValues.role === 'assistant' && (
+          <div className="inputContainer">
+            <TextField
+              placeholder="Enter Batch"
+              value={formValues.year}
+              onChange={handleChange}
+              name="year"
+              InputProps={{
+                startAdornment: (
+                  <InputAdornment position="start">
+                    <WorkIcon className="icon" />
+                  </InputAdornment>
+                ),
+              }}
+              fullWidth
+            />
+          </div>
+        )}
         <div className="actions">
           <Button text="Log In" variant="secondary" onClick={handleLogin} />
         </div>
-        {loading && <div>Loading...</div>}
+        {(AssistantLoading || StaffLoading) && <div>Loading...</div>}
       </div>
     </div>
   );
