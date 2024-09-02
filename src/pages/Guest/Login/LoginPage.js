@@ -60,10 +60,17 @@ const LoginPage = () => {
   };
 
   const handleLogin = async () => {
+    setAlert({
+      show: false,
+      message: '',
+      variant: 'info',
+    });
+
     if (!validateForm()) return;
 
     try {
       const { username, password, year } = formValues;
+      
       const loginSuccess = await login(username, password, year);
 
       if (loginSuccess) {
