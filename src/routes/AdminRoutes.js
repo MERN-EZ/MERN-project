@@ -5,6 +5,7 @@ import StudentRequests from '../pages/Admin/StudentRequests';
 import CreateAssistant from '../pages/Admin/CreateAssistant';
 import Logout from '../components/common/Logout/logout';
 import NotFound from '../components/common/NotFound/NotFound';
+import StaffReg from '../pages/Admin/StaffReg/StaffReg';
 // import StudentManagement from "../pages/Admin/StudentManagement";
 
 const AdminRoutes = () => (
@@ -15,6 +16,7 @@ const AdminRoutes = () => (
     {/*<Route path="/manage-student" element={<StudentManagement />} /> */}
     <Route path="/logout" element={<Logout />} />
     <Route path="*" element={<NotFound />} />
+    <Route path="/reg-staff" element={<StaffReg />} />
   </Routes>
 );
 
