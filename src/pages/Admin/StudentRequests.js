@@ -38,7 +38,7 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 // Handle student requests
 const StudentRequests = () => {
   // Fetch student requests data
-  const { data, error, loading } = useGetRequest('student/requests');
+  const { data, error, loading } = useGetRequest('admin/studentRequests');
 
   // State for managing the list of student requests
   const [requests, setRequests] = useState([]);
@@ -62,7 +62,7 @@ const StudentRequests = () => {
       try {
         // PUT request to update the student's status based on the action
         const response = await fetch(
-          `http://localhost:5000/student/requests/${action}/${studentId}`,
+          `http://localhost:5000/admin/studentRequests/${action}/${studentId}`,
           {
             method: 'PUT',
             headers: {
