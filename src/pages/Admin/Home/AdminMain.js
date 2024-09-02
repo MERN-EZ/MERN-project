@@ -36,9 +36,9 @@ const AdminMain = () => {
         {/* Card to Manage Students*/}
         <Grid item>
           <NavCard
-            title="Student Management"
+            title="Staff registration"
             icon={<ManageAccountsOutlinedIcon style={{ fontSize: 100 }} />}
-            navigateTo="/manage-Student" // The route to navigate to the Student Management Page when the card is clicked
+            navigateTo="/reg-staff" // The route to navigate to the Student Management Page when the card is clicked
           />
         </Grid>
       </Grid>
