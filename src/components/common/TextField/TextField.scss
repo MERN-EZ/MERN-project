@@ -1,15 +1,15 @@
-.textField {
+/* .textField {
   display: flex;
-  flex-direction: column; /* Stack label on top of input */
-  margin-bottom: 20px; /* Space between fields */
+  flex-direction: column; 
+  margin-bottom: 20px; 
 
   label {
-    /* Adjusted space between label and input */
+
     font-weight: bold;
     font-size: 1rem;
-    color: var(--text-fields-alt-text-color);
-    opacity: var(--text-fields-alt-text-opacity);
-    text-align: left; /* Left-align labels */
+    color: #071952;
+    opacity: 50%;
+    text-align: left; 
   }
 
   input {
@@ -19,13 +19,13 @@
     border: 1px solid #ccc;
     border-radius: 4px;
     box-sizing: border-box;
-    background-color: var(--text-field-background-color);
-    color: var(--text-fields-alt-text-color);
-    opacity: var(--text-fields-alt-text-opacity);
+    background-color: #ebf4f6;
+    color: #071952;
+    opacity: 50%;
 
     &:focus {
       border-color: #007bff;
       outline: none;
     }
   }
-}
+} */

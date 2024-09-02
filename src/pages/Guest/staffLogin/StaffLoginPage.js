@@ -5,20 +5,24 @@ import Button from '../../../components/common/Button/Button';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import LockIcon from '@mui/icons-material/Lock';
 import LoginIcon from '@mui/icons-material/Login';
-import BatchIcon from '@mui/icons-material/School';
-import useLogin from '../../../hooks/useLogin';
+import WorkIcon from '@mui/icons-material/Work';
 import { useNavigate } from 'react-router-dom';
 import Alert from '../../../components/common/Alert/Alert'; // Ensure correct path
-import './LoginPage.scss';
+import './StaffLoginPage.scss'; // Ensure correct path
 import { useUserRole } from '../../../context/UserRoleContext';
+import useStaffLogin from '../../../hooks/useStaffLogin';
+import useAssistantLogin from '../../../hooks/useAssistantLogin';
 
 const LoginPage = () => {
   const [formValues, setFormValues] = useState({
     username: '',
     password: '',
+    role: 'teacher',
     year: '',
   });
-  const { login, loading, error } = useLogin();
+  const { login: StaffLogin, loading: StaffLoading } = useStaffLogin();
+  const { login: AssistantLogin, loading: AssistantLoading } =
+    useAssistantLogin();
   const { setUserRole } = useUserRole();
   const [alert, setAlert] = useState({
     show: false,
@@ -36,8 +40,8 @@ const LoginPage = () => {
   };
 
   const validateForm = () => {
-    const { username, password, year } = formValues;
-    if (!username || !password || !year) {
+    const { username, password, role } = formValues;
+    if (!username || !password || !role) {
       setAlert({
         show: true,
         message: 'All fields are required.',
@@ -45,17 +49,6 @@ const LoginPage = () => {
       });
       return false;
     }
-
-    const validYears = ['2024', '2025', '2026']; // Define valid years
-    if (!validYears.includes(year)) {
-      setAlert({
-        show: true,
-        message: 'Invalid year. Please enter a valid year (2024, 2025, 2026).',
-        variant: 'error',
-      });
-      return false;
-    }
-
     return true;
   };
 
@@ -63,18 +56,28 @@ const LoginPage = () => {
     if (!validateForm()) return;
 
     try {
-      const { username, password, year } = formValues;
-      const loginSuccess = await login(username, password, year); // Call your login hook
-
+      const { username, password, role, year } = formValues;
+      let loginSuccess = null;
+      if (role === 'assistant') {
+        loginSuccess = await AssistantLogin(username, password, year); // Call your login hook
+      } else {
+        loginSuccess = await StaffLogin(username, password, role); // Call your login hook
+      }
       if (loginSuccess) {
-        setUserRole('student');
-        navigate('/'); // Redirect to Student Home page on success
+        if (role === 'admin') {
+          setUserRole('admin');
+          navigate('/');
+        } else if (role === 'teacher') {
+          setUserRole('teacher');
+          navigate('/');
+        }
       } else {
         setAlert({
           show: true,
-          message: error || 'Login failed. Please check your credentials.',
+          message: 'Login failed. Please check your credentials.',
           variant: 'error',
         });
+        console.error('Login failed');
       }
     } catch (error) {
       setAlert({
@@ -106,14 +109,24 @@ const LoginPage = () => {
       <div className="card">
         <div className="cardHeader">
           <LoginIcon className="icon" />
-          <h2>Log In</h2>
+          <h2> Staff Log In</h2>
         </div>
-        <div className="links">
-          Haven't registered yet? <a href="/register"> Register</a>
+        <br></br>
+        <div className="inputContainer">
+          <select
+            value={formValues.role}
+            onChange={handleChange}
+            name="role"
+            className="select"
+          >
+            <option value="teacher">Teacher</option>
+            <option value="admin">Admin</option>
+            <option value="assistant">Assistant</option>
+          </select>
         </div>
         <div className="inputContainer">
           <TextField
-            placeholder="Enter Username"
+            placeholder="Enter Username/Email"
             value={formValues.username}
             onChange={handleChange}
             name="username"
@@ -144,26 +157,28 @@ const LoginPage = () => {
             fullWidth
           />
         </div>
-        <div className="inputContainer">
-          <TextField
-            placeholder="Enter Year of ALs"
-            value={formValues.year}
-            onChange={handleChange}
-            name="year"
-            InputProps={{
-              startAdornment: (
-                <InputAdornment position="start">
-                  <BatchIcon className="icon" />
-                </InputAdornment>
-              ),
-            }}
-            fullWidth
-          />
-        </div>
+        {formValues.role === 'assistant' && (
+          <div className="inputContainer">
+            <TextField
+              placeholder="Enter Batch"
+              value={formValues.year}
+              onChange={handleChange}
+              name="year"
+              InputProps={{
+                startAdornment: (
+                  <InputAdornment position="start">
+                    <WorkIcon className="icon" />
+                  </InputAdornment>
+                ),
+              }}
+              fullWidth
+            />
+          </div>
+        )}
         <div className="actions">
           <Button text="Log In" variant="secondary" onClick={handleLogin} />
         </div>
-        {loading && <div>Loading...</div>}
+        {(AssistantLoading || StaffLoading) && <div>Loading...</div>}
       </div>
     </div>
   );

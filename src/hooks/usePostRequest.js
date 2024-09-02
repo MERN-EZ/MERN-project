@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useDB } from '../context/DatabaseContext';
+import { useAuth } from '../context/AuthContext';
 
 const usePostRequest = (endpoint, requestData) => {
   //const localIP = 'localhost';
@@ -10,6 +11,7 @@ const usePostRequest = (endpoint, requestData) => {
   const [loading, setLoading] = useState(false);
   const [response, setResponse] = useState(null);
   const { DB } = useDB();
+  const { Auth } = useAuth();
 
   useEffect(() => {
     const postRequest = async () => {
@@ -23,11 +25,12 @@ const usePostRequest = (endpoint, requestData) => {
           headers: {
             'Content-Type': 'application/x-www-form-urlencoded',
             'db-name': DB,
+            Authorization: `Bearer ${Auth}`,
           },
           body: urlEncodedData,
         });
 
-        if(response.ok) {
+        if (response.ok) {
           setResponse(await response.json());
           console.log('response', response);
         }
@@ -47,7 +50,7 @@ const usePostRequest = (endpoint, requestData) => {
     if (endpoint && requestData) {
       postRequest();
     }
-  }, [prefix, endpoint, requestData, DB , error]);
+  }, [prefix, endpoint, requestData, DB, error]);
 
   return { response, error, loading };
 };

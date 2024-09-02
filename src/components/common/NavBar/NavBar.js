@@ -1,16 +1,17 @@
-import React, { useState, useEffect } from "react";
-import { useTheme } from "../../../context/ThemeContext";
-import { NavLink } from "react-router-dom";
-import "./NavBar.css";
+import React, { useState, useEffect } from 'react';
+import { useTheme } from '../../../context/ThemeContext';
+import { NavLink } from 'react-router-dom';
+import './NavBar.css';
 import {
   navLinks_teacher,
   navLinks_student,
   navLinks_admin,
   navLinks_assistant,
-} from "./navData";
-import { useUserRole } from "../../../context/UserRoleContext";
-import UserRoleToggle from "../UserRoleToggle/UserRoleToggle";
-import Switch from "@mui/material/Switch";
+  navLinks_guest,
+} from './navData';
+import { useUserRole } from '../../../context/UserRoleContext';
+import UserRoleToggle from '../UserRoleToggle/UserRoleToggle';
+import Switch from '@mui/material/Switch';
 
 const NavBar = () => {
   const { theme, toggleTheme } = useTheme();
@@ -20,17 +21,20 @@ const NavBar = () => {
 
   let navLinks;
   switch (userRole) {
-    case "teacher":
+    case 'teacher':
       navLinks = navLinks_teacher;
       break;
-    case "student":
+    case 'student':
       navLinks = navLinks_student;
       break;
-    case "admin":
+    case 'admin':
       navLinks = navLinks_admin;
       break;
-    case "assistant":
+    case 'assistant':
       navLinks = navLinks_assistant;
+      break;
+    case 'guest':
+      navLinks = navLinks_guest;
       break;
     default:
       navLinks = [];
@@ -41,8 +45,8 @@ const NavBar = () => {
       setIsMobile(window.innerWidth < 768);
     };
 
-    window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
   }, []);
 
   return (
@@ -50,7 +54,8 @@ const NavBar = () => {
       className={`navbar navbar-${theme}`}
       onMouseEnter={() => setIsMenuOpen(true)}
       onMouseLeave={() => setIsMenuOpen(false)}
-      style={{ width: isMenuOpen ? "180px" : "3rem" }}>
+      style={{ width: isMenuOpen ? '180px' : '3rem' }}
+    >
       <div className="navbar-buttons">
         {navLinks.map((link) => (
           <div key={link.name}>
@@ -58,14 +63,16 @@ const NavBar = () => {
               to={link.path}
               end={link.exact}
               className={({ isActive }) =>
-                isActive ? "nav-link active-link" : "nav-link"
-              }>
+                isActive ? 'nav-link active-link' : 'nav-link'
+              }
+            >
               <div className="nav-item-content">
                 <div className="nav-item">{link.icon}</div>
                 <span
                   className={
-                    isMenuOpen && !isMobile ? "link-name visible" : "link-name"
-                  }>
+                    isMenuOpen && !isMobile ? 'link-name visible' : 'link-name'
+                  }
+                >
                   {link.name}
                 </span>
               </div>
@@ -77,7 +84,7 @@ const NavBar = () => {
         <div className="nav-item">
           <Switch
             className="theme-toggle"
-            checked={theme === "dark"}
+            checked={theme === 'dark'}
             onChange={toggleTheme}
             name="themeToggle"
             color="default"
@@ -85,9 +92,10 @@ const NavBar = () => {
         </div>
         <span
           className={
-            isMenuOpen && !isMobile ? "link-name visible" : "link-name"
-          }>
-          {theme === "light" ? "Light Theme" : "Dark Theme"}
+            isMenuOpen && !isMobile ? 'link-name visible' : 'link-name'
+          }
+        >
+          {theme === 'light' ? 'Light Theme' : 'Dark Theme'}
         </span>
       </div>
       <UserRoleToggle />
