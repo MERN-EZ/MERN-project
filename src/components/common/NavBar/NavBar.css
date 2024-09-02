@@ -88,7 +88,7 @@ a.active-link {
   visibility: visible;
   width: auto;
 }
-
+/* 
 @media (max-width: 768px) {
   .navbar {
     padding: 0%;
@@ -124,10 +124,10 @@ a.active-link {
     visibility: visible;
     width: auto;
     font-size: small;
-    display: none; /* Hide text on mobile by default */
+    display: none; 
   }
   .navbar:hover .link-name {
-    display: block; /* Show text when navbar is hovered */
+    display: block; 
   }
   .theme-toggle-wrapper {
     grid-row-start: unset;
@@ -135,4 +135,4 @@ a.active-link {
     flex-direction: column;
     justify-content: center;
   }
-}
+} */
