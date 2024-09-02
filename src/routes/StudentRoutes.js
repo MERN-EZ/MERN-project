@@ -25,7 +25,7 @@ const StudentRoutes = () => (
     />
     <Route path="/payments" element={<Payments />} />
     <Route path="/homework-submission" element={<HomeworkSubmission />} />
-    {/* <Route path="/logout" element={<Logout />} /> */}
+    <Route path="/logout" element={<Logout />} />
     <Route
       path="/homework-submission/:lessonId/:homeworkId"
       element={<HomeworkSubmission />}

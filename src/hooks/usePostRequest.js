@@ -50,7 +50,7 @@ const usePostRequest = (endpoint, requestData) => {
     if (endpoint && requestData) {
       postRequest();
     }
-  }, [prefix, endpoint, requestData, DB, error]);
+  }, [prefix, endpoint, requestData, DB, error, Auth]);
 
   return { response, error, loading };
 };
