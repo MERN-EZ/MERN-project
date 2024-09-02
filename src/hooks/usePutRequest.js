@@ -45,7 +45,7 @@ const usePutRequest = (endpoint, requestData) => {
     if (endpoint && requestData) {
       putRequest();
     }
-  }, [prefix, endpoint, requestData, DB]);
+  }, [prefix, endpoint, requestData, DB, Auth]);
 
   return { response, error, loading };
 };

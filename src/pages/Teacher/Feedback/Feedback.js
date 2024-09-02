@@ -6,61 +6,70 @@ import CloseIcon from '@mui/icons-material/Close';
 import './Feedback.scss';
 
 const Feedback = () => {
-  // const location = useLocation();
-  const [endpoint] = useState(`teacher/feedback/`);
+  const [endpoint] = useState('teacher/feedback/');
   const { data, error, loading } = useGetRequest(endpoint);
   const [feedback, setFeedback] = useState([]);
-
   const [deleteEndpoint, setDeleteEndpoint] = useState('');
-  const [deleteId, setDeleteId] = useState('');
+
   const {
-    data: response,
-    error: deleterror,
+    data: deleteResponse,
+    error: deleteError,
     loading: deleteLoading,
   } = useDeleteRequest(deleteEndpoint);
+
+  const [showAlert, setShowAlert] = useState(true);
 
   useEffect(() => {
     if (data) {
       setFeedback(data);
     }
   }, [data]);
+
   useEffect(() => {
-    if (response) {
-      window.location.reload();
+    if (deleteResponse) {
+      window.location.reload(); // Refresh the page after a successful delete
     }
-  }, [response]);
-  const handleDelete = (_id) => {
-    console.log('delete');
-    setDeleteEndpoint(`teacher/feedback/${_id}`);
-    setDeleteId(_id);
+  }, [deleteResponse]);
+
+  const handleDelete = (id) => {
+    setDeleteEndpoint(`teacher/feedback/${id}`);
   };
-  const [showAlert, setShowAlert] = useState(true);
-  if (loading && showAlert)
+
+  const handleCloseAlert = () => {
+    setShowAlert(false);
+  };
+
+  if ((loading || deleteLoading) && showAlert) {
     return (
       <Alert
-        message={'Loading...'}
-        variant={'message'}
-        onCancel={() => setShowAlert(false)}
+        message="Loading..."
+        variant="message"
+        onCancel={handleCloseAlert}
       />
     );
-  if (error && showAlert)
+  }
+
+  if ((error || deleteError) && showAlert) {
+    const errorMessage = error || deleteError;
     return (
       <Alert
-        message={'Error: ' + error}
-        variant={'message'}
-        onCancel={() => setShowAlert(false)}
+        message={`Error: ${errorMessage}`}
+        variant="message"
+        onCancel={handleCloseAlert}
       />
     );
+  }
+
   return (
     <div className="teacher view-feedback">
       <section className="homework-rounded-edge-rectangle">
         <h2 className="homework-header">Feedback</h2>
         <div className="homework-items-container">
           {feedback.length === 0 ? (
-            <p>No feedbacks</p>
+            <p>No feedback available</p>
           ) : (
             <div className="homework-items">
-              {feedback.map(({ _id, studentId, name, email, message }) => (
+              {feedback.map(({ _id, name, email, message }) => (
                 <div key={_id} className="homework-item">
                   <span className="deleteContainer">
                     <CloseIcon
@@ -88,4 +97,5 @@ const Feedback = () => {
     </div>
   );
 };
+
 export default Feedback;
