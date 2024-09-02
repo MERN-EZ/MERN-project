@@ -8,7 +8,7 @@ import {
 } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 const NavCard = ({ title, icon, navigateTo }) => {
-  const navigate = useNavigate(); // Initialize the navigate function
+  const navigate = useNavigate(); 
   return (
     <Card sx={{ maxWidth: 1000 }} onClick={() => navigate(navigateTo)} style={{ cursor: "pointer" }}>
       <CardActionArea>
