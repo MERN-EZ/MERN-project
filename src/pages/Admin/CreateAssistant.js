@@ -23,6 +23,7 @@ const CreateAssistant = () => {
     assistantId: '',
     firstName: '',
     lastName: '',
+    username: '',
     password: '',
     email: '',
     phoneNumber: '',
@@ -67,7 +68,7 @@ const CreateAssistant = () => {
     error,
     loading,
   } = useGetRequest('admin/assistants');
-
+  console.log('Fetching Assistants');
   console.log('Fetched assistants:', assistants);
 
   // Expression for validating assistant ID in the format A001
@@ -84,11 +85,20 @@ const CreateAssistant = () => {
 
   // Handle creating or updating an assistant
   const handleCreateOrUpdateAccount = () => {
+    console.log('Handling create or update account');
     // Check if all required fields are filled
-    if (!formData.assistantId || !formData.firstName || !formData.lastName || !formData.password || !formData.email || !formData.phoneNumber) {
-      alert('Please fill all required fields.');
-      return; // Prevent further execution if fields are missing
-    }
+    // if (
+    //   !formData.assistantId ||
+    //   !formData.firstName ||
+    //   !formData.lastName ||
+    //   !formData.password ||
+    //   !formData.email ||
+    //   !formData.phoneNumber
+    // ) {
+    //   console.log('Required fields not filled');
+    //   alert('Please fill all required fields.');
+    //   return; // Prevent further execution if fields are missing
+    // }
 
     // Validate assistant ID
     if (!assistantIdRegex.test(formData.assistantId)) {
@@ -115,7 +125,7 @@ const CreateAssistant = () => {
     } else {
       // If not editing, create a new assistant
       console.log('Creating new assistant with data:', formData);
-      post(); // Trigger the post request using usePostRequest hook
+      post(formData); // Trigger the post request using usePostRequest hook
       alert('Assistant account created successfully.');
     }
     // Hide the form after submission
@@ -125,6 +135,7 @@ const CreateAssistant = () => {
   // Handle form cancellation
   const handleCancel = () => {
     alert('Assistant creation cancelled.');
+    console.log('Assistant creation was cancelled');
     setShowForm(false); // Hide the form
   };
 
@@ -134,6 +145,7 @@ const CreateAssistant = () => {
       assistantId: assistant.assistantId,
       firstName: assistant.firstName,
       lastName: assistant.lastName,
+      username: assistant.username,
       password: '',
       email: assistant.email,
       phoneNumber: assistant.phoneNumber,
@@ -156,15 +168,16 @@ const CreateAssistant = () => {
   };
 
   // Effect to handle the result of the create assistant request
-  // useEffect(() => {
-  //   if (postResponse) {
-  //     alert('Assistant created successfully.');
-  //   }
-  //   if (postError) {
-  //     alert('Failed to create assistant.');
-  //     console.error(postError);
-  //   }
-  // }, [postResponse, postError]);
+  useEffect(() => {
+    if (postResponse) {
+      alert('Assistant created successfully.');
+    }
+    if (postError) {
+      console.log('Here is an  Error occuring all the timeee');
+      alert('Failed to create assistant.');
+      console.error(postError);
+    }
+  }, [postResponse, postError]);
 
   // Effect to handle the result of the update assistant request
   useEffect(() => {
@@ -225,9 +238,13 @@ const CreateAssistant = () => {
                       value={formData.assistantId}
                       onChange={handleInputChange}
                       required
-                      error={!assistantIdRegex.test(formData.assistantId) && formData.assistantId !== ''}
+                      error={
+                        !assistantIdRegex.test(formData.assistantId) &&
+                        formData.assistantId !== ''
+                      }
                       helperText={
-                        !assistantIdRegex.test(formData.assistantId) && formData.assistantId !== ''
+                        !assistantIdRegex.test(formData.assistantId) &&
+                        formData.assistantId !== ''
                           ? 'Assistant ID must be in the format A001.'
                           : ''
                       }
@@ -243,6 +260,13 @@ const CreateAssistant = () => {
                       label="Last Name"
                       name="lastName"
                       value={formData.lastName}
+                      onChange={handleInputChange}
+                      required
+                    />
+                    <TextField
+                      label="Username"
+                      name="username"
+                      value={formData.username}
                       onChange={handleInputChange}
                       required
                     />
@@ -264,9 +288,13 @@ const CreateAssistant = () => {
                       value={formData.email}
                       onChange={handleInputChange}
                       required
-                      error={!emailRegex.test(formData.email) && formData.email !== ''}
+                      error={
+                        !emailRegex.test(formData.email) &&
+                        formData.email !== ''
+                      }
                       helperText={
-                        !emailRegex.test(formData.email) && formData.email !== ''
+                        !emailRegex.test(formData.email) &&
+                        formData.email !== ''
                           ? 'Please enter a valid email address.'
                           : ''
                       }
@@ -331,6 +359,9 @@ const CreateAssistant = () => {
                   </Typography>
                   <Typography variant="body2">
                     ID: {assistant.assistantId}
+                  </Typography>
+                  <Typography variant="body2">
+                    Username: {assistant.username}
                   </Typography>
                   <Typography variant="body2">
                     Email: {assistant.email}
