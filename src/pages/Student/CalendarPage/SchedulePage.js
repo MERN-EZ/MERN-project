@@ -8,7 +8,8 @@ const SchedulePage = () => {
       <header className="schedule-header">
         <h1>Ordinary Level ICT 22/223</h1>
         <p>
-          Nugegoda - ISM<br />
+          Nugegoda - ISM
+          <br />
           Every Saturday 6.00 P.M. - 8.00 P.M.
         </p>
       </header>

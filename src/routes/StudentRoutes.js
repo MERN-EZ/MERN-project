@@ -1,7 +1,7 @@
 import React from 'react';
 import { Route, Routes } from 'react-router-dom';
 import StudentHomePage from '../pages/Student/Home/Home';
-import StudentSchedulePage from '../pages/Student/Components/SchedulePage';
+import StudentSchedulePage from '../pages/Student/CalendarPage/SchedulePage';
 import Notification from '../pages/Student/Components/Notification';
 import Profile from '../pages/Student/Profile/Profile';
 import EditProfile from '../pages/Student/EditProfile/EditProfile';
