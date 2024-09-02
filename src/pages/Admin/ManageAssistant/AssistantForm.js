@@ -1,16 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import {
-  Box,
-  Card,
-  CardContent,
-  TextField,
-  Stack,
-} from '@mui/material';
-import Button from '../../components/common/Button/Button';
-import usePostRequest from '../../hooks/usePostRequest';
-import usePutRequest from '../../hooks/usePutRequest';
+import { Box, TextField, Stack, Card, CardContent } from '@mui/material';
+import Button from '../../../components/common/Button/Button';
 
-const AssistantForm = ({ editingAssistant, onClose }) => {
+const AssistantForm = ({ onSubmit, onCancel, initialData }) => {
   const [formData, setFormData] = useState({
     assistantId: '',
     firstName: '',
@@ -21,61 +13,48 @@ const AssistantForm = ({ editingAssistant, onClose }) => {
     phoneNumber: '',
   });
 
-  const [putData, setPutData] = useState(null);
-  const [postData, setPostData] = useState(null);
-
-  const { response: postResponse, error: postError } = usePostRequest(
-    'admin/assistants',
-    postData
-  );
-
-  const { data: updateResponse, error: updateError } = usePutRequest(
-    editingAssistant ? `admin/assistants/${editingAssistant}` : null,
-    putData
-  );
-
   useEffect(() => {
-    if (editingAssistant) {
-      // Fetch data and populate the form for editing
-      // Example: setFormData(fetchedData);
+    if (initialData) {
+      setFormData({
+        ...initialData,
+        password: '', // Don't populate password for security reasons
+      });
     }
-  }, [editingAssistant]);
+  }, [initialData]);
 
-  useEffect(() => {
-    if (postResponse) {
-      alert('Assistant created successfully.');
-      onClose();
-    }
-    if (postError) {
-      alert('Failed to create assistant.');
-    }
-  }, [postResponse, postError, onClose]);
-
-  useEffect(() => {
-    if (updateResponse) {
-      alert('Assistant updated successfully.');
-      onClose();
-    }
-    if (updateError) {
-      alert('Failed to update assistant.');
-    }
-  }, [updateResponse, updateError, onClose]);
+  const assistantIdRegex = /^A\d{3}$/;
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData((prevState) => ({ ...prevState, [name]: value }));
   };
 
-  const handleSave = () => {
-    if (editingAssistant) {
-      const updateData = { ...formData };
-      if (!updateData.password) {
-        delete updateData.password;
-      }
-      setPutData(updateData);
-    } else {
-      setPostData(formData);
+  const handleSubmit = () => {
+    if (
+      !formData.assistantId ||
+      !formData.firstName ||
+      !formData.lastName ||
+      !formData.username ||
+      (!initialData && !formData.password) ||
+      !formData.email ||
+      !formData.phoneNumber
+    ) {
+      alert('Please fill all required fields.');
+      return;
     }
+
+    if (!assistantIdRegex.test(formData.assistantId)) {
+      alert('Assistant ID must be in the format A001.');
+      return;
+    }
+
+    if (!emailRegex.test(formData.email)) {
+      alert('Please enter a valid email address.');
+      return;
+    }
+
+    onSubmit(formData);
   };
 
   return (
@@ -98,6 +77,16 @@ const AssistantForm = ({ editingAssistant, onClose }) => {
                   value={formData.assistantId}
                   onChange={handleInputChange}
                   required
+                  error={
+                    !assistantIdRegex.test(formData.assistantId) &&
+                    formData.assistantId !== ''
+                  }
+                  helperText={
+                    !assistantIdRegex.test(formData.assistantId) &&
+                    formData.assistantId !== ''
+                      ? 'Assistant ID must be in the format A001.'
+                      : ''
+                  }
                 />
                 <TextField
                   label="First Name"
@@ -128,6 +117,7 @@ const AssistantForm = ({ editingAssistant, onClose }) => {
                   name="password"
                   value={formData.password}
                   onChange={handleInputChange}
+                  required={!initialData}
                 />
                 <TextField
                   label="Email"
@@ -136,6 +126,14 @@ const AssistantForm = ({ editingAssistant, onClose }) => {
                   value={formData.email}
                   onChange={handleInputChange}
                   required
+                  error={
+                    !emailRegex.test(formData.email) && formData.email !== ''
+                  }
+                  helperText={
+                    !emailRegex.test(formData.email) && formData.email !== ''
+                      ? 'Please enter a valid email address.'
+                      : ''
+                  }
                 />
                 <TextField
                   label="Phone Number"
@@ -149,15 +147,11 @@ const AssistantForm = ({ editingAssistant, onClose }) => {
               </Stack>
               <Stack direction="row" spacing={2} justifyContent="flex-end">
                 <Button
-                  text={editingAssistant ? 'Update Account' : 'Create Account'}
+                  text={initialData ? 'Update Account' : 'Create Account'}
                   variant="primary"
-                  onClick={handleSave}
+                  onClick={handleSubmit}
                 />
-                <Button
-                  text="Cancel"
-                  variant="secondary"
-                  onClick={onClose}
-                />
+                <Button text="Cancel" variant="secondary" onClick={onCancel} />
               </Stack>
             </Stack>
           </form>
