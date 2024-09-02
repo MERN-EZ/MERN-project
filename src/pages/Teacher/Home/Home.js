@@ -4,7 +4,7 @@ import useGetRequest from '../../../hooks/useGetRequest';
 import Alert from '../../../components/common/Alert/Alert';
 
 const GuestHomePage = () => {
-  const { data, error, loading } = useGetRequest('teacher/class'); // Ensure the correct endpoint
+  const { data, error, loading } = useGetRequest('teacher/class'); 
   const [courses, setCourses] = useState([]);
 
   useEffect(() => {

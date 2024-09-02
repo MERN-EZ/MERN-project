@@ -30,9 +30,9 @@ const StudentSupportPage = () => {
   useEffect(() => {
     if (response) {
       setShowSuccessAlert(true);
-      setMessage(''); // Clear the textarea
-      setPostData(null); // Reset postData after the request is completed
-      setPostEndpoint(null); // Reset postEndpoint after the request is completed
+      setMessage('');
+      setPostData(null);
+      setPostEndpoint(null);
     }
 
     if (postError) {
@@ -59,7 +59,7 @@ const StudentSupportPage = () => {
 
   const handleSuccessAlertClose = () => {
     setShowSuccessAlert(false);
-    navigate('/'); // Navigate to the student home page
+    navigate('/');
   };
 
   if (postLoading) {
@@ -103,7 +103,7 @@ const StudentSupportPage = () => {
           <Alert
             message={alertMessage}
             variant="message"
-            onCancel={() => setAlertMessage(null)} // Clear the alert on close
+            onCancel={() => setAlertMessage(null)}
           />
         )}
         {showSuccessAlert && (

@@ -23,7 +23,7 @@
   }
 
   .form-group {
-    position: relative; // Ensure positioning for error messages
+    position: relative; 
     display: flex;
     flex-direction: column;
     width: 100%;
@@ -54,10 +54,10 @@
     }
 
     .error-message {
-      color: red; // Set text color to red
-      font-size: 0.75rem; // Smaller font size for error messages
+      color: red; 
+      font-size: 0.75rem; 
       position: absolute;
-      bottom: -1rem; // Adjust positioning to fit your layout
+      bottom: -1rem; 
       right: 0;
     }
   }

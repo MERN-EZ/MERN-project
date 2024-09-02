@@ -5,11 +5,9 @@ const Logout = () => {
     const navigate = useNavigate();
 
     useEffect(() => {
-        // Clear any stored authentication data (e.g., tokens, user info)
         localStorage.removeItem('authToken');
         localStorage.removeItem('user');
 
-        // Redirect to the login page or home page
         navigate('/login');
     }, [navigate]);
 

@@ -8,8 +8,8 @@ import LoginIcon from '@mui/icons-material/Login';
 import WorkIcon from '@mui/icons-material/Work';
 import useLogin from '../../../hooks/useLogin';
 import { useNavigate } from 'react-router-dom';
-import Alert from '../../../components/common/Alert/Alert'; // Ensure correct path
-import './StaffLoginPage.scss'; // Ensure correct path
+import Alert from '../../../components/common/Alert/Alert';
+import './StaffLoginPage.scss';
 import { useUserRole } from '../../../context/UserRoleContext';
 
 const LoginPage = () => {
@@ -25,7 +25,7 @@ const LoginPage = () => {
     message: '',
     variant: 'info',
   });
-  const navigate = useNavigate(); // Initialize navigate
+  const navigate = useNavigate();
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -53,7 +53,7 @@ const LoginPage = () => {
 
     try {
       const { username, password, role } = formValues;
-      const loginSuccess = await login(username, password, role); // Call your login hook
+      const loginSuccess = await login(username, password, role);
 
       if (loginSuccess) {
         if (role === 'admin') {

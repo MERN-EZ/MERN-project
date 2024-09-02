@@ -2,8 +2,8 @@
   padding: 20px;
   background-color: #e0f7fa;
   font-family: Arial, sans-serif;
-  display:list-item;
-  
+  display: list-item;
+
   .class-info-rounded-edge-rectangle {
     background-color: var(--round-edge-rectangle-background-color);
     padding: 20px;
@@ -54,12 +54,11 @@
       overflow-x: auto;
       overflow-y: hidden;
       margin-top: 30px;
-      -webkit-overflow-scrolling: touch; /* Enable smooth scrolling */
+      -webkit-overflow-scrolling: touch;
       height: 150%;
 
-
       &::-webkit-scrollbar {
-        display: none; /* Hide scrollbar in WebKit browsers */
+        display: none;
       }
 
       .homework-items {
@@ -74,12 +73,12 @@
           width: 150px;
           height: 150px;
           text-align: center;
-          margin-right: 10px; /* Add space between homework items */
+          margin-right: 10px;
           margin-left: 10px;
-          transition: transform 0.3s; /* Smooth transition for the hover effect */
+          transition: transform 0.3s;
 
           &:hover {
-            transform: scale(1.1); /* Increase the size of the item when hovered */
+            transform: scale(1.1);
           }
         }
       }
@@ -107,7 +106,7 @@
     padding: 20px;
     border-radius: 8px;
     margin-bottom: 20px;
-    width:98%;
+    width: 98%;
     margin-left: 2rem;
 
     .deadline-item:hover {

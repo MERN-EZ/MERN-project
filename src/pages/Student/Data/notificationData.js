@@ -1,4 +1,3 @@
-// notificationData.js
 const notificationData = [
     {
       id: 1,

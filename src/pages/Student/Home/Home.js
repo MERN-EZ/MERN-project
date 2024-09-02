@@ -21,7 +21,7 @@ const calculateTimeRemaining = (deadline) => {
 
 const RegStudentLanding = () => {
 
-  const { data: course } = useGetRequest('teacher/class'); // Ensure the correct endpoint
+  const { data: course } = useGetRequest('teacher/class'); 
   const [courses, setCourses] = useState([]);
 
   useEffect(() => {

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import Icon from '@mui/icons-material/PersonAddAlt';
-import Alert from '../../../components/common/Alert/Alert'; // Ensure this path is correct
+import Alert from '../../../components/common/Alert/Alert';
 import Button from '../../../components/common/Button/Button';
 import './RegistrationPage.scss';
 
@@ -16,7 +16,6 @@ const RegistrationPage = () => {
     variant: 'info',
   });
 
-  // Initialize form state with year if available
   const [formValues, setFormValues] = useState({
     firstName: '',
     lastName: '',
@@ -29,7 +28,7 @@ const RegistrationPage = () => {
     transactionId: '',
   });
 
-  const [errors, setErrors] = useState({}); // State to hold validation errors
+  const [errors, setErrors] = useState({});
 
   useEffect(() => {
     setFormValues((prevValues) => ({
@@ -49,7 +48,6 @@ const RegistrationPage = () => {
   const validateForm = () => {
     const newErrors = {};
 
-    // Check required fields
     if (!formValues.firstName) newErrors.firstName = 'First Name is required';
     if (!formValues.lastName) newErrors.lastName = 'Last Name is required';
     if (!formValues.username) newErrors.username = 'Username is required';
@@ -66,7 +64,6 @@ const RegistrationPage = () => {
       newErrors.yearOfALs = 'Please enter a valid year';
     }
 
-    // Check password fields
     if (!formValues.password) {
       newErrors.password = 'Password is required';
     } else if (formValues.password !== formValues.confirmPassword) {
@@ -75,7 +72,6 @@ const RegistrationPage = () => {
 
     setErrors(newErrors);
 
-    // Return true if no errors, false otherwise
     return Object.keys(newErrors).length === 0;
   };
 
@@ -110,10 +106,9 @@ const RegistrationPage = () => {
           variant: 'success',
         });
 
-        // Wait for alert to be closed by user before redirecting
         setTimeout(() => {
           navigate('/');
-        }, 2000); // Adjust time as needed
+        }, 2000);
       } else {
         const errorMessage =
           data.message ||
