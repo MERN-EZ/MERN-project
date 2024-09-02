@@ -1,6 +1,6 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import Alert from '../../../components/common/Alert/Alert';
+import Alert from '../Alert/Alert';
 import { useAuth } from '../../../context/AuthContext';
 import { useDB } from '../../../context/DatabaseContext';
 import { useUser } from '../../../context/UserContext';
