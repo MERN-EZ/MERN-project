@@ -45,7 +45,7 @@ const useGetRequest = (endpoint) => {
     };
 
     getRequest();
-  }, [prefix, endpoint, DB]);
+  }, [prefix, endpoint, DB, Auth]);
 
   return { data, error, loading };
 };
