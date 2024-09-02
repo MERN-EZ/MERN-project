@@ -11,9 +11,9 @@ import Button from '@mui/material/Button';
 import Stack from '@mui/material/Stack';
 import './StudentRequests.scss';
 import useGetRequest from '../../hooks/useGetRequest';
-import usePutRequest from '../../hooks/usePutRequest';
 import Alert from '../../components/common/Alert/Alert';
 
+// Styled components for customizing the table's appearance
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
     backgroundColor: '#78E7F7',
@@ -28,111 +28,93 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
 
 const StyledTableRow = styled(TableRow)(({ theme }) => ({
   '&:nth-of-type(odd)': {
-    backgroundColor: theme.palette.action.hover,
+    backgroundColor: theme.palette.action.hover, // Alternate background color for odd rows
   },
-  // hide last border
   '&:last-child td, &:last-child th': {
-    border: 0,
+    border: 0, // Remove border for the last row
   },
 }));
 
+// Handle student requests
 const StudentRequests = () => {
   // Fetch student requests data
   const { data, error, loading } = useGetRequest('student/requests');
-  
-  const [requests, setRequests] = useState(data || []); // State to store student requests
-  const [acceptEndpoint, setAcceptEndpoint] = useState(null); // State to store the accept endpoint URL
-  const [rejectEndpoint, setRejectEndpoint] = useState(null); // State to store the reject endpoint URL
 
-  const { data: acceptData } = usePutRequest(acceptEndpoint, {});
-  const { data: rejectData } = usePutRequest(rejectEndpoint, {});
+  // State for managing the list of student requests
+  const [requests, setRequests] = useState([]);
 
-  // Update requests state when new data is fetched
+  // State for indicating whether an action is currently in progress
+  const [actionLoading, setActionLoading] = useState(false);
+
+  // Populate the requests state when data is fetched
   useEffect(() => {
     if (data) setRequests(data);
   }, [data]);
 
-  // Handle the response from accepting a student request
-  useEffect(() => {
-    if (acceptData) {
-      // Remove the accepted request from the list
-
-      console.log('Accepted student:', acceptData);
-
-      setRequests((prevRequests) =>
-        prevRequests.filter(
-          (request) => request.studentId !== acceptData.studentId
-        )
-      );
-      // setRequests(prevRequests => prevRequests.map(request =>
-      //   request.studentId === acceptData.studentId ? { ...request, status: 'Approved' } : request
-      // ));
-
-      setAcceptEndpoint(null); // Reset the accept endpoint state
-    }
-  }, [acceptData]);
-
-
-   // Handle the response from rejecting a student request
-  useEffect(() => {
-    if (rejectData) {
-      // Update the status of the rejected request
-
-      console.log('Rejected student:', rejectData);
-      
-      setRequests((prevRequests) =>
-        prevRequests.map((request) =>
-          request.studentId === rejectData.studentId
-            ? { ...request, status: 'Rejected' }
-            : request
-        )
-      ); 
-
-      setRejectEndpoint(null); // Reset the reject endpoint state // Reset to null after processing
-    }
-  }, [rejectData]);
-
-  // Handle the "Accept" action for a student request
-  const handleAccept = (studentId) => {
-    console.log(`Accepting student with ID: ${studentId}`); 
+  // Handle accept/reject actions on student requests
+  const handleAction = async (studentId, action) => {
     if (
       window.confirm(
-        `Are you sure you want to accept the student with ID ${studentId}?`
+        `Are you sure you want to ${action} the student with ID ${studentId}?`
       )
     ) {
+      setActionLoading(true);
+      try {
+        // PUT request to update the student's status based on the action
+        const response = await fetch(
+          `http://localhost:5000/student/requests/${action}/${studentId}`,
+          {
+            method: 'PUT',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ test: 'test' }),
+          }
+        );
 
-      // Set the accept endpoint URL for the specific student request
-      setAcceptEndpoint(`student/requests/accept/${studentId}`);
-    }
-  };
-  // const handleAccept = (studentId) => {
-  //   alert(`Student with ID ${studentId} request successfully Approved.`);
-  //   setAcceptEndpoint(`student/requests/accept/${studentId}`);
-  // };
+        if (!response.ok) {
+          throw new Error('Failed to process request');
+        }
 
-  // Handle the "Reject" action for a student request
-  const handleReject = (studentId) => {
-    console.log(`Rejecting student with ID: ${studentId}`);
-    if (
-      window.confirm(
-        `Are you sure you want to reject the student with ID ${studentId}?`
-      )
-    ) {
-      // Set the reject endpoint URL for the specific student request
-      setRejectEndpoint(`student/requests/reject/${studentId}`);
+        const result = await response.json();
+        console.log(
+          `${action.charAt(0).toUpperCase() + action.slice(1)} student:`,
+          result
+        );
+
+        // Update the requests state based on the action performed
+        setRequests((prevRequests) => {
+          if (action === 'accept') {
+            // If the action is 'accept', remove the student from the table
+            return prevRequests.filter(
+              (request) => request.studentId !== studentId
+            );
+          } else {
+            // If the action is 'reject', update the status to 'Rejected'
+            return prevRequests.map((request) =>
+              request.studentId === studentId
+                ? { ...request, status: 'Rejected' }
+                : request
+            );
+          }
+        });
+      } catch (error) {
+        console.error('Error:', error);
+      } finally {
+        setActionLoading(false); // Reset loading state after the action is complete
+      }
     }
   };
 
-  // const handleReject = (studentId) => {
-  //   alert(`Student with ID ${studentId} request rejected.`);
-  //   setRejectEndpoint(`student/requests/reject/${studentId}`);
-  // };
+  if (loading || actionLoading) {
+    return <Alert message="Loading..." variant="message" />;
+  }
 
-  if (loading) return <Alert message="Loading..." variant="message" />;
-  if (error) return <p>{error}</p>; // Display error message if there was an error fetching data
+  if (error) {
+    return <p>{error}</p>;
+  }
 
   return (
-    // Table container for displaying student requests
     <TableContainer component={Paper} className="table-container">
       <Table sx={{ minWidth: 700 }} aria-label="customized table">
         <TableHead>
@@ -147,6 +129,7 @@ const StudentRequests = () => {
           </TableRow>
         </TableHead>
         <TableBody>
+          {/* Loop through the requests array and display each request as a table row */}
           {requests.map((request) => (
             <StyledTableRow key={request.studentId}>
               <StyledTableCell component="th" scope="row" align="center">
@@ -159,28 +142,28 @@ const StudentRequests = () => {
                 {request.lastName}
               </StyledTableCell>
               <StyledTableCell align="center">{request.email}</StyledTableCell>
-              <StyledTableCell align="right">
+              <StyledTableCell align="center">
                 {request.registeredDate}
               </StyledTableCell>
-              {/*<StyledTableCell align="center">{new Date(request.registeredDate).toLocaleDateString()}</StyledTableCell> */}
-
               <StyledTableCell align="center">
                 {request.transactionId}
               </StyledTableCell>
-              <StyledTableCell>
+              <StyledTableCell align="center">
                 <Stack direction="row" spacing={2}>
+                  {/* Accept button: triggers the handleAction function with 'accept' action */}
                   <Button
                     variant="contained"
                     color="success"
-                    onClick={() => handleAccept(request.studentId)}
-                    //disabled={request.status !== 'Pending'}
+                    onClick={() => handleAction(request.studentId, 'accept')}
+                    disabled={request.status !== 'Pending'}
                   >
                     Accept
                   </Button>
+                  {/* Reject button: triggers the handleAction function with 'reject' action */}
                   <Button
                     variant="contained"
                     color="error"
-                    onClick={() => handleReject(request.studentId)}
+                    onClick={() => handleAction(request.studentId, 'reject')}
                     disabled={request.status !== 'Pending'}
                   >
                     Reject
@@ -196,30 +179,3 @@ const StudentRequests = () => {
 };
 
 export default StudentRequests;
-
-
-// useEffect(() => {
-//   if (acceptData) {
-//     console.log('Accepted student:', acceptData);
-
-//     setRequests((prevRequests) =>
-//       prevRequests.filter(
-//         (request) => request.studentId !== acceptData.studentId
-//       )
-//     );
-//     setAcceptEndpoint(null);
-//   }
-
-//   if (rejectData) {
-//     console.log('Rejected student:', rejectData);
-
-//     setRequests((prevRequests) =>
-//       prevRequests.map((request) =>
-//         request.studentId === rejectData.studentId
-//           ? { ...request, status: 'Rejected' }
-//           : request
-//       )
-//     );
-//     setRejectEndpoint(null);
-//   }
-// }, [acceptData, rejectData]);
