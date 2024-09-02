@@ -1,154 +1,210 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   Container,
   Box,
   TextField,
-  MenuItem,
   Stack,
-  Alert,
   Card,
   CardContent,
+  Typography,
+  IconButton,
 } from '@mui/material';
+import EditIcon from '@mui/icons-material/Edit';
+import DeleteIcon from '@mui/icons-material/Delete';
 import Button from '../../components/common/Button/Button';
+import useGetRequest from '../../hooks/useGetRequest';
+import usePostRequest from '../../hooks/usePostRequest';
+import usePutRequest from '../../hooks/usePutRequest';
+import useDeleteRequest from '../../hooks/useDeleteRequest';
 
 const CreateAssistant = () => {
+  // State to manage form input data
   const [formData, setFormData] = useState({
     assistantId: '',
     firstName: '',
     lastName: '',
-    batch: '',
+    username: '',
     password: '',
     email: '',
     phoneNumber: '',
   });
 
-  const [formErrors, setFormErrors] = useState({}); // newly added
+  // State to control form visibility
   const [showForm, setShowForm] = useState(false);
-  const [alert, setAlert] = useState({ type: '', message: '' });
 
-  // Create Assitant is not yet done : need to go thro the code
+  // State to track the assistant being edited
+  const [editingAssistant, setEditingAssistant] = useState(null);
+
+  // State to manage PUT request data and endpoint for updating an assistant
+  const [putEndpoint, setPutEndpoint] = useState(null);
+  const [putData, setPutData] = useState(null);
+
+  // State to store the endpoint for deleting an assistant
+  const [deleteEndpoint, setDeleteEndpoint] = useState(null);
+
+  // Hook for creating a new assistant
+  const {
+    response: postResponse,
+    error: postError,
+    loading: post,
+  } = usePostRequest('admin/assistants', formData);
+
+  // Hook for updating an assistant
+  const { data: updateResponse, error: updateError } = usePutRequest(
+    putEndpoint,
+    putData
+  );
+
+  // Hook for deleting an assistant
+  const {
+    data,
+    error: deleteError,
+    loading: deleteLoading,
+  } = useDeleteRequest(deleteEndpoint);
+
+  // Hook for fetching the list of assistants
+  const {
+    data: assistants,
+    error,
+    loading,
+  } = useGetRequest('admin/assistants');
+  console.log('Fetching Assistants');
+  console.log('Fetched assistants:', assistants);
+
+  // Expression for validating assistant ID in the format A001
+  const assistantIdRegex = /^A\d{3}$/;
+  // Expression for validating email
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+  // Handle input changes in the form fields
   const handleInputChange = (e) => {
     const { name, value } = e.target;
+    console.log(`Input Change - ${name}: ${value}`);
     setFormData((prevState) => ({ ...prevState, [name]: value }));
   };
 
-  const validate = () => {
-    // newly added
-    let errors = {};
+  // Handle creating or updating an assistant
+  const handleCreateOrUpdateAccount = () => {
+    console.log('Handling create or update account');
+    // Check if all required fields are filled
+    // if (
+    //   !formData.assistantId ||
+    //   !formData.firstName ||
+    //   !formData.lastName ||
+    //   !formData.password ||
+    //   !formData.email ||
+    //   !formData.phoneNumber
+    // ) {
+    //   console.log('Required fields not filled');
+    //   alert('Please fill all required fields.');
+    //   return; // Prevent further execution if fields are missing
+    // }
 
-    // Assistant ID validation (e.g., A001)
-    const assistantIdPattern = /^A\d{3}$/;
-    if (!assistantIdPattern.test(formData.assistantId)) {
-      errors.assistantId = 'Assistant ID should be in the format A001.';
+    // Validate assistant ID
+    if (!assistantIdRegex.test(formData.assistantId)) {
+      alert('Assistant ID must be in the format A001.');
+      return; // Prevent further execution if assistant ID format is invalid
     }
 
-    // Password validation (6 characters, 4 letters and 2 numbers)
-    const passwordPattern = /^(?=.*[A-Za-z]{4,})(?=.*\d{2,})[A-Za-z\d]{6,}$/;
-    if (!passwordPattern.test(formData.password)) {
-      errors.password =
-        'Password should be 6 characters long with 4 letters and 2 numbers.';
+    // Validate email
+    if (!emailRegex.test(formData.email)) {
+      alert('Please enter a valid email address.');
+      return; // Prevent further execution if email format is invalid
     }
 
-    // Email validation
-    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailPattern.test(formData.email)) {
-      errors.email = 'Please enter a valid email address.';
+    // Proceed with creating or updating the assistant
+    if (editingAssistant) {
+      // If editing, update the existing assistant
+      const updateData = { ...formData };
+      if (!updateData.password) {
+        delete updateData.password; // what's happening here??? // Exclude password if not provided
+      }
+      console.log('Updating assistant with data:', updateData);
+      setPutData(updateData);
+      setPutEndpoint(`admin/assistants/${editingAssistant}`);
+    } else {
+      // If not editing, create a new assistant
+      console.log('Creating new assistant with data:', formData);
+      post(formData); // Trigger the post request using usePostRequest hook
+      alert('Assistant account created successfully.');
     }
-
-    // Phone number validation (10 digits)
-    const phonePattern = /^\d{10}$/;
-    if (!phonePattern.test(formData.phoneNumber)) {
-      errors.phoneNumber = 'Phone number should be exactly 10 digits.';
-    }
-
-    // First Name and Last Name validation
-    if (!formData.firstName) {
-      errors.firstName = 'First Name is required.';
-    }
-    if (!formData.lastName) {
-      errors.lastName = 'Last Name is required.';
-    }
-
-    setFormErrors(errors); // newly added
-    return Object.keys(errors).length === 0;
+    // Hide the form after submission
+    setShowForm(false);
   };
 
-  // const handleCreateAccount = () => {
-  //   if (Object.values(formData).some(value => value === '')) {
-  //     setAlert({ type: 'error', message: 'Please fill in all fields.' });
-  //     return;
-  //   }
-  //   setAlert({ type: 'success', message: 'Assistant account created successfully.' });
-  //   setShowForm(false); // Hide the form after successful creation
-  // };
-
-  // const handleCreateAccount = () => { // newly added
-  //   if (validate()) {
-  //     setAlert({ type: 'success', message: 'Assistant account created successfully.' });
-  //     setShowForm(false); // Hide the form after successful creation
-  //   } else {
-  //     setAlert({ type: 'error', message: 'Please correct the errors in the form.' });
-  //   }
-  // };
-
-  // Newest form handling code
-  const handleCreateAccount = () => {
-    // Validation for all required fields
-    const isFormValid = Object.values(formData).every((value) => value !== '');
-
-    if (!isFormValid) {
-      setAlert({ type: 'error', message: 'Please fill in all fields.' });
-      return; // Prevent the form from being submitted
-    }
-
-    // Additional specific field validations (optional)
-    if (!/^A\d{3}$/.test(formData.assistantId)) {
-      setAlert({
-        type: 'error',
-        message: 'Assistant ID should be in the format A001.',
-      });
-      return;
-    }
-
-    if (
-      !/^(?=.*[a-zA-Z]{4,})(?=.*\d{2,})[a-zA-Z\d]{6,}$/.test(formData.password)
-    ) {
-      setAlert({
-        type: 'error',
-        message:
-          'Password should be at least 6 characters with 4 letters and 2 numbers.',
-      });
-      return;
-    }
-
-    if (!/^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/.test(formData.email)) {
-      setAlert({
-        type: 'error',
-        message: 'Please enter a valid email address.',
-      });
-      return;
-    }
-
-    if (!/^\d{10}$/.test(formData.phoneNumber)) {
-      setAlert({
-        type: 'error',
-        message: 'Phone number should be 10 digits long.',
-      });
-      return;
-    }
-
-    // If everything is valid, show success alert and reset form visibility
-    setAlert({
-      type: 'success',
-      message: 'Assistant account created successfully.',
-    });
-    setShowForm(false); // Hide the form after successful creation
-  };
-
+  // Handle form cancellation
   const handleCancel = () => {
-    setAlert({ type: 'info', message: 'Assistant creation cancelled.' });
+    alert('Assistant creation cancelled.');
+    console.log('Assistant creation was cancelled');
     setShowForm(false); // Hide the form
   };
+
+  // Populate form with the selected assistant's data for editing
+  const handleEdit = (assistant) => {
+    setFormData({
+      assistantId: assistant.assistantId,
+      firstName: assistant.firstName,
+      lastName: assistant.lastName,
+      username: assistant.username,
+      password: '',
+      email: assistant.email,
+      phoneNumber: assistant.phoneNumber,
+    });
+    setEditingAssistant(assistant._id);
+    setShowForm(true); // Show the form for editing
+  };
+
+  // Handle assistant deletion
+  const handleDelete = (assistantId) => {
+    console.log(`Attempting to delete assistant with ID: ${assistantId}`); // Log the assistant ID
+    const confirmed = window.confirm(
+      'Are you sure you want to delete this assistant?'
+    );
+    if (confirmed) {
+      const endpoint = `admin/assistants/${assistantId}`;
+      console.log(`Delete endpoint set: ${endpoint}`); // Log the delete endpoint
+      setDeleteEndpoint(endpoint); // Set the endpoint in state
+    }
+  };
+
+  // Effect to handle the result of the create assistant request
+  useEffect(() => {
+    if (postResponse) {
+      alert('Assistant created successfully.');
+    }
+    if (postError) {
+      console.log('Here is an  Error occuring all the timeee');
+      alert('Failed to create assistant.');
+      console.error(postError);
+    }
+  }, [postResponse, postError]);
+
+  // Effect to handle the result of the update assistant request
+  useEffect(() => {
+    if (updateResponse) {
+      console.log('Update response:', updateResponse);
+      alert('Assistant updated successfully.');
+      setEditingAssistant(null); // Reset editing state
+    }
+    if (updateError) {
+      alert('Failed to update assistant.');
+      console.error(updateError);
+    }
+  }, [updateResponse, updateError]);
+
+  // Effect to handle the result of the delete assistant request
+  useEffect(() => {
+    if (deleteEndpoint && !deleteLoading) {
+      if (deleteError) {
+        alert('Failed to delete assistant.');
+        console.error('Delete error:', deleteError);
+      } else if (data) {
+        alert('Assistant deleted successfully.');
+        console.log('Deleted assistant data:', data);
+        setDeleteEndpoint(null); // Clear the endpoint after successful deletion
+      }
+    }
+  }, [deleteEndpoint, deleteError, deleteLoading, data]);
 
   return (
     <Container sx={{ position: 'relative', paddingTop: '20px' }}>
@@ -161,16 +217,7 @@ const CreateAssistant = () => {
         />
       </Box>
 
-      {/* Alert Message */}
-      {alert.message && (
-        <Box sx={{ mt: 8 }}>
-          {' '}
-          {/* Adjust the margin-top value as needed */}
-          <Alert severity={alert.type}>{alert.message}</Alert>
-        </Box>
-      )}
-
-      {/* Form Card */}
+      {/* Form Card for creating or editing an assistant */}
       {showForm && (
         <Box
           sx={{
@@ -182,148 +229,167 @@ const CreateAssistant = () => {
         >
           <Card sx={{ minWidth: 275, boxShadow: 3 }}>
             <CardContent sx={{ padding: '25px' }}>
-              <div>
-                <form noValidate autoComplete="off">
-                  <Stack spacing={2}>
-                    <Stack direction="row" spacing={2}>
-                      <TextField
-                        label="Assistant ID"
-                        name="assistantId"
-                        value={formData.assistantId}
-                        onChange={handleInputChange}
-                        required
-                        error={!!formErrors.assistantId}
-                        helperText={formErrors.assistantId || 'Format: A001'}
-                      />
-                      <TextField
-                        label="First Name"
-                        name="firstName"
-                        value={formData.firstName}
-                        onChange={handleInputChange}
-                        required
-                        error={!!formErrors.firstName}
-                        helperText={formErrors.firstName}
-                      />
-                      <TextField
-                        label="Last Name"
-                        name="lastName"
-                        value={formData.lastName}
-                        onChange={handleInputChange}
-                        required
-                        error={!!formErrors.lastName}
-                        helperText={formErrors.lastName}
-                      />
-                      <TextField
-                        type="password"
-                        label="Password"
-                        name="password"
-                        value={formData.password}
-                        onChange={handleInputChange}
-                        required
-                        error={!!formErrors.password}
-                        helperText={
-                          formErrors.password ||
-                          '6 characters, 4 letters, 2 numbers'
-                        }
-                      />
-                    </Stack>
-                    <Stack direction="row" spacing={2}></Stack>
-                    <Stack direction="row" spacing={2}>
-                      <TextField
-                        select
-                        label="Batch"
-                        name="batch"
-                        value={formData.batch}
-                        onChange={handleInputChange}
-                        required
-                        sx={{ minWidth: 210 }}
-                      >
-                        <MenuItem value="2024">2024</MenuItem>
-                        <MenuItem value="2025">2025</MenuItem>
-                        <MenuItem value="2026">2026</MenuItem>
-                      </TextField>
-
-                      <TextField
-                        label="Email"
-                        name="email"
-                        type="email"
-                        value={formData.email}
-                        onChange={handleInputChange}
-                        required
-                        error={!!formErrors.email}
-                        helperText={
-                          formErrors.email || 'e.g., user@example.com'
-                        }
-                      />
-                      <TextField
-                        label="Phone Number"
-                        name="phoneNumber"
-                        type="tel"
-                        value={formData.phoneNumber}
-                        onChange={handleInputChange}
-                        required
-                        error={!!formErrors.phoneNumber}
-                        helperText={
-                          formErrors.phoneNumber || 'Format: 0774567290'
-                        }
-                      />
-                    </Stack>
-                    <Stack
-                      direction="row"
-                      spacing={2}
-                      justifyContent="flex-end"
-                    >
-                      <Button
-                        text="Create Account"
-                        variant="primary"
-                        onClick={handleCreateAccount}
-                      />
-                      <Button
-                        text="Cancel"
-                        variant="secondary"
-                        onClick={handleCancel}
-                      />
-                    </Stack>
+              <form noValidate autoComplete="off">
+                <Stack spacing={2}>
+                  <Stack direction="row" spacing={2}>
+                    <TextField
+                      label="Assistant ID"
+                      name="assistantId"
+                      value={formData.assistantId}
+                      onChange={handleInputChange}
+                      required
+                      error={
+                        !assistantIdRegex.test(formData.assistantId) &&
+                        formData.assistantId !== ''
+                      }
+                      helperText={
+                        !assistantIdRegex.test(formData.assistantId) &&
+                        formData.assistantId !== ''
+                          ? 'Assistant ID must be in the format A001.'
+                          : ''
+                      }
+                    />
+                    <TextField
+                      label="First Name"
+                      name="firstName"
+                      value={formData.firstName}
+                      onChange={handleInputChange}
+                      required
+                    />
+                    <TextField
+                      label="Last Name"
+                      name="lastName"
+                      value={formData.lastName}
+                      onChange={handleInputChange}
+                      required
+                    />
+                    <TextField
+                      label="Username"
+                      name="username"
+                      value={formData.username}
+                      onChange={handleInputChange}
+                      required
+                    />
                   </Stack>
-                </form>
-              </div>
+                  <Stack direction="row" spacing={2}>
+                    <TextField
+                      type="password"
+                      label="Password"
+                      name="password"
+                      value={formData.password}
+                      onChange={handleInputChange}
+                      required
+                    />
+
+                    <TextField
+                      label="Email"
+                      name="email"
+                      type="email"
+                      value={formData.email}
+                      onChange={handleInputChange}
+                      required
+                      error={
+                        !emailRegex.test(formData.email) &&
+                        formData.email !== ''
+                      }
+                      helperText={
+                        !emailRegex.test(formData.email) &&
+                        formData.email !== ''
+                          ? 'Please enter a valid email address.'
+                          : ''
+                      }
+                    />
+                    <TextField
+                      label="Phone Number"
+                      name="phoneNumber"
+                      type="tel"
+                      value={formData.phoneNumber}
+                      onChange={handleInputChange}
+                      required
+                      inputProps={{ maxLength: 10 }}
+                    />
+                  </Stack>
+                  <Stack direction="row" spacing={2} justifyContent="flex-end">
+                    <Button
+                      text={
+                        editingAssistant ? 'Update Account' : 'Create Account'
+                      }
+                      variant="primary"
+                      onClick={handleCreateOrUpdateAccount}
+                    />
+                    <Button
+                      text="Cancel"
+                      variant="secondary"
+                      onClick={handleCancel}
+                    />
+                  </Stack>
+                </Stack>
+              </form>
             </CardContent>
           </Card>
         </Box>
       )}
-      {alert.message && (
-        <Alert severity={alert.type} style={{ marginTop: '20px' }}>
-          {alert.message}
-        </Alert>
-      )}
-      {/* Display Created Assistant Rows */}
+      {/* Display List of Assistants */}
+      <Box sx={{ marginTop: '80px', marginLeft: '-120px' }}>
+        <Typography variant="h6" gutterBottom>
+          Created Assistants
+        </Typography>
+        {loading && <Typography>Loading...</Typography>}
+        {error && (
+          <Typography color="error">
+            Failed to load assistants: {error}
+          </Typography>
+        )}
+        {assistants &&
+          assistants.map((assistant) => (
+            <Card
+              key={assistant._id}
+              sx={{ marginBottom: '10px', boxShadow: 1 }}
+            >
+              <CardContent
+                sx={{
+                  display: 'flex',
+                  justifyContent: 'space-between',
+                  alignItems: 'center',
+                }}
+              >
+                <Box>
+                  <Typography variant="h6">
+                    {assistant.firstName} {assistant.lastName}
+                  </Typography>
+                  <Typography variant="body2">
+                    ID: {assistant.assistantId}
+                  </Typography>
+                  <Typography variant="body2">
+                    Username: {assistant.username}
+                  </Typography>
+                  <Typography variant="body2">
+                    Email: {assistant.email}
+                  </Typography>
+                  <Typography variant="body2">
+                    Phone: {assistant.phoneNumber}
+                  </Typography>
+                </Box>
+                <Box>
+                  <IconButton
+                    aria-label="edit"
+                    onClick={() => handleEdit(assistant)}
+                  >
+                    <EditIcon />
+                  </IconButton>
+                  <IconButton
+                    aria-label="delete"
+                    onClick={() => handleDelete(assistant._id)}
+                  >
+                    <DeleteIcon />
+                  </IconButton>
+                </Box>
+              </CardContent>
+            </Card>
+          ))}
+      </Box>
     </Container>
   );
 };
 
 export default CreateAssistant;
-
-// Add validations for the passowrd , email, phone number fileds
-// check the code for passowrd
-// Email --> validation --> @
-// Phone nu --> 10 characters
-// Asssitant Id --> Placeholder format --> like a defined format hint for the admin
-// Passowrd --> specific format hint is given
-
-// Only if all the feilds are filled --> the account is created
-// slde a error message saying, please fill the fileds is shown
-
-// Canceled --> Info Alter --> "Cancelled"
-
-// The created account should be displayed as a row
-// Add Comments
-
-// use drawer for the 3rd page
-
-// what is  <form noValidate autoComplete="off"> ??
-// Even if the fileds are not filled --> "create account" the form closes --> whcih is wrong.
-// Check the fileds validation codes properly
-// check the form validation code properly --> should only close the form only if the filefds are
-// fillid properly and fileds are filled.
-
-// the created assiatnt should be stored in the DB and fetched and shown to the user.

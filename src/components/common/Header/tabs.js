@@ -7,10 +7,10 @@ const assistant_tabs = [
   { text: 'Payments', url: '/payments', isActive: false },
 ];
 const admin_tabs = [
-  { text: 'Home', url: '/home', isActive: true },
-  { text: 'Requests', url: '/requests', isActive: false },
-  { text: 'Announcements', url: '/announcements', isActive: false },
-  { text: 'Student Management', url: '/StudentManagement', isActive: false },
+  { text: 'Home', url: '/', isActive: true },
+  { text: 'Student Requests', url: '/student-requests', isActive: false },
+  { text: 'Create Assistant', url: '/create-assistant', isActive: false },
+  { text: 'Staff Registration', url: '/reg-staff', isActive: false },
 ];
 
 /* const guest_tabs = [
