@@ -13,6 +13,7 @@ const useGetRequest = (endpoint) => {
   // console.log('DB:', DB);
 
   useEffect(() => {
+    if (!endpoint) return;
     const getRequest = async () => {
       setLoading(true);
       try {

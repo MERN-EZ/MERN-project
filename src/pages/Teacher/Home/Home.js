@@ -3,9 +3,13 @@ import './Home.scss';
 import useGetRequest from '../../../hooks/useGetRequest';
 
 const GuestHomePage = () => {
-  const { data, error, loading } = useGetRequest('teacher/class'); // Ensure the correct endpoint
-  const [courses, setCourses] = useState([]);
+  const [endPoint, setEndPoint] = useState(null);
+  const { data, error, loading } = useGetRequest(endPoint); // Ensure the correct endpoint
+  const [courses, setCourses] = useState();
 
+  useEffect(() => {
+    setEndPoint('teacher/class');
+  }, []);
   useEffect(() => {
     if (data) setCourses(data[0]);
   }, [data]);
