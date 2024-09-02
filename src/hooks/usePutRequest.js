@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useDB } from '../context/DatabaseContext';
+import { useAuth } from '../context/AuthContext';
 
 const usePutRequest = (endpoint, requestData) => {
   //const localIP = 'localhost';
@@ -10,6 +11,7 @@ const usePutRequest = (endpoint, requestData) => {
   const [loading, setLoading] = useState(false);
   const [response, setResponse] = useState(null);
   const { DB } = useDB();
+  const { Auth } = useAuth();
 
   useEffect(() => {
     const putRequest = async () => {
@@ -17,12 +19,13 @@ const usePutRequest = (endpoint, requestData) => {
       setLoading(true);
       try {
         const urlEncodedData = new URLSearchParams(requestData).toString();
-        console.log("Awaitinggg...");
+        console.log('Awaitinggg...');
         const response = await fetch(`${prefix}${endpoint}`, {
           method: 'PUT',
           headers: {
             'Content-Type': 'application/x-www-form-urlencoded',
             'db-name': DB,
+            Authorization: `Bearer ${Auth}`,
           },
           body: urlEncodedData,
         });
@@ -42,7 +45,7 @@ const usePutRequest = (endpoint, requestData) => {
     if (endpoint && requestData) {
       putRequest();
     }
-  }, [prefix, endpoint, requestData, DB]);
+  }, [prefix, endpoint, requestData, DB, Auth]);
 
   return { response, error, loading };
 };

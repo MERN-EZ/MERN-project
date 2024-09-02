@@ -92,7 +92,7 @@ const ProfilePage = () => {
               <span>{student.studentId}</span>
             </div>
             <div className="profile-field">
-              <label>Year:</label>
+              <label>Year of ALs:</label>
               <span>{DB}</span>
             </div>
             <div className="profile-field">
@@ -104,7 +104,7 @@ const ProfilePage = () => {
               <span>{student.email}</span>
             </div>
             <div className="profile-field">
-              <label>Contact no:</label>
+              <label>Contact No:</label>
               <span>{student.contactNumber}</span>
             </div>
             <div className="profile-field">
