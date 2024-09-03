@@ -10,8 +10,8 @@ import Paper from '@mui/material/Paper';
 import Button from '@mui/material/Button';
 import Stack from '@mui/material/Stack';
 import './StudentRequests.scss';
-import useGetRequest from '../../hooks/useGetRequest';
-import Alert from '../../components/common/Alert/Alert';
+import useGetRequest from '../../../hooks/useGetRequest';
+import Alert from '../../../components/common/Alert/Alert';
 
 // Styled components for customizing the table's appearance
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
