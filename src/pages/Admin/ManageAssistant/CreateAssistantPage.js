@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { Container, Box, Typography } from '@mui/material';
 import axios from 'axios'; // Make HTTP requests to the server
 import Button from '../../../components/common/Button/Button';
@@ -12,12 +12,16 @@ const baseUrl = 'http://localhost:5000';
 const CreateAssistant = () => {
   // State to control form visibility
   const [showForm, setShowForm] = useState(false);
+
   // State to track the assistant being edited
   const [editingAssistant, setEditingAssistant] = useState(null);
+
   // State to manage assistants list
   const [assistants, setAssistants] = useState([]);
+
   // State to manage loading
   const [loading, setLoading] = useState(false);
+
   // State to manage error states
   const [error, setError] = useState(null);
 
@@ -26,33 +30,68 @@ const CreateAssistant = () => {
   const { Auth } = useAuth();
 
   // Fetch the list of assistants from the server
-  const fetchAssistants = async () => {
+  // const fetchAssistants = async () => {
+  //   setLoading(true);
+  //   try {
+  //     console.log('Fetching assistants...');
+  //     const response = await axios.get(`${baseUrl}/admin/assistants`, {
+  //       headers: {
+  //         'db-name': DB,
+  //         Authorization: `Bearer ${Auth}`,
+  //       },
+  //     });
+  //     console.log('Assistants fetched:', response.data);
+  //     setAssistants(response.data); // Update state with the fetched assistants
+  //     setError(null); // Clear any previous error
+  //   } catch (err) {
+  //     console.error('Error fetching assistants:', err);
+  //     setError('Failed to fetch assistants'); // Update state with the error
+  //     console.error(err);
+  //     alert('Failed to fetch assistants. Please try again.');
+  //   } finally {
+  //     setLoading(false); // Stop loading state
+  //   }
+  // };
+
+  /**
+   * useCallback to Memoize fetchAssistants
+   * useCallback makes sure that fetchAssistants stays the same 
+   * unless the values it depends on (DB and Auth) change, which helps keep the app more efficient.
+   */
+  // Fetch the list of assistants from the server
+  const fetchAssistants = useCallback(async () => {
     setLoading(true);
     try {
       console.log('Fetching assistants...');
+      // GET request to fetch assistants
       const response = await axios.get(`${baseUrl}/admin/assistants`, {
         headers: {
-          'db-name': DB,
-          Authorization: `Bearer ${Auth}`,
+          'db-name': DB, // Include DB name in the request header
+          Authorization: `Bearer ${Auth}`, // Include Auth token in the request header
         },
       });
       console.log('Assistants fetched:', response.data);
-      setAssistants(response.data); // Update state with the fetched assistants
-      setError(null); // Clear any previous error
+      setAssistants(response.data);
+      setError(null);
     } catch (err) {
       console.error('Error fetching assistants:', err);
-      setError('Failed to fetch assistants'); // Update state with the error
-      console.error(err);
+      setError('Failed to fetch assistants');
       alert('Failed to fetch assistants. Please try again.');
     } finally {
-      setLoading(false); // Stop loading state
+      setLoading(false);
     }
-  };
+  }, [DB, Auth]); // Re-fetch assistants when DB or Auth changes
 
-  // Fetch assistants on component mount
+  /**
+   * useEffect hook will re-run the fetchAssistants function whenever the DB or Auth values change.
+   * This ensures that the assistants list is updated to reflect any changes in the selected database
+   * or authentication token.
+   */
+
+  // Fetch assistants when DB or fetchAssistants function changes
   useEffect(() => {
-    fetchAssistants();
-  }, []);
+    fetchAssistants(); // Call fetchAssistants function to get the latest data
+  }, [DB, fetchAssistants]);
 
   // Handle creating a new assistant or updating an existing one
   const handleCreateOrUpdate = async (formData) => {
@@ -149,7 +188,7 @@ const CreateAssistant = () => {
 
   return (
     <Container sx={{ position: 'relative', paddingTop: '20px' }}>
-       {/* Create Assistant Button */}
+      {/* Create Assistant Button */}
       <Box sx={{ position: 'absolute', top: 20, left: -120 }}>
         <Button
           text="Create Assistant Account &nbsp;&nbsp;+"
