@@ -50,7 +50,7 @@ const AssistantForm = ({ onSubmit, onCancel, initialData }) => {
     ) {
       console.log('Required fields not filled');
       alert('Please fill all required fields.');
-      return; // Stop submission if any field is missing
+      return; // Prevent further execution if fields are missing
     }
 
     // Validate Assistant ID format
