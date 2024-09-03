@@ -42,12 +42,13 @@ const CreateAssistant = () => {
   // State to store the endpoint for deleting an assistant
   const [deleteEndpoint, setDeleteEndpoint] = useState(null);
 
+  const [postData, setPostData] = useState(null);
+
   // Hook for creating a new assistant
-  const {
-    response: postResponse,
-    error: postError,
-    loading: post,
-  } = usePostRequest('admin/assistants', formData);
+  const { response: postResponse, error: postError } = usePostRequest(
+    'admin/assistants',
+    postData
+  );
 
   // Hook for updating an assistant
   const { data: updateResponse, error: updateError } = usePutRequest(
@@ -87,18 +88,19 @@ const CreateAssistant = () => {
   const handleCreateOrUpdateAccount = () => {
     console.log('Handling create or update account');
     // Check if all required fields are filled
-    // if (
-    //   !formData.assistantId ||
-    //   !formData.firstName ||
-    //   !formData.lastName ||
-    //   !formData.password ||
-    //   !formData.email ||
-    //   !formData.phoneNumber
-    // ) {
-    //   console.log('Required fields not filled');
-    //   alert('Please fill all required fields.');
-    //   return; // Prevent further execution if fields are missing
-    // }
+    if (
+      !formData.assistantId ||
+      !formData.firstName ||
+      !formData.lastName ||
+      !formData.username ||
+      !formData.password ||
+      !formData.email ||
+      !formData.phoneNumber
+    ) {
+      console.log('Required fields not filled');
+      alert('Please fill all required fields.');
+      return; // Prevent further execution if fields are missing
+    }
 
     // Validate assistant ID
     if (!assistantIdRegex.test(formData.assistantId)) {
@@ -125,7 +127,8 @@ const CreateAssistant = () => {
     } else {
       // If not editing, create a new assistant
       console.log('Creating new assistant with data:', formData);
-      post(formData); // Trigger the post request using usePostRequest hook
+      setPostData(formData); // Trigger the post request using usePostRequest hook
+      setPostData(null); // Add Comments here
       alert('Assistant account created successfully.');
     }
     // Hide the form after submission
@@ -136,6 +139,15 @@ const CreateAssistant = () => {
   const handleCancel = () => {
     alert('Assistant creation cancelled.');
     console.log('Assistant creation was cancelled');
+    setFormData({
+      assistantId: '',
+      firstName: '',
+      lastName: '',
+      username: '',
+      password: '',
+      email: '',
+      phoneNumber: '',
+    });
     setShowForm(false); // Hide the form
   };
 
@@ -151,6 +163,7 @@ const CreateAssistant = () => {
       phoneNumber: assistant.phoneNumber,
     });
     setEditingAssistant(assistant._id);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
     setShowForm(true); // Show the form for editing
   };
 
@@ -213,7 +226,18 @@ const CreateAssistant = () => {
         <Button
           text="Create Assistant Account &nbsp;&nbsp;+"
           variant="primary"
-          onClick={() => setShowForm(true)}
+          onClick={() => {
+            setShowForm(true);
+            setFormData({
+              assistantId: '',
+              firstName: '',
+              lastName: '',
+              username: '',
+              password: '',
+              email: '',
+              phoneNumber: '',
+            });
+          }}
         />
       </Box>
 
