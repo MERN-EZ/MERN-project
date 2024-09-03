@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Container, Box, Typography } from '@mui/material';
-import axios from 'axios';
+import axios from 'axios'; // Make HTTP requests to the server
 import Button from '../../../components/common/Button/Button';
 import AssistantForm from './AssistantForm';
 import AssistantList from './AssistantList';
@@ -10,42 +10,56 @@ import { useAuth } from '../../../context/AuthContext';
 const baseUrl = 'http://localhost:5000';
 
 const CreateAssistant = () => {
+  // State to control form visibility
   const [showForm, setShowForm] = useState(false);
+  // State to track the assistant being edited
   const [editingAssistant, setEditingAssistant] = useState(null);
+  // State to manage assistants list
   const [assistants, setAssistants] = useState([]);
+  // State to manage loading
   const [loading, setLoading] = useState(false);
+  // State to manage error states
   const [error, setError] = useState(null);
+
+  // Context hooks to get database name and authentication token
   const { DB } = useDB();
   const { Auth } = useAuth();
 
+  // Fetch the list of assistants from the server
   const fetchAssistants = async () => {
     setLoading(true);
     try {
+      console.log('Fetching assistants...');
       const response = await axios.get(`${baseUrl}/admin/assistants`, {
         headers: {
           'db-name': DB,
           Authorization: `Bearer ${Auth}`,
         },
       });
-      setAssistants(response.data);
-      setError(null);
+      console.log('Assistants fetched:', response.data);
+      setAssistants(response.data); // Update state with the fetched assistants
+      setError(null); // Clear any previous error
     } catch (err) {
-      setError('Failed to fetch assistants');
+      console.error('Error fetching assistants:', err);
+      setError('Failed to fetch assistants'); // Update state with the error
       console.error(err);
       alert('Failed to fetch assistants. Please try again.');
     } finally {
-      setLoading(false);
+      setLoading(false); // Stop loading state
     }
   };
 
+  // Fetch assistants on component mount
   useEffect(() => {
     fetchAssistants();
   }, []);
 
+  // Handle creating a new assistant or updating an existing one
   const handleCreateOrUpdate = async (formData) => {
     setLoading(true);
     try {
       if (editingAssistant) {
+        console.log('Updating assistant:', editingAssistant);
         const updateData = { ...formData };
         if (!updateData.password) {
           delete updateData.password;
@@ -62,6 +76,7 @@ const CreateAssistant = () => {
         );
         alert('Assistant updated successfully.');
       } else {
+        console.log('Creating new assistant:', formData);
         await axios.post(`${baseUrl}/admin/assistants`, formData, {
           headers: {
             'db-name': DB,
@@ -70,11 +85,11 @@ const CreateAssistant = () => {
         });
         alert('Assistant created successfully.');
       }
-      setShowForm(false);
-      setEditingAssistant(null);
-      fetchAssistants(); // Refresh the list
+      setShowForm(false); // Hide the form after successful creation/update
+      setEditingAssistant(null); // Reset editing state
+      fetchAssistants(); // Refresh the list of assistants
     } catch (err) {
-      console.error(err);
+      console.error('Error during create/update:', err);
       if (err.response && err.response.data) {
         const { error, message, details } = err.response.data;
         if (error === 'Validation Error') {
@@ -98,25 +113,29 @@ const CreateAssistant = () => {
     }
   };
 
+  // Handle editing an assistant
   const handleEdit = (assistant) => {
-    setEditingAssistant(assistant._id);
-    setShowForm(true);
+    setEditingAssistant(assistant._id); // Set the current assistant ID for editing
+    setShowForm(true); // Show the form for editing
   };
 
+  // Handle deleting an assistant
   const handleDelete = async (assistantId) => {
     if (window.confirm('Are you sure you want to delete this assistant?')) {
       setLoading(true);
       try {
+        console.log('Sending delete request to server...'); // Log before sending the request
         await axios.delete(`${baseUrl}/admin/assistants/${assistantId}`, {
           headers: {
             'db-name': DB,
             Authorization: `Bearer ${Auth}`,
           },
         });
+        console.log('Assistant deleted successfully.'); // Log success
         alert('Assistant deleted successfully.');
         fetchAssistants(); // Refresh the list
       } catch (err) {
-        console.error(err);
+        console.error('Error deleting assistant:', err); // Log the error
         if (err.response && err.response.data && err.response.data.message) {
           alert(`Failed to delete assistant: ${err.response.data.message}`);
         } else {
@@ -130,13 +149,14 @@ const CreateAssistant = () => {
 
   return (
     <Container sx={{ position: 'relative', paddingTop: '20px' }}>
+       {/* Create Assistant Button */}
       <Box sx={{ position: 'absolute', top: 20, left: -120 }}>
         <Button
           text="Create Assistant Account &nbsp;&nbsp;+"
           variant="primary"
           onClick={() => {
-            setShowForm(true);
-            setEditingAssistant(null);
+            setShowForm(true); // Show the form for creating a new assistant
+            setEditingAssistant(null); // Clear any editing state
           }}
         />
       </Box>
@@ -144,10 +164,10 @@ const CreateAssistant = () => {
       {showForm && (
         <AssistantForm
           onSubmit={handleCreateOrUpdate}
-          onCancel={() => setShowForm(false)}
+          onCancel={() => setShowForm(false)} // Hide the form on cancel
           initialData={
             editingAssistant
-              ? assistants.find((a) => a._id === editingAssistant)
+              ? assistants.find((a) => a._id === editingAssistant) // Populate form with assistant data if editing
               : null
           }
         />

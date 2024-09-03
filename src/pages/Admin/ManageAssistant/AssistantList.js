@@ -12,6 +12,7 @@ const AssistantList = ({ assistants, loading, error, onEdit, onDelete }) => {
 
   return (
     <>
+    {/* Check if assistants exist and map over the list to display each assistant */}
       {assistants &&
         assistants.map((assistant) => (
           <Card key={assistant._id} sx={{ marginBottom: '10px', boxShadow: 1 }}>
@@ -23,6 +24,7 @@ const AssistantList = ({ assistants, loading, error, onEdit, onDelete }) => {
               }}
             >
               <Box>
+                {/* Display assistant's details */}
                 <Typography variant="h6">
                   {assistant.firstName} {assistant.lastName}
                 </Typography>
@@ -40,12 +42,24 @@ const AssistantList = ({ assistants, loading, error, onEdit, onDelete }) => {
                 </Typography>
               </Box>
               <Box>
-                <IconButton aria-label="edit" onClick={() => onEdit(assistant)}>
+                {/* Edit button triggers the onEdit function with the assistant's data */}
+                <IconButton 
+                  aria-label="edit" 
+                  onClick={() => {
+                    console.log('Editing assistant:', assistant);
+                    onEdit(assistant);
+                  }}
+                  >
                   <EditIcon />
                 </IconButton>
+
+                 {/* Delete button triggers the onDelete function with the assistant's ID */}
                 <IconButton
                   aria-label="delete"
-                  onClick={() => onDelete(assistant._id)}
+                  onClick={() => {
+                    console.log('Deleting assistant with ID:', assistant._id);
+                    onDelete(assistant._id);
+                  }}
                 >
                   <DeleteIcon />
                 </IconButton>

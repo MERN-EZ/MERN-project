@@ -3,6 +3,7 @@ import { Box, TextField, Stack, Card, CardContent } from '@mui/material';
 import Button from '../../../components/common/Button/Button';
 
 const AssistantForm = ({ onSubmit, onCancel, initialData }) => {
+  // State to manage form input data
   const [formData, setFormData] = useState({
     assistantId: '',
     firstName: '',
@@ -13,48 +14,59 @@ const AssistantForm = ({ onSubmit, onCancel, initialData }) => {
     phoneNumber: '',
   });
 
+  // Populate form with initial data when editing an assistant
   useEffect(() => {
     if (initialData) {
+      console.log('Populating form with initial data:', initialData);
       setFormData({
         ...initialData,
-        password: '', // Don't populate password for security reasons
+        password: '', // Password not populated for security reasons
       });
     }
   }, [initialData]);
 
+  // Expression for validating assistant ID in the format A001
   const assistantIdRegex = /^A\d{3}$/;
+  // Expression for validating email
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
+   // Handle input changes in form fields
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    setFormData((prevState) => ({ ...prevState, [name]: value }));
+    setFormData((prevState) => ({ ...prevState, [name]: value })); // Update state with new value
   };
 
+  // Handle form submission
   const handleSubmit = () => {
+    // Check if all required fields are filled
     if (
       !formData.assistantId ||
       !formData.firstName ||
       !formData.lastName ||
       !formData.username ||
-      (!initialData && !formData.password) ||
+      (!initialData && !formData.password) ||  // Password is required only for new accounts
       !formData.email ||
       !formData.phoneNumber
     ) {
+      console.log('Required fields not filled');
       alert('Please fill all required fields.');
-      return;
+      return; // Stop submission if any field is missing
     }
 
+    // Validate Assistant ID format
     if (!assistantIdRegex.test(formData.assistantId)) {
       alert('Assistant ID must be in the format A001.');
-      return;
+      return; // Prevent further execution if assistant ID format is invalid
     }
 
+    // Validate Email format
     if (!emailRegex.test(formData.email)) {
       alert('Please enter a valid email address.');
-      return;
+      return; // Prevent further execution if email format is invalid
     }
 
-    onSubmit(formData);
+    console.log('Form submitted with data:', formData);
+    onSubmit(formData); // Trigger onSubmit callback with form data
   };
 
   return (
@@ -66,6 +78,7 @@ const AssistantForm = ({ onSubmit, onCancel, initialData }) => {
         height: '100vh',
       }}
     >
+      {/* Card container for the assistant form */}
       <Card sx={{ minWidth: 275, boxShadow: 3 }}>
         <CardContent sx={{ padding: '25px' }}>
           <form noValidate autoComplete="off">
@@ -117,7 +130,7 @@ const AssistantForm = ({ onSubmit, onCancel, initialData }) => {
                   name="password"
                   value={formData.password}
                   onChange={handleInputChange}
-                  required={!initialData}
+                  required={!initialData} // Require password only if creating a new assistant
                 />
                 <TextField
                   label="Email"
