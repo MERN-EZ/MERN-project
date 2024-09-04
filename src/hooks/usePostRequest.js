@@ -1,7 +1,9 @@
 import { useState, useEffect } from 'react';
 import { useDB } from '../context/DatabaseContext';
+import { useAuth } from '../context/AuthContext';
 
 const usePostRequest = (endpoint, requestData) => {
+  //const localIP = 'localhost';
   const localIP = process.env.REACT_APP_LOCAL_IP || 'localhost';
   const prefix = `http://${localIP}:5000/`;
 
@@ -9,6 +11,7 @@ const usePostRequest = (endpoint, requestData) => {
   const [loading, setLoading] = useState(false);
   const [response, setResponse] = useState(null);
   const { DB } = useDB();
+  const { Auth } = useAuth();
 
   useEffect(() => {
     const postRequest = async () => {
@@ -22,18 +25,26 @@ const usePostRequest = (endpoint, requestData) => {
           headers: {
             'Content-Type': 'application/x-www-form-urlencoded',
             'db-name': DB,
+            Authorization: `Bearer ${Auth}`,
           },
           body: urlEncodedData,
         });
-        setResponse(await response.json());
+
+        if (response.ok) {
+          setResponse(await response.json());
+          console.log('response', response);
+        }
 
         if (!response.ok) {
           const data = await response.json();
+          console.log('data', data);
           setError(data.error || 'Failed to post');
+          console.log('error', error);
         }
       } catch (error) {
         setError(error.message);
       } finally {
+        console.log('finally, error', error);
         setLoading(false);
       }
     };
@@ -41,7 +52,7 @@ const usePostRequest = (endpoint, requestData) => {
     if (endpoint && requestData) {
       postRequest();
     }
-  }, [prefix, endpoint, requestData, DB]);
+  }, [prefix, endpoint, requestData, DB, error, Auth]);
 
   return { response, error, loading };
 };

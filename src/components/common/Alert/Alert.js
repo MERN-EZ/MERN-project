@@ -12,7 +12,7 @@ const Alert = ({ message, onConfirm, onCancel, variant }) => {
             <button onClick={onCancel}>Cancel</button>
           </>
         ) : (
-          <button onClick={onCancel}>Cancel</button>
+          <button onClick={onCancel}>Close</button>
         )}
       </div>
     </div>

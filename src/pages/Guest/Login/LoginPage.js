@@ -5,12 +5,12 @@ import Button from '../../../components/common/Button/Button';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import LockIcon from '@mui/icons-material/Lock';
 import LoginIcon from '@mui/icons-material/Login';
+import BatchIcon from '@mui/icons-material/School';
 import useLogin from '../../../hooks/useLogin';
 import { useNavigate } from 'react-router-dom';
-//import alert from '../../../components/common/Alert/Alert'; // Adjust the path as needed
+import Alert from '../../../components/common/Alert/Alert';
 import './LoginPage.scss';
 import { useUserRole } from '../../../context/UserRoleContext';
-
 
 const LoginPage = () => {
   const [formValues, setFormValues] = useState({
@@ -19,9 +19,13 @@ const LoginPage = () => {
     year: '',
   });
   const { login, loading, error } = useLogin();
-  const {userRole, setUserRole} = useUserRole();
-  const [alert, setAlert] = useState({ show: false, message: '', variant: 'info' });
-  const navigate = useNavigate(); // Initialize navigate
+  const { setUserRole } = useUserRole();
+  const [alert, setAlert] = useState({
+    show: false,
+    message: '',
+    variant: 'info',
+  });
+  const navigate = useNavigate();
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -31,22 +35,53 @@ const LoginPage = () => {
     });
   };
 
+  const validateForm = () => {
+    const { username, password, year } = formValues;
+    if (!username || !password || !year) {
+      setAlert({
+        show: true,
+        message: 'All fields are required.',
+        variant: 'error',
+      });
+      return false;
+    }
+
+    const validYears = ['2024', '2025', '2026'];
+    if (!validYears.includes(year)) {
+      setAlert({
+        show: true,
+        message: 'Invalid year. Please enter a valid year.',
+        variant: 'error',
+      });
+      return false;
+    }
+
+    return true;
+  };
+
   const handleLogin = async () => {
+    setAlert({
+      show: false,
+      message: '',
+      variant: 'info',
+    });
+
+    if (!validateForm()) return;
+
     try {
       const { username, password, year } = formValues;
-      const loginSuccess = await login(username, password, year); // Call your login hook
+      
+      const loginSuccess = await login(username, password, year);
 
       if (loginSuccess) {
         setUserRole('student');
-        navigate('/'); // Redirect to Student Home page on success
+        navigate('/');
       } else {
         setAlert({
           show: true,
-          message: 'Login failed. Please check your credentials.',
+          message: error || 'Login failed. Please check your credentials.',
           variant: 'error',
         });
-        // Handle login failure (e.g., show an error message)
-        console.error('Login failed');
       }
     } catch (error) {
       setAlert({
@@ -58,8 +93,23 @@ const LoginPage = () => {
     }
   };
 
+  const handleCloseAlert = () => {
+    setAlert({
+      ...alert,
+      show: false,
+    });
+  };
+
   return (
     <div className="guest-login container">
+      {alert.show && (
+        <Alert
+          message={alert.message}
+          onConfirm={handleCloseAlert}
+          onCancel={handleCloseAlert}
+          variant={alert.variant}
+        />
+      )}
       <div className="card">
         <div className="cardHeader">
           <LoginIcon className="icon" />
@@ -70,7 +120,7 @@ const LoginPage = () => {
         </div>
         <div className="inputContainer">
           <TextField
-            placeholder="Enter Username/Email"
+            placeholder="Enter Username"
             value={formValues.username}
             onChange={handleChange}
             name="username"
@@ -103,10 +153,17 @@ const LoginPage = () => {
         </div>
         <div className="inputContainer">
           <TextField
-            placeholder="Enter Year"
+            placeholder="Enter Year of ALs"
             value={formValues.year}
             onChange={handleChange}
             name="year"
+            InputProps={{
+              startAdornment: (
+                <InputAdornment position="start">
+                  <BatchIcon className="icon" />
+                </InputAdornment>
+              ),
+            }}
             fullWidth
           />
         </div>
@@ -114,7 +171,6 @@ const LoginPage = () => {
           <Button text="Log In" variant="secondary" onClick={handleLogin} />
         </div>
         {loading && <div>Loading...</div>}
-        {error && <div>{error}</div>}
       </div>
     </div>
   );

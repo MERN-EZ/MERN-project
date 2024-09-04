@@ -1,33 +1,42 @@
-import { useDB } from '../context/DatabaseContext';
-import { useUser } from '../context/UserContext';
-import { useState } from 'react';
 import axios from 'axios';
-import {useUserRole} from '../context/UserRoleContext';
+import { useState } from 'react';
+import { useDB } from '../context/DatabaseContext';
+import { useAuth } from '../context/AuthContext';
+import { useUser } from '../context/UserContext';
+import { useUserRole } from '../context/UserRoleContext';
 
 const useLogin = () => {
-  const { DB, setDB } = useDB();
+  const { setDB } = useDB();
+  const { setAuth } = useAuth();
   const { setUserDetails } = useUser();
-  const {userRole, setUserRole} = useUserRole();
+  const { setUserRole } = useUserRole();
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
 
   const login = async (username, password, year) => {
     setLoading(true);
-    //setError(null);
+    setError(null);
 
     try {
       setDB(year);
-      const response = await axios.post(`http://localhost:5000/guest/auth/login`, 
+      const response = await axios.post(
+        `http://localhost:5000/guest/auth/login`,
         { username, password, year },
-        {headers: {'db-name': DB,},}
+        { headers: { 'db-name': year } }
       );
-      setUserRole('student');
-      setUserDetails(response.data);
+      const { userDetails, token } = response.data;
 
-      localStorage.setItem('userDetails', JSON.stringify(response.data));
+      setUserRole('student');
+      setUserDetails(userDetails);
+      setAuth(token);
+
+      localStorage.setItem('userDetails', JSON.stringify(userDetails));
+      localStorage.setItem('Auth', token);
+
       return true;
     } catch (err) {
-      setError(err.response ? err.response.data.message : 'Login failed');
+      const errorMessage = err.response?.data?.message || 'Login failed';
+      setError(errorMessage);
       return false;
     } finally {
       setLoading(false);

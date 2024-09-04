@@ -3,12 +3,13 @@ import { Link } from 'react-router-dom';
 import './Home.scss';
 import Button from '../../../components/common/Button/Button';
 import useGetRequest from '../../../hooks/useGetRequest';
-import Teacher from '../../../images/Teacher.jpg'; // Ensure the correct path
+import Teacher from '../../../images/Teacher.jpg';
+import Alert from '../../../components/common/Alert/Alert';
 
 const GuestHomePage = () => {
   const [courses, setCourses] = useState([]);
   console.log('Before get request');
-  const { data, error, loading } = useGetRequest('guest/classes'); // Ensure the correct endpoint
+  const { data, error, loading } = useGetRequest('guest/classes');
   useEffect(() => {
     if (data) {
       setCourses(data);
@@ -19,8 +20,23 @@ const GuestHomePage = () => {
   console.log('Error:', error);
   console.log('Courses Data:', courses);
 
-  if (loading) return <p>Loading...</p>;
-  if (error) return <p>Error: {error}</p>;
+  const [showAlert, setShowAlert] = useState(true);
+  if (loading && showAlert)
+    return (
+      <Alert
+        message={'Loading...'}
+        variant={'message'}
+        onCancel={() => setShowAlert(false)}
+      />
+    );
+  if (error && showAlert)
+    return (
+      <Alert
+        message={'Error: ' + error}
+        variant={'message'}
+        onCancel={() => setShowAlert(false)}
+      />
+    );
 
   return (
     <div className="guest-home container">
@@ -40,17 +56,17 @@ const GuestHomePage = () => {
           </div>
         </div>
       </header>
-      <section className="course-section">
+      <section className="class-section">
         {courses && courses.length > 0 ? (
           courses.map((course, index) => (
-            <div className="course-card" key={index}>
+            <div className="class-card" key={index}>
               <h2>{course.name}</h2>
-              <p className="course-location">{course.location}</p>
-              <p className="course-time">{course.time}</p>
+              <p className="class-location">{course.location}</p>
+              <p className="class-time">{course.time}</p>
               <Link to={`/register?year=${course.year}`}>
                 <Button text="Enroll the Class" variant="primary" />
               </Link>
-              <div className="ongoing-lesson">
+              <div className="class-details">
                 <p>Ongoing Lesson: {course.ongoingLesson}</p>
                 <p>
                   Admission Fee: Rs.{' '}

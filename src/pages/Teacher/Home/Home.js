@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import './Home.scss';
 import useGetRequest from '../../../hooks/useGetRequest';
+import Alert from '../../../components/common/Alert/Alert';
 
 const GuestHomePage = () => {
-  const [endPoint, setEndPoint] = useState(null);
-  const { data, error, loading } = useGetRequest(endPoint); // Ensure the correct endpoint
-  const [courses, setCourses] = useState();
+  const { data, error, loading } = useGetRequest('teacher/class');
+  const [courses, setCourses] = useState([]);
 
   useEffect(() => {
     setEndPoint('teacher/class');
@@ -15,7 +15,7 @@ const GuestHomePage = () => {
   }, [data]);
 
   const [homework, setHomework] = useState([]);
-  const { data: homeworkData } = useGetRequest('student/homeworks');
+  const { data: homeworkData } = useGetRequest('teacher/homework');
 
   useEffect(() => {
     if (homeworkData) {
@@ -30,8 +30,23 @@ const GuestHomePage = () => {
   // console.log('Error:', error);
   // console.log('Courses Data:', courses);
 
-  if (loading) return <p>Loading...</p>;
-  if (error) return <p>Error: {error}</p>;
+  const [showAlert, setShowAlert] = useState(true);
+  if (loading && showAlert)
+    return (
+      <Alert
+        message={'Loading...'}
+        variant={'message'}
+        onCancel={() => setShowAlert(false)}
+      />
+    );
+  if (error && showAlert)
+    return (
+      <Alert
+        message={'Error: ' + error}
+        variant={'message'}
+        onCancel={() => setShowAlert(false)}
+      />
+    );
 
   return (
     <div className="teacher-home container">
@@ -61,7 +76,7 @@ const GuestHomePage = () => {
                 <div
                   key={_id}
                   className="homework-item"
-                  // onClick={() => handleDeadlineClick(_id)}
+                  onClick={() => (window.location.href = `/homework`)}
                 >
                   <div>
                     <span> {deadline.split('T')[0]}</span>

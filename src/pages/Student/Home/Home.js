@@ -20,6 +20,13 @@ const calculateTimeRemaining = (deadline) => {
 };
 
 const RegStudentLanding = () => {
+  const { data: course } = useGetRequest('student/class'); // Ensure the correct endpoint
+  const [courses, setCourses] = useState([]);
+
+  useEffect(() => {
+    if (course) setCourses(course[0]);
+  }, [course]);
+
   const [homework, setHomework] = useState([]);
   const { data } = useGetRequest('student/homeworks');
 
@@ -49,11 +56,11 @@ const RegStudentLanding = () => {
     <div className="student-home container">
       <header className="class-info-rounded-edge-rectangle">
         <div className="class-info">
-          <h1>Ordinary Level ICT 22/223</h1>
+          <h1>{courses.name}</h1>
           <p>
-            Nugegoda - ISM
+            {courses.location}
             <br />
-            6.00 P.M. - 8.00 P.M.
+            {courses.time}
             <Button
               text="Show Calendar"
               variant="secondary"

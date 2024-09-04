@@ -1,18 +1,19 @@
 import React from 'react';
 import { Route, Routes } from 'react-router-dom';
 import AdminHomePage from '../pages/Admin/Home/AdminMain';
-import StudentRequests from '../pages/Admin/StudentRequests';
-import CreateAssistant from '../pages/Admin/CreateAssistant';
-import NotFound from '../pages/NotFound/NotFound';
-// import StudentManagement from "../pages/Admin/StudentManagement";
+import StudentRequests from '../pages/Admin/ManageStudentRequests/StudentRequests';
+import CreateAssistant from '../pages/Admin/ManageAssistant/CreateAssistantPage';
+import Logout from '../components/common/Logout/logout';
+import NotFound from '../components/common/NotFound/NotFound';
+import StaffReg from '../pages/Admin/StaffReg/StaffReg';
 
 const AdminRoutes = () => (
   <Routes>
     <Route path="/" element={<AdminHomePage />} />
     <Route path="/student-requests" element={<StudentRequests />} />
     <Route path="/create-assistant" element={<CreateAssistant />} />
-    {/*<Route path="/manage-student" element={<StudentManagement />} /> */}
-    {/* Add more guest-specific routes here */}
+    <Route path="/reg-staff" element={<StaffReg />} />
+    <Route path="/logout" element={<Logout />} />
     <Route path="*" element={<NotFound />} />
   </Routes>
 );

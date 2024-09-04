@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useDB } from '../context/DatabaseContext';
+import { useAuth } from '../context/AuthContext';
 
 const useGetRequest = (endpoint) => {
   //const localIP = 'localhost';
@@ -10,22 +11,25 @@ const useGetRequest = (endpoint) => {
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
   const { DB } = useDB();
+  const { Auth } = useAuth();
   // console.log('DB:', DB);
 
   useEffect(() => {
     if (!endpoint) return;
     const getRequest = async () => {
+      if (!endpoint) return;
       setLoading(true);
       try {
         const response = await fetch(prefix + endpoint, {
           headers: {
             'db-name': DB,
+            Authorization: `Bearer ${Auth}`,
           },
         });
-        console.log(response);
+        // console.log(response);
         if (response.ok) {
           const data = await response.json();
-          console.log('Get Request Data:', data);
+          // console.log('Get Request Data:', data);
           setData(data);
         } else {
           const data = await response.json();
@@ -42,7 +46,7 @@ const useGetRequest = (endpoint) => {
     };
 
     getRequest();
-  }, [prefix, endpoint, DB]);
+  }, [prefix, endpoint, DB, Auth]);
 
   return { data, error, loading };
 };

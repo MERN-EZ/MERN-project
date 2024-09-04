@@ -5,51 +5,72 @@ import useGetRequest from '../../../hooks/useGetRequest';
 import usePostRequest from '../../../hooks/usePostRequest';
 import usePutRequest from './../../../hooks/usePutRequest';
 import useDeleteRequest from '../../../hooks/useDeleteRequest';
+import { useUser } from '../../../context/UserContext';
 
 const HomeworkSubmissionComponent = () => {
-  const { homeworkId } = useParams();
   const navigate = useNavigate();
+
+  const { homeworkId } = useParams();
+  const [lessons, setLessons] = useState([]);
+
+  const { userDetails } = useUser();
+  const [student, setStudent] = useState(userDetails);
+  const studentId = student.studentId;
+
   const [expandedLesson, setExpandedLesson] = useState(null);
   const [expandedHomework, setExpandedHomework] = useState(null);
+
   const [submissionText, setSubmissionText] = useState({});
   const [submittedHomeworkIds, setSubmittedHomeworkIds] = useState(new Set());
   const [editableHomeworkId, setEditableHomeworkId] = useState(null);
 
-  const [lessons, setLessons] = useState([]);
-
   const [postData, setPostData] = useState(null);
   const [postEndPoint, setPostEndpoint] = useState(null);
 
+  const [putData, setPutData] = useState(null);
+  const [putEndpoint, setPutEndpoint] = useState(null);
+
+  const [deleteEndpoint, setDeleteEndpoint] = useState(null);
+  const { data: deleteResponse, error: deleteError } =
+    useDeleteRequest(deleteEndpoint);
+  const [deleteSubmissionData, setDeleteSubmissionData] = useState({
+    homeworkId: null,
+    studentId: null,
+  });
+
+  // get student details
+  useEffect(() => {
+    if (userDetails) {
+      setStudent(userDetails);
+    }
+  }, [userDetails]);
+
+  //get the homeworks of the respective student
   const {
     data,
     error: getError,
     loading: getLoading,
   } = useGetRequest('student/homeworks', []);
+
   const {
     response,
     error: postError,
     loading: postLoading,
   } = usePostRequest(postEndPoint, postData);
 
-  const [putData, setPutData] = useState(null);
-  const [putEndpoint, setPutEndpoint] = useState(null);
   const {
     response: putResponse,
     error: putError,
     loading: putLoading,
   } = usePutRequest(putEndpoint, putData);
 
-  const [deleteSubmissionData, setDeleteSubmissionData] = useState({
-    homeworkId: null,
-    studentId: null,
-  });
-  const [deleteEndpoint, setDeleteEndpoint] = useState(null);
-  const { data: deleteResponse, error: deleteError } =
-    useDeleteRequest(deleteEndpoint);
-
-  useEffect(() => {
-    console.log('Updated submittedHomeworkIds:', submittedHomeworkIds);
-  }, [submittedHomeworkIds]);
+  const isHomeworkSubmitted = (homeworkId) => {
+    console.log('submittedHomeworkIds:', submittedHomeworkIds);
+    console.log('Type of submittedHomeworkIds:', typeof submittedHomeworkIds);
+    console.log('Instance of Set:', submittedHomeworkIds instanceof Set);
+    const isSubmitted = submittedHomeworkIds.has(homeworkId);
+    return isSubmitted;
+  };
 
   useEffect(() => {
     if (data) {
@@ -75,7 +96,6 @@ const HomeworkSubmissionComponent = () => {
 
       setLessons(flattenedLessons);
 
-      const studentId = '66bf72a3360ed91fa26e01d2';
       setSubmittedHomeworkIds((prevIds) => {
         const newIds = new Set(prevIds);
         flattenedLessons.forEach((lesson) => {
@@ -92,23 +112,9 @@ const HomeworkSubmissionComponent = () => {
         return newIds;
       });
     }
-  }, [data]);
+  }, [data, studentId]);
 
-  useEffect(() => {
-    if (homeworkId && lessons.length > 0) {
-      for (let i = 0; i < lessons.length; i++) {
-        const homeworkIndex = lessons[i].homework.findIndex(
-          (hw) => hw._id === homeworkId
-        );
-        if (homeworkIndex !== -1) {
-          setExpandedLesson(i);
-          setExpandedHomework(homeworkIndex);
-          break;
-        }
-      }
-    }
-  }, [homeworkId, lessons]);
-
+  //when a homework is submitted add the homework id to the already submitted homeworks list
   useEffect(() => {
     if (response) {
       if (postData && postData.homeworkId) {
@@ -120,19 +126,16 @@ const HomeworkSubmissionComponent = () => {
     }
   }, [response, postData]);
 
-  useEffect(() => {
-    if (putResponse) {
-      console.log('Homework updated successfully:', putResponse);
-      setEditableHomeworkId(null); // Disable edit mode after successful update
-      setPutData(null);
-      setPutEndpoint(null);
-    }
-  }, [putResponse]);
+  const deleteHomework = (homeworkId) => {
+    setDeleteSubmissionData({
+      homeworkId,
+      studentId,
+    });
 
-  const toggleLesson = (index) => {
-    setExpandedLesson(expandedLesson === index ? null : index);
-    setExpandedHomework(null);
-    navigate('/homework-submission#homeworksmore');
+    // Use homeworkId and studentId directly here
+    setDeleteEndpoint(
+      `student/homeworks/homework-submissions/${homeworkId}/${studentId}`
+    );
   };
 
   useEffect(() => {
@@ -146,8 +149,11 @@ const HomeworkSubmissionComponent = () => {
       setDeleteSubmissionData({ homeworkId: null, studentId: null });
       setDeleteEndpoint(null);
     }
-  }, [deleteResponse, deleteSubmissionData.homeworkId, deleteSubmissionData.studentId]);
-  
+  }, [
+    deleteResponse,
+    deleteSubmissionData.homeworkId,
+    deleteSubmissionData.studentId,
+  ]);
 
   useEffect(() => {
     if (deleteError) {
@@ -155,29 +161,6 @@ const HomeworkSubmissionComponent = () => {
       // Handle the error, e.g., display an error message
     }
   }, [deleteError]);
-
-  const deleteHomework = (homeworkId) => {
-    const studentId = '66bf72a3360ed91fa26e01d2'; // Replace with actual student ID
-    
-    setDeleteSubmissionData({
-      homeworkId,
-      studentId
-    });
-    
-    // Use homeworkId and studentId directly here
-    setDeleteEndpoint(
-      `student/homeworks/homework-submissions/${homeworkId}/${studentId}`
-    );
-  };
-  
-
-  const toggleHomework = (lessonIndex, homeworkIndex) => {
-    const selectedHomework = lessons[lessonIndex].homework[homeworkIndex];
-    setExpandedHomework(homeworkIndex);
-    setExpandedLesson(lessonIndex);
-    setEditableHomeworkId(null); // Exit edit mode when toggling homework
-    navigate(`/homework-submission/${selectedHomework._id}#homeworksmore`);
-  };
 
   const handleTextChange = (homeworkId, value) => {
     setSubmissionText((prevText) => ({
@@ -188,7 +171,6 @@ const HomeworkSubmissionComponent = () => {
 
   const submitHomework = (homeworkId) => {
     const submissionTextValue = submissionText[homeworkId];
-    const studentId = '66bf72a3360ed91fa26e01d2'; // Replace with actual student ID
 
     if (submissionTextValue) {
       const selectedLesson = lessons[expandedLesson]; // Get the currently expanded lesson
@@ -197,20 +179,24 @@ const HomeworkSubmissionComponent = () => {
       setPostEndpoint(
         `student/homeworks/homework-submissions/${lessonId}/${homeworkId}`
       );
+      console.log('CHECK');
+      console.log('ID', studentId);
 
       setPostData({
         studentId,
         submissionText: submissionTextValue,
         homeworkId,
       });
+      console.log('Post data:', postData);
     } else {
       alert('Please enter the submission text');
     }
+    console.log('Post data:', postData);
   };
 
   const updateHomework = (homeworkId) => {
     const submissionTextValue = submissionText[homeworkId];
-    const studentId = '66bf72a3360ed91fa26e01d2'; // Replace with actual student ID
+    // Replace with actual student ID
 
     if (submissionTextValue) {
       const selectedLesson = lessons[expandedLesson]; // Get the currently expanded lesson
@@ -230,16 +216,47 @@ const HomeworkSubmissionComponent = () => {
     }
   };
 
-  const isHomeworkSubmitted = (homeworkId) => {
-    console.log('submittedHomeworkIds:', submittedHomeworkIds);
-    console.log('Type of submittedHomeworkIds:', typeof submittedHomeworkIds);
-    console.log('Instance of Set:', submittedHomeworkIds instanceof Set);
-    const isSubmitted = submittedHomeworkIds.has(homeworkId);
-    return isSubmitted;
-  };
+  useEffect(() => {
+    if (putResponse) {
+      console.log('Homework updated successfully:', putResponse);
+      setEditableHomeworkId(null); // Disable edit mode after successful update
+      setPutData(null);
+      setPutEndpoint(null);
+    }
+  }, [putResponse]);
+
+  //Expand the selected homework when coming to the page
+  useEffect(() => {
+    if (homeworkId && lessons.length > 0) {
+      for (let i = 0; i < lessons.length; i++) {
+        const homeworkIndex = lessons[i].homework.findIndex(
+          (hw) => hw._id === homeworkId
+        );
+        if (homeworkIndex !== -1) {
+          setExpandedLesson(i);
+          setExpandedHomework(homeworkIndex);
+          break;
+        }
+      }
+    }
+  }, [homeworkId, lessons]);
 
   const enableEditMode = (homeworkId) => {
     setEditableHomeworkId(homeworkId);
+  };
+
+  const toggleLesson = (index) => {
+    setExpandedLesson(expandedLesson === index ? null : index);
+    setExpandedHomework(null);
+    navigate('/homework-submission#homeworksmore');
+  };
+
+  const toggleHomework = (lessonIndex, homeworkIndex) => {
+    const selectedHomework = lessons[lessonIndex].homework[homeworkIndex];
+    setExpandedHomework(homeworkIndex);
+    setExpandedLesson(lessonIndex);
+    setEditableHomeworkId(null); // Exit edit mode when toggling homework
+    navigate(`/homework-submission/${selectedHomework._id}#homeworksmore`);
   };
 
   const getTimeLeft = (deadline) => {
