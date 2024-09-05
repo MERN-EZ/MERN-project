@@ -65,17 +65,18 @@ The application uses context providers to manage global state:
    npm install
    ```
 
-3. **Create a `.env` file**:
+3. **Create a `.env` file:
 
    ```sh
    touch .env
    ```
 
-4. **Add environment variables to the `.env` file**:
+   **Add environment variables to the `.env` file**:
 
    ```env
-   REACT_APP_API_URL=http://localhost:5000
+   REACT_APP_API_URL=xxx.xxx.xxx.xxx
    ```
+   - This step is optional
 
 5. **Start the development server**:
    ```sh
