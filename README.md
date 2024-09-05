@@ -56,7 +56,7 @@ The application uses context providers to manage global state:
 
    ```sh
    git clone <repository-url>
-   cd InfoTech
+   cd MERN-project
    ```
 
 2. **Install dependencies**:
