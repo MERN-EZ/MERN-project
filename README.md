@@ -65,7 +65,7 @@ The application uses context providers to manage global state:
    npm install
    ```
 
-3. **Create a `.env` file:
+3. **Create a `.env` file**:
 
    ```sh
    touch .env
