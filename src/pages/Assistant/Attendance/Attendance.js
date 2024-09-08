@@ -4,9 +4,10 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom'; // Import useNavigate from React Router
 
 const Attendance = () => {
-  const [searchTerm, setSearchTerm] = useState('');
-  const [searchYear, setSearchYear] = useState('');
+  // const [searchTerm, setSearchTerm] = useState('');
+  // const [searchYear, setSearchYear] = useState('');
   const [searchId, setSearchId] = useState('');
+  const [sendId, setSendId] = useState(null);
   const [attendanceData, setAttendanceData] = useState([]);
 
   const navigate = useNavigate(); // Initialize useNavigate
@@ -15,23 +16,19 @@ const Attendance = () => {
     // Fetch data from the backend API
     const fetchAttendanceData = async () => {
       try {
-        const response = await axios.get('/api/attendance');
-        setAttendanceData(response.data);
+        const response = await axios.get(
+          'http://localhost:5000/assistant/attendance/'
+        );
+        // setAttendanceData(response.data);
       } catch (error) {
         console.error('Error fetching attendance data:', error);
+      } finally {
+        // setSendId(null);
       }
     };
 
     fetchAttendanceData();
-  }, []);
-
-  const handleSearchChange = (e) => {
-    setSearchTerm(e.target.value);
-  };
-
-  const handleYearChange = (e) => {
-    setSearchYear(e.target.value);
-  };
+  }, [sendId]);
 
   const handleIdChange = (e) => {
     setSearchId(e.target.value);
@@ -49,29 +46,17 @@ const Attendance = () => {
     navigate('/attendance/create'); // Navigate to the create page
   };
 
-  const filteredData = attendanceData.filter(
-    (student) =>
-      student.firstName.toLowerCase().includes(searchTerm.toLowerCase()) &&
-      student.year.includes(searchYear) &&
-      student.studentId.toString().includes(searchId)
-  );
+  // const filteredData = attendanceData.filter(
+  //   (student) =>
+  //     student.firstName.toLowerCase().includes(searchTerm.toLowerCase()) &&
+  //     student.year.includes(searchYear) &&
+  //     student.studentId.toString().includes(searchId)
+  // );
 
   return (
     <div className="attendance-container">
       <h2>Mark Attendance</h2>
       <div className="search-bar-container">
-        <input
-          type="text"
-          placeholder="Search student by name"
-          value={searchTerm}
-          onChange={handleSearchChange}
-        />
-        <input
-          type="text"
-          placeholder="Search by year"
-          value={searchYear}
-          onChange={handleYearChange}
-        />
         <input
           type="text"
           placeholder="Search by student ID"
@@ -90,7 +75,7 @@ const Attendance = () => {
             </tr>
           </thead>
           <tbody>
-            {filteredData.map((student) => (
+            {attendanceData.map((student) => (
               <tr key={student.studentId}>
                 <td>{student.studentId}</td>
                 <td>{`${student.firstName} ${student.lastName}`}</td>
@@ -131,6 +116,12 @@ const Attendance = () => {
           </button>
           <button className="record-button edit">Edit Record</button>
           <button className="record-button delete">Delete Record</button>
+          <button
+            className="record-button search"
+            onClick={setSendId(searchId)}
+          >
+            Search
+          </button>
         </div>
       </div>
     </div>

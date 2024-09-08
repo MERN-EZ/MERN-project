@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 // import { useHistory } from 'react-router-dom';
-import Button from '../../../components/common/Button/Button';
+import Button from '../../../components/Button/Button';
 import usePostRequest from '../../../hooks/usePostRequest';
-import Alert from '../../../components/common/Alert/Alert';
+import Alert from '../../../components/Alert/Alert';
 import './CreateAttendance.scss';
 
 const CreateAttendance = ({ setAttendances }) => {
@@ -18,7 +18,7 @@ const CreateAttendance = ({ setAttendances }) => {
   };
   const handleCancelAlert = () => {
     setShowAlert(false);
-    window.location.href = '/homework';
+    window.location.href = '/attendance';
   };
 
   const { response } = usePostRequest(postEndpoint, postData);
@@ -68,7 +68,7 @@ const CreateAttendance = ({ setAttendances }) => {
         <Button
           variant={'primary'}
           text="Close"
-          onClick={() => (window.location.href = '/homework')}
+          onClick={() => (window.location.href = '/attendance')}
         />
       </div>
       <h2 className="title">Create Attendance</h2>

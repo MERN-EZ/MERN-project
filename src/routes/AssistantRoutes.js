@@ -10,7 +10,7 @@ import Logout from '../components/Logout/logout';
 
 const AssistantRoutes = () => (
   <Routes>
-    <Route path="/staffLogin" element={<Dashboard />} />
+    <Route path="/" element={<Dashboard />} />
     <Route path="/payments" element={<Payment />} />
     <Route path="/attendance" element={<Attendance />} />
     <Route path="/attendance/create" element={<CreateAttendance />} />
