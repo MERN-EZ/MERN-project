@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './Home.scss';
-import Button from '../../../components/common/Button/Button';
+import Button from '../../../components/Button/Button';
 import classImage from './../Images/classImage.png';
 import useGetRequest from '../../../hooks/useGetRequest';
 
@@ -25,7 +25,7 @@ const calculateTimeRemaining = (deadline) => {
 
 
 const RegStudentLanding = () => {
-  const { data: course } = useGetRequest('student/class'); // Ensure the correct endpoint
+  const { data: course } = useGetRequest('student/class'); 
   const [courses, setCourses] = useState([]);
 
   useEffect(() => {

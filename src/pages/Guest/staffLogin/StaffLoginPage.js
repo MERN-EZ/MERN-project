@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
 import TextField from '@mui/material/TextField';
 import InputAdornment from '@mui/material/InputAdornment';
-import Button from '../../../components/common/Button/Button';
+import Button from '../../../components/Button/Button';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import LockIcon from '@mui/icons-material/Lock';
 import LoginIcon from '@mui/icons-material/Login';
 import WorkIcon from '@mui/icons-material/Work';
 import { useNavigate } from 'react-router-dom';
-import Alert from '../../../components/common/Alert/Alert';
+import Alert from '../../../components/Alert/Alert';
 import './StaffLoginPage.scss';
 import { useUserRole } from '../../../context/UserRoleContext';
 import useStaffLogin from '../../../hooks/useStaffLogin';
@@ -59,9 +59,9 @@ const LoginPage = () => {
       const { username, password, role, year } = formValues;
       let loginSuccess = null;
       if (role === 'assistant') {
-        loginSuccess = await AssistantLogin(username, password, year); // Call your login hook
+        loginSuccess = await AssistantLogin(username, password, year); 
       } else {
-        loginSuccess = await StaffLogin(username, password, role); // Call your login hook
+        loginSuccess = await StaffLogin(username, password, role); 
       }
       if (loginSuccess) {
         if (role === 'admin') {

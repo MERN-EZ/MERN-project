@@ -1,10 +1,15 @@
 import React from 'react';
 import { Route, Routes } from 'react-router-dom';
 import AdminHomePage from '../pages/Admin/Home/AdminMain';
+import StudentRequests from '../pages/Admin/StudentRequests';
+import CreateAssistant from '../pages/Admin/CreateAssistant';
+import StudentManagement from '../pages/Admin/StudentManagement';
+import Logout from '../components/Logout/logout';
+import NotFound from '../components/NotFound/NotFound';
 import StudentRequests from '../pages/Admin/ManageStudentRequests/StudentRequests';
 import CreateAssistant from '../pages/Admin/ManageAssistant/CreateAssistantPage';
-import Logout from '../components/common/Logout/logout';
-import NotFound from '../components/common/NotFound/NotFound';
+import Logout from '../components/Logout/logout';
+import NotFound from '../components/NotFound/NotFound';
 import StaffReg from '../pages/Admin/StaffReg/StaffReg';
 
 const AdminRoutes = () => (

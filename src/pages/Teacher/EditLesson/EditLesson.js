@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 // import { useHistory } from 'react-router-dom';
-import Button from '../../../components/common/Button/Button';
+import Button from '../../../components/Button/Button';
 import usePutRequest from '../../../hooks/usePutRequest';
-import Alert from '../../../components/common/Alert/Alert';
+import Alert from '../../../components/Alert/Alert';
 import './EditLessons.scss';
 import { useLocation } from 'react-router-dom';
 

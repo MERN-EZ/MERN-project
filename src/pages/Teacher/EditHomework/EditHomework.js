@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import Button from '../../../components/common/Button/Button';
+import Button from '../../../components/Button/Button';
 import usePutRequest from '../../../hooks/usePutRequest';
-import Alert from '../../../components/common/Alert/Alert';
+import Alert from '../../../components/Alert/Alert';
 import './EditHomework.scss';
 import { useLocation } from 'react-router-dom';
 
