@@ -16,8 +16,9 @@ const Attendance = () => {
     // Fetch data from the backend API
     const fetchAttendanceData = async () => {
       try {
+        console.log('searchId ', searchId);
         const response = await axios.get(
-          'http://localhost:5000/assistant/attendance/'
+          `http://localhost:5000/assistant/attendance/${searchId}`
         );
         // setAttendanceData(response.data);
       } catch (error) {
@@ -118,7 +119,7 @@ const Attendance = () => {
           <button className="record-button delete">Delete Record</button>
           <button
             className="record-button search"
-            onClick={setSendId(searchId)}
+            onClick={() => setSendId(searchId)}
           >
             Search
           </button>
