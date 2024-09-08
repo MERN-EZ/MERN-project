@@ -49,6 +49,10 @@ const Attendance = () => {
     navigate('/attendance/create'); // Navigate to the create page
   };
 
+  const handleEditClick = (id) => {
+    navigate(`/attendance/edit`); // Navigate to the edit page with the student ID
+  };
+
   const filteredData = attendanceData.filter(
     (student) =>
       student.firstName.toLowerCase().includes(searchTerm.toLowerCase()) &&
@@ -129,7 +133,7 @@ const Attendance = () => {
           <button className="record-button create" onClick={handleCreateClick}>
             Create Record
           </button>
-          <button className="record-button edit">Edit Record</button>
+          <button className="record-button edit" onClick={() => handleEditClick()}>Edit Record</button>
           <button className="record-button delete">Delete Record</button>
         </div>
       </div>
