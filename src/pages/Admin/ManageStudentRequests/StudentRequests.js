@@ -1,18 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { styled } from '@mui/material/styles';
-import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
-import TableCell, { tableCellClasses } from '@mui/material/TableCell';
-import TableContainer from '@mui/material/TableContainer';
-import TableHead from '@mui/material/TableHead';
-import TableRow from '@mui/material/TableRow';
-import Paper from '@mui/material/Paper';
-import Button from '@mui/material/Button';
-import Stack from '@mui/material/Stack';
+import { Table, TableBody, TableCell, tableCellClasses, TableContainer, TableHead, TableRow, Paper, Button, Stack } from '@mui/material';
 import './StudentRequests.scss';
 import useGetRequest from '../../../hooks/useGetRequest';
 import Alert from './../../../components/Alert/Alert';
-import { useDB } from './../../../context/DatabaseContext'; // Importing DB context
+import { useDB } from './../../../context/DatabaseContext'; 
 
 // Styled components for customizing the table's appearance
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
@@ -39,15 +31,19 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 // Handle student requests
 const StudentRequests = () => {
   const { DB } = useDB(); // Retrieve the current DB from context
-  const { data, error, loading } = useGetRequest('admin/studentRequests');
+  const { data, error, loading } = useGetRequest('admin/studentRequests'); // Fetch student requests
 
+  // State to store student requests 
   const [requests, setRequests] = useState([]);
+
   const [actionLoading, setActionLoading] = useState(false);
 
+  // Update the requests state when data is successfully fetched
   useEffect(() => {
     if (data) setRequests(data);
   }, [data]);
 
+  // Function to handle 'accept' or 'reject' actions
   const handleAction = async (studentId, action) => {
     if (
       window.confirm(
@@ -56,6 +52,7 @@ const StudentRequests = () => {
     ) {
       setActionLoading(true);
       try {
+        // Send a PUT request to backend to accept or reject the student
         const response = await fetch(
           `http://localhost:5000/admin/studentRequests/${action}/${studentId}`,
           {
@@ -78,12 +75,15 @@ const StudentRequests = () => {
           result
         );
 
+        // Update requests state based on action (accept/reject)
         setRequests((prevRequests) => {
           if (action === 'accept') {
+            // Remove accepted student from the list
             return prevRequests.filter(
               (request) => request.studentId !== studentId
             );
           } else {
+            // Update rejected student status in the list
             return prevRequests.map((request) =>
               request.studentId === studentId
                 ? { ...request, status: 'Rejected' }
@@ -109,9 +109,11 @@ const StudentRequests = () => {
 
   return (
     <TableContainer component={Paper} className="table-container">
+      {/* Create a table with student request data */}
       <Table sx={{ minWidth: 700 }} aria-label="customized table">
         <TableHead>
           <TableRow>
+            {/* Table headers */}
             <StyledTableCell align="center">Student ID</StyledTableCell>
             <StyledTableCell align="center">First Name</StyledTableCell>
             <StyledTableCell align="center">Last Name</StyledTableCell>
@@ -122,6 +124,7 @@ const StudentRequests = () => {
           </TableRow>
         </TableHead>
         <TableBody>
+          {/* Map through requests and display each as a table row */}
           {requests.map((request) => (
             <StyledTableRow key={request.studentId}>
               <StyledTableCell component="th" scope="row" align="center">
@@ -141,6 +144,7 @@ const StudentRequests = () => {
                 {request.transactionId}
               </StyledTableCell>
               <StyledTableCell align="center">
+                {/* Action buttons for accepting/rejecting requests */}
                 <Stack direction="row" spacing={2}>
                   <Button
                     variant="contained"

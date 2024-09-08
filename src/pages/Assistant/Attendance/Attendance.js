@@ -47,6 +47,10 @@ const Attendance = () => {
     navigate('/attendance/create'); // Navigate to the create page
   };
 
+  const handleEditClick = (id) => {
+    navigate(`/attendance/edit`); // Navigate to the edit page with the student ID
+  };
+
   // const filteredData = attendanceData.filter(
   //   (student) =>
   //     student.firstName.toLowerCase().includes(searchTerm.toLowerCase()) &&
