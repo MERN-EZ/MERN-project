@@ -10,8 +10,8 @@ import Paper from '@mui/material/Paper';
 import Button from '@mui/material/Button';
 import Stack from '@mui/material/Stack';
 import './StudentRequests.scss';
-import useGetRequest from '../../hooks/useGetRequest';
-import Alert from '../../components/Alert/Alert';
+import useGetRequest from '../../../hooks/useGetRequest';
+import Alert from '../../../components/Alert/Alert';
 
 // Styled components for customizing the table's appearance
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
@@ -37,7 +37,7 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 
 // Handle student requests
 const StudentRequests = () => {
-  // Fetch student requests data
+  // Fetch student requests data from API
   const { data, error, loading } = useGetRequest('admin/studentRequests');
 
   // State for managing the list of student requests
@@ -150,7 +150,7 @@ const StudentRequests = () => {
               </StyledTableCell>
               <StyledTableCell align="center">
                 <Stack direction="row" spacing={2}>
-                  {/* Accept button: triggers the handleAction function with 'accept' action */}
+                  {/* Button to accept the student request */}
                   <Button
                     variant="contained"
                     color="success"
@@ -159,7 +159,7 @@ const StudentRequests = () => {
                   >
                     Accept
                   </Button>
-                  {/* Reject button: triggers the handleAction function with 'reject' action */}
+                  {/* Button to reject the student request */}
                   <Button
                     variant="contained"
                     color="error"

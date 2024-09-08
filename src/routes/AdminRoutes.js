@@ -6,18 +6,20 @@ import CreateAssistant from '../pages/Admin/CreateAssistant';
 import StudentManagement from '../pages/Admin/StudentManagement';
 import Logout from '../components/Logout/logout';
 import NotFound from '../components/NotFound/NotFound';
+import StudentRequests from '../pages/Admin/ManageStudentRequests/StudentRequests';
+import CreateAssistant from '../pages/Admin/ManageAssistant/CreateAssistantPage';
+import Logout from '../components/Logout/logout';
+import NotFound from '../components/NotFound/NotFound';
 import StaffReg from '../pages/Admin/StaffReg/StaffReg';
-// import StudentManagement from "../pages/Admin/StudentManagement";
 
 const AdminRoutes = () => (
   <Routes>
     <Route path="/" element={<AdminHomePage />} />
     <Route path="/student-requests" element={<StudentRequests />} />
     <Route path="/create-assistant" element={<CreateAssistant />} />
-    <Route path="/manage-student" element={<StudentManagement />} />
+    <Route path="/reg-staff" element={<StaffReg />} />
     <Route path="/logout" element={<Logout />} />
     <Route path="*" element={<NotFound />} />
-    <Route path="/reg-staff" element={<StaffReg />} />
   </Routes>
 );
 

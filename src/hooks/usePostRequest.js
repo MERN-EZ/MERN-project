@@ -37,12 +37,14 @@ const usePostRequest = (endpoint, requestData) => {
 
         if (!response.ok) {
           const data = await response.json();
+          console.log('data', data);
           setError(data.error || 'Failed to post');
           console.log('error', error);
         }
       } catch (error) {
         setError(error.message);
       } finally {
+        console.log('finally, error', error);
         setLoading(false);
       }
     };

@@ -44,6 +44,7 @@ const Header = () => {
   ];
   const rolesWithSubHeaderTabs = ['teacher', 'admin', 'assistant'];
   const rolesWithSubHeaderText = ['student', 'teacher', 'admin', 'assistant'];
+  const rolesWithBatchToggler = ['teacher', 'admin'];
 
   const handleDBChange = (event) => {
     const selectedDB = event.target.value;
@@ -57,13 +58,15 @@ const Header = () => {
           <img src=" /assets/logo.png" alt="Sci ~ Ez Logo" className="logo" />
           <h1 className="site-title">InfoTech</h1>
         </div>
-        <div className="db-switch-button">
-          <select onChange={handleDBChange} value={DB}>
-            <option value="2024">2024</option>
-            <option value="2025">2025</option>
-            <option value="2026">2026</option>
-          </select>
-        </div>
+        {rolesWithBatchToggler.includes(userRole) && (
+          <div className="db-switch-button">
+            <select onChange={handleDBChange} value={DB}>
+              <option value="2024">2024</option>
+              <option value="2025">2025</option>
+              <option value="2026">2026</option>
+            </select>
+          </div>
+        )}
       </div>
       {rolesWithSubHeader.includes(userRole) && (
         <div className="tabs">

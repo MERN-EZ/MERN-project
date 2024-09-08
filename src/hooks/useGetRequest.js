@@ -25,10 +25,10 @@ const useGetRequest = (endpoint) => {
             Authorization: `Bearer ${Auth}`,
           },
         });
-        console.log(response);
+        // console.log(response);
         if (response.ok) {
           const data = await response.json();
-          console.log('Get Request Data:', data);
+          // console.log('Get Request Data:', data);
           setData(data);
         } else {
           const data = await response.json();
