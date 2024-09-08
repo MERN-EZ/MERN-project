@@ -4,7 +4,6 @@ import './Payment.scss';
 const Payment = () => {
   const [searchQuery, setSearchQuery] = useState('');
 
-  // Sample data for name boxes
   const [names, setNames] = useState([]);
 
   useEffect(() => {
@@ -14,14 +13,9 @@ const Payment = () => {
       .catch((error) => console.log(error));
   }, []);
 
-  // Filter names based on the search query
-  // const filteredNames = names.filter((name) =>
-  //   name.toLowerCase().includes(searchQuery.toLowerCase())
-  // );
 
   return (
     <div className="payment-page assistant">
-      {/* Search Bar */}
       <div className="search-bar-container">
         <input
           type="text"
@@ -32,7 +26,6 @@ const Payment = () => {
         />
       </div>
 
-      {/* Name Box Container */}
       <div className="name-box-container">
         {names.map((name, index) => (
           <div className="name-box" key={index}>

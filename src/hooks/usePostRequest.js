@@ -3,7 +3,6 @@ import { useDB } from '../context/DatabaseContext';
 import { useAuth } from '../context/AuthContext';
 
 const usePostRequest = (endpoint, requestData) => {
-  //const localIP = 'localhost';
   const localIP = process.env.REACT_APP_LOCAL_IP || 'localhost';
   const prefix = `http://${localIP}:5000/`;
 

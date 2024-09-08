@@ -55,14 +55,14 @@
 
   .button-row {
     display: flex;
-    justify-content: flex-start;  // Align buttons to the left
-    gap: 10px;  // Adds space between the buttons
+    justify-content: flex-start;  
+    gap: 10px;  
     align-items: center;
   }
 
   .editButtonContainer, .closeButtonContainer {
-    flex-grow: 0;  // Prevent buttons from growing beyond their content
-    margin-right: 10px; // Additional spacing if needed
+    flex-grow: 0;  
+    margin-right: 10px; 
   }
 
   Button {

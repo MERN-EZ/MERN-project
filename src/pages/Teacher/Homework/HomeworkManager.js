@@ -23,11 +23,7 @@ const HomeworkManager = () => {
       setLessons(data);
     }
   }, [data]);
-  // useEffect(() => {
-  //   if (error) {
-  //     setLessons(error);
-  //   }
-  // }, [error]);
+
 
   useEffect(() => {
     console.log(deleteData);

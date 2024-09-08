@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-// import { useHistory } from 'react-router-dom';
 import Button from '../../../components/Button/Button';
 import usePutRequest from '../../../hooks/usePutRequest';
 import Alert from '../../../components/Alert/Alert';
@@ -34,8 +33,8 @@ const EditLesson = ({ setLessons }) => {
 
   useEffect(() => {
     if (response) {
-      setPutEndpoint(null); // Reset to prevent re-puting
-      setPutData(null); // Reset to prevent re-puting
+      setPutEndpoint(null); 
+      setPutData(null); 
     }
     console.log(response);
   }, [response, setLessons]);

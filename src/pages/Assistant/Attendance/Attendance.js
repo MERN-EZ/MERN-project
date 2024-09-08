@@ -76,11 +76,11 @@ const Attendance = () => {
   };
 
   const handleCreateClick = () => {
-    navigate('/attendance/create'); // Navigate to the create page
+    navigate('/attendance/create'); 
   };
 
   const handleEditClick = (id) => {
-    navigate(`/attendance/edit`); // Navigate to the edit page with the student ID
+    navigate(`/attendance/edit`); 
   };
 
   return (
@@ -131,7 +131,6 @@ const Attendance = () => {
           </tbody>
         </table>
 
-        {/* Buttons for Create, Edit, Delete Record */}
         <div className="record-buttons">
           <button className="record-button create" onClick={handleCreateClick}>
             Create Record
