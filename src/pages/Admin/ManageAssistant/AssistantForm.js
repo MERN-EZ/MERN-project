@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Box, TextField, Stack, Card, CardContent } from '@mui/material';
-import Button from '../../../components/common/Button/Button';
+import Button from '../../../components/Button/Button';
 
 const AssistantForm = ({ onSubmit, onCancel, initialData }) => {
   // State to manage form input data

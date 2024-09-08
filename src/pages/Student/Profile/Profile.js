@@ -2,12 +2,12 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './profile.scss';
 import profile from '../../../images/profile.png';
-import Button from '../../../components/common/Button/Button';
+import Button from '../../../components/Button/Button';
 import { useUser } from '../../../context/UserContext';
 import { useDB } from '../../../context/DatabaseContext';
 import { useUserRole } from '../../../context/UserRoleContext';
 import useDeleteRequest from '../../../hooks/useDeleteRequest';
-import Alert from '../../../components/common/Alert/Alert';
+import Alert from '../../../components/Alert/Alert';
 
 const ProfilePage = () => {
   const { userDetails, setUserDetails } = useUser();

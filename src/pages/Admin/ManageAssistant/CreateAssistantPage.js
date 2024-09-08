@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { Container, Box, Typography } from '@mui/material';
 import axios from 'axios'; // Make HTTP requests to the server
-import Button from '../../../components/common/Button/Button';
+import Button from '../../../components/Button/Button';
 import AssistantForm from './AssistantForm';
 import AssistantList from './AssistantList';
 import { useDB } from '../../../context/DatabaseContext';
