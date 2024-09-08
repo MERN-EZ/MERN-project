@@ -18,14 +18,16 @@ const EditAttendance = () => {
     if (response) {
       setPutEndpoint(null);
       setPutData(null);
+      setAlertMessage('Attendance updated successfully');
       console.log('Response received:', response);
       setShowAlert(true);
     }
   }, [response]);
 
   useEffect(() => {
+    console.log('Error:', error);
     if (error) {
-      setAlertMessage(error);
+      setAlertMessage('Record not found');
       setShowAlert(true);
     }
   }, [error]);
@@ -95,6 +97,7 @@ const EditAttendance = () => {
           onCancel={() => {
             setAlertMessage('');
             setShowAlert(false);
+            window.location.href = '/attendance';
           }}
         />
       )}
