@@ -7,9 +7,9 @@ const GuestHomePage = () => {
   const { data, error, loading } = useGetRequest('teacher/class');
   const [courses, setCourses] = useState([]);
 
-  useEffect(() => {
+  /*useEffect(() => {
     setEndPoint('teacher/class');
-  }, []);
+  }, []);*/
   useEffect(() => {
     if (data) setCourses(data[0]);
   }, [data]);

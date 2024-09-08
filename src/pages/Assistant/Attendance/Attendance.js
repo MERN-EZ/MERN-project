@@ -1,37 +1,29 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './Attendance.scss';
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom'; // Import useNavigate from React Router
 
 const Attendance = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [searchYear, setSearchYear] = useState('');
   const [searchId, setSearchId] = useState('');
-  const [attendanceData, setAttendanceData] = useState([
-    {
-      id: 1,
-      name: 'John Doe',
-      year: '2025',
-      attendance: false,
-    },
-    {
-      id: 2,
-      name: 'Jane Smith',
-      year: '2025',
-      attendance: true,
-    },
-    {
-      id: 3,
-      name: 'Alice Johnson',
-      year: '2024',
-      attendance: true,
-    },
-    {
-      id: 4,
-      name: 'Bob Brown',
-      year: '2024',
-      attendance: false,
-    },
-    // Add more students as needed
-  ]);
+  const [attendanceData, setAttendanceData] = useState([]);
+
+  const navigate = useNavigate(); // Initialize useNavigate
+
+  useEffect(() => {
+    // Fetch data from the backend API
+    const fetchAttendanceData = async () => {
+      try {
+        const response = await axios.get('/api/attendance');
+        setAttendanceData(response.data);
+      } catch (error) {
+        console.error('Error fetching attendance data:', error);
+      }
+    };
+
+    fetchAttendanceData();
+  }, []);
 
   const handleSearchChange = (e) => {
     setSearchTerm(e.target.value);
@@ -48,16 +40,20 @@ const Attendance = () => {
   const handleToggleAttendance = (id, status) => {
     setAttendanceData((prevData) =>
       prevData.map((student) =>
-        student.id === id ? { ...student, attendance: status } : student
+        student.studentId === id ? { ...student, attendance: status } : student
       )
     );
   };
 
+  const handleCreateClick = () => {
+    navigate('/attendance/create'); // Navigate to the create page
+  };
+
   const filteredData = attendanceData.filter(
     (student) =>
-      student.name.toLowerCase().includes(searchTerm.toLowerCase()) &&
+      student.firstName.toLowerCase().includes(searchTerm.toLowerCase()) &&
       student.year.includes(searchYear) &&
-      student.id.toString().includes(searchId)
+      student.studentId.toString().includes(searchId)
   );
 
   return (
@@ -83,45 +79,60 @@ const Attendance = () => {
           onChange={handleIdChange}
         />
       </div>
-      <table className="attendance-table">
-        <thead>
-          <tr>
-            <th>Student ID</th>
-            <th>Name</th>
-            <th>Year</th>
-            <th>Attendance</th>
-          </tr>
-        </thead>
-        <tbody>
-          {filteredData.map((student) => (
-            <tr key={student.id}>
-              <td>{student.id}</td>
-              <td>{student.name}</td>
-              <td>{student.year}</td>
-              <td>
-                <div className="attendance-options">
-                  <button
-                    className={`attendance-button present ${
-                      student.attendance ? 'active' : 'fade'
-                    }`}
-                    onClick={() => handleToggleAttendance(student.id, true)}
-                  >
-                    Present
-                  </button>
-                  <button
-                    className={`attendance-button absent ${
-                      !student.attendance ? 'active' : 'fade'
-                    }`}
-                    onClick={() => handleToggleAttendance(student.id, false)}
-                  >
-                    Absent
-                  </button>
-                </div>
-              </td>
+      <div className="table-buttons-container">
+        <table className="attendance-table">
+          <thead>
+            <tr>
+              <th>Student ID</th>
+              <th>Name</th>
+              <th>Year</th>
+              <th>Attendance</th>
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {filteredData.map((student) => (
+              <tr key={student.studentId}>
+                <td>{student.studentId}</td>
+                <td>{`${student.firstName} ${student.lastName}`}</td>
+                <td>{student.year}</td>
+                <td>
+                  <div className="attendance-options">
+                    <button
+                      className={`attendance-button present ${
+                        student.attendance ? 'active' : 'fade'
+                      }`}
+                      onClick={() =>
+                        handleToggleAttendance(student.studentId, true)
+                      }
+                    >
+                      Present
+                    </button>
+                    <button
+                      className={`attendance-button absent ${
+                        !student.attendance ? 'active' : 'fade'
+                      }`}
+                      onClick={() =>
+                        handleToggleAttendance(student.studentId, false)
+                      }
+                    >
+                      Absent
+                    </button>
+                  </div>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+
+        {/* Buttons for Create, Edit, Delete Record */}
+        <div className="record-buttons">
+          <button className="record-button create" onClick={handleCreateClick}>
+            Create Record
+          </button>
+          <button className="record-button edit">Edit Record</button>
+          <button className="record-button delete">Delete Record</button>
+        </div>
+      </div>
     </div>
   );
 };
