@@ -70,6 +70,9 @@ const LoginPage = () => {
         } else if (role === 'teacher') {
           setUserRole('teacher');
           navigate('/');
+        }else{
+          setUserRole('assistant');
+          navigate('/');
         }
       } else {
         setAlert({

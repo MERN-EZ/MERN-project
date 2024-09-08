@@ -33,7 +33,7 @@ const CreateHomework = () => {
 
   const handleNameChange = (e) => {
     const value = e.target.value;
-    if (value.length <= 30) {
+    if (value.length <= 50) {
       setHomeworkName(value);
       setNameCharCount(value.length);
     }
@@ -102,7 +102,7 @@ const CreateHomework = () => {
             onChange={handleNameChange}
             className="inputField"
           />
-          <span className="charCount">{nameCharCount}/30</span>
+          <span className="charCount">{nameCharCount}/50</span>
         </label>
       </div>
       <div className="inputContainer">
