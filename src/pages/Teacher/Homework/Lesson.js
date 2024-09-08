@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import Homework from './Homework';
-import Button from './../../../components/common/Button/Button';
+import Button from './../../../components/Button/Button';
 import './Lesson.scss';
-import Alert from '../../../components/common/Alert/Alert';
+import Alert from '../../../components/Alert/Alert';
 
 const Lesson = ({ lesson, deleteLesson, updateLesson }) => {
   const [isOpen, setIsOpen] = useState(false);

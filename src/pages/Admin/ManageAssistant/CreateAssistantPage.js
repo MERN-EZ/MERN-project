@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { Container, Box, Typography } from '@mui/material';
 import axios from 'axios'; // Make HTTP requests to the server
-import Button from '../../../components/common/Button/Button';
+import Button from '../../../components/Button/Button';
 import AssistantForm from './AssistantForm';
 import AssistantList from './AssistantList';
 import { useDB } from '../../../context/DatabaseContext';
@@ -189,7 +189,7 @@ const CreateAssistant = () => {
   return (
     <Container sx={{ position: 'relative', paddingTop: '20px' }}>
       {/* Create Assistant Button */}
-      <Box sx={{ position: 'absolute', top: 20, left: -120 }}>
+      <Box sx={{ position: 'absolute', top: 20, left: -120 , marginLeft:'60px' }}>
         <Button
           text="Create Assistant Account &nbsp;&nbsp;+"
           variant="primary"
@@ -213,7 +213,7 @@ const CreateAssistant = () => {
       )}
 
       <Box sx={{ marginTop: '80px', marginLeft: '-120px' }}>
-        <Typography variant="h6" gutterBottom>
+        <Typography variant="h6" gutterBottom sx={{marginLeft:'52px'}}>
           Created Assistants
         </Typography>
         <AssistantList

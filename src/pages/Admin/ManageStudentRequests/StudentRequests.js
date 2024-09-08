@@ -11,7 +11,8 @@ import Button from '@mui/material/Button';
 import Stack from '@mui/material/Stack';
 import './StudentRequests.scss';
 import useGetRequest from '../../../hooks/useGetRequest';
-import Alert from '../../../components/common/Alert/Alert';
+import Alert from './../../../components/Alert/Alert';
+import { useDB } from './../../../context/DatabaseContext'; // Importing DB context
 
 // Styled components for customizing the table's appearance
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
@@ -37,21 +38,16 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 
 // Handle student requests
 const StudentRequests = () => {
-  // Fetch student requests data from API
+  const { DB } = useDB(); // Retrieve the current DB from context
   const { data, error, loading } = useGetRequest('admin/studentRequests');
 
-  // State for managing the list of student requests
   const [requests, setRequests] = useState([]);
-
-  // State for indicating whether an action is currently in progress
   const [actionLoading, setActionLoading] = useState(false);
 
-  // Populate the requests state when data is fetched
   useEffect(() => {
     if (data) setRequests(data);
   }, [data]);
 
-  // Handle accept/reject actions on student requests
   const handleAction = async (studentId, action) => {
     if (
       window.confirm(
@@ -60,13 +56,13 @@ const StudentRequests = () => {
     ) {
       setActionLoading(true);
       try {
-        // PUT request to update the student's status based on the action
         const response = await fetch(
           `http://localhost:5000/admin/studentRequests/${action}/${studentId}`,
           {
             method: 'PUT',
             headers: {
               'Content-Type': 'application/json',
+              'db-name': DB, // Pass the current DB in the headers
             },
             body: JSON.stringify({ test: 'test' }),
           }
@@ -82,15 +78,12 @@ const StudentRequests = () => {
           result
         );
 
-        // Update the requests state based on the action performed
         setRequests((prevRequests) => {
           if (action === 'accept') {
-            // If the action is 'accept', remove the student from the table
             return prevRequests.filter(
               (request) => request.studentId !== studentId
             );
           } else {
-            // If the action is 'reject', update the status to 'Rejected'
             return prevRequests.map((request) =>
               request.studentId === studentId
                 ? { ...request, status: 'Rejected' }
@@ -101,7 +94,7 @@ const StudentRequests = () => {
       } catch (error) {
         console.error('Error:', error);
       } finally {
-        setActionLoading(false); // Reset loading state after the action is complete
+        setActionLoading(false);
       }
     }
   };
@@ -129,7 +122,6 @@ const StudentRequests = () => {
           </TableRow>
         </TableHead>
         <TableBody>
-          {/* Loop through the requests array and display each request as a table row */}
           {requests.map((request) => (
             <StyledTableRow key={request.studentId}>
               <StyledTableCell component="th" scope="row" align="center">
@@ -150,7 +142,6 @@ const StudentRequests = () => {
               </StyledTableCell>
               <StyledTableCell align="center">
                 <Stack direction="row" spacing={2}>
-                  {/* Button to accept the student request */}
                   <Button
                     variant="contained"
                     color="success"
@@ -159,7 +150,6 @@ const StudentRequests = () => {
                   >
                     Accept
                   </Button>
-                  {/* Button to reject the student request */}
                   <Button
                     variant="contained"
                     color="error"

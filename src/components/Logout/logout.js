@@ -1,10 +1,10 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import Alert from '../Alert/Alert';
-import { useAuth } from '../../../context/AuthContext';
-import { useDB } from '../../../context/DatabaseContext';
-import { useUser } from '../../../context/UserContext';
-import { useUserRole } from '../../../context/UserRoleContext';
+import { useAuth } from '../../context/AuthContext';
+import { useDB } from '../../context/DatabaseContext';
+import { useUser } from '../../context/UserContext';
+import { useUserRole } from '../../context/UserRoleContext';
 
 const Logout = () => {
   const { setUserDetails } = useUser();
@@ -25,7 +25,7 @@ const Logout = () => {
     localStorage.removeItem('Auth');
 
     // Redirect to the login page or home page
-    navigate('/login');
+    navigate('/');
   };
   const handleCancelLogout = () => {
     // Redirect to the previous page or home page

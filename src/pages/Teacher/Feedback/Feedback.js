@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import Alert from '../../../components/common/Alert/Alert';
+import Alert from '../../../components/Alert/Alert';
 import useGetRequest from '../../../hooks/useGetRequest';
 import useDeleteRequest from '../../../hooks/useDeleteRequest';
 import CloseIcon from '@mui/icons-material/Close';

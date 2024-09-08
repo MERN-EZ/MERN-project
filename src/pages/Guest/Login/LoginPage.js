@@ -1,14 +1,14 @@
 import React, { useState } from 'react';
 import TextField from '@mui/material/TextField';
 import InputAdornment from '@mui/material/InputAdornment';
-import Button from '../../../components/common/Button/Button';
+import Button from '../../../components/Button/Button';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import LockIcon from '@mui/icons-material/Lock';
 import LoginIcon from '@mui/icons-material/Login';
 import BatchIcon from '@mui/icons-material/School';
 import useLogin from '../../../hooks/useLogin';
 import { useNavigate } from 'react-router-dom';
-import Alert from '../../../components/common/Alert/Alert';
+import Alert from '../../../components/Alert/Alert';
 import './LoginPage.scss';
 import { useUserRole } from '../../../context/UserRoleContext';
 
@@ -70,7 +70,7 @@ const LoginPage = () => {
 
     try {
       const { username, password, year } = formValues;
-      
+
       const loginSuccess = await login(username, password, year);
 
       if (loginSuccess) {

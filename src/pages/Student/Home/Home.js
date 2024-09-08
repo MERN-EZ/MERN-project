@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './Home.scss';
-import Button from '../../../components/common/Button/Button';
+import Button from '../../../components/Button/Button';
 import classImage from './../Images/classImage.png';
 import useGetRequest from '../../../hooks/useGetRequest';
 
@@ -10,17 +10,22 @@ const calculateTimeRemaining = (deadline) => {
   const deadlineDate = new Date(deadline);
   const timeDiff = deadlineDate - now;
 
+  if (timeDiff < 0) {
+    return { passed: true };
+  }
+
   const daysLeft = Math.floor(timeDiff / (1000 * 60 * 60 * 24));
   const hoursLeft = Math.floor(
     (timeDiff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
   );
   const minsLeft = Math.floor((timeDiff % (1000 * 60 * 60)) / (1000 * 60));
 
-  return { daysLeft, hoursLeft, minsLeft };
+  return { daysLeft, hoursLeft, minsLeft, passed: false };
 };
 
+
 const RegStudentLanding = () => {
-  const { data: course } = useGetRequest('student/class'); // Ensure the correct endpoint
+  const { data: course } = useGetRequest('student/class'); 
   const [courses, setCourses] = useState([]);
 
   useEffect(() => {
@@ -99,8 +104,9 @@ const RegStudentLanding = () => {
       <section className="deadlines">
         <h2>Deadlines</h2>
         {homework.map(({ _id, title, deadline }) => {
-          const { daysLeft, hoursLeft, minsLeft } =
+          const { daysLeft, hoursLeft, minsLeft, passed } =
             calculateTimeRemaining(deadline);
+
           return (
             <div
               key={_id}
@@ -108,17 +114,24 @@ const RegStudentLanding = () => {
               onClick={() => handleDeadlineClick(_id)}
             >
               <h3>{title}</h3>
-              <p className="deadline-details">
-                Due on: {new Date(deadline).toLocaleDateString()}
-                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                {new Date(deadline).toLocaleTimeString()}
-                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                {daysLeft} days {hoursLeft} hours {minsLeft} minutes left
+              <p className={`deadline-details ${passed ? 'deadline-passed' : ''}`}>
+                {passed ? (
+                  <span style={{ color: 'red' }}>Deadline Passed</span>
+                ) : (
+                  <>
+                    Due on: {new Date(deadline).toLocaleDateString()}
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    {new Date(deadline).toLocaleTimeString()}
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    {daysLeft} days {hoursLeft} hours {minsLeft} minutes left
+                  </>
+                )}
               </p>
             </div>
           );
         })}
       </section>
+
     </div>
   );
 };

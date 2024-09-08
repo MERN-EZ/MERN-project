@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import './Home.scss';
 import useGetRequest from '../../../hooks/useGetRequest';
-import Alert from '../../../components/common/Alert/Alert';
+import Alert from '../../../components/Alert/Alert';
 
 const GuestHomePage = () => {
   const { data, error, loading } = useGetRequest('teacher/class');

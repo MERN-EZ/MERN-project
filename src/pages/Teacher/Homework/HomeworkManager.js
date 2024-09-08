@@ -3,8 +3,8 @@ import Lesson from './Lesson';
 import useGetRequest from './../../../hooks/useGetRequest';
 import useDeleteRequest from './../../../hooks/useDeleteRequest';
 import './HomeworkManager.scss';
-import Alert from '../../../components/common/Alert/Alert';
-import Button from '../../../components/common/Button/Button';
+import Alert from '../../../components/Alert/Alert';
+import Button from '../../../components/Button/Button';
 
 const HomeworkManager = () => {
   const { data, error, loading } = useGetRequest('teacher/lessons');
