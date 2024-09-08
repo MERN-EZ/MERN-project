@@ -102,7 +102,8 @@ const RegistrationPage = () => {
       if (response.ok) {
         setAlert({
           show: true,
-          message: 'Registration request sent successfully.',
+          message:
+            'Your registration request has been sent successfully. It may take some time to review. Please come back and log in after 24 hours.',
           variant: 'success',
         });
 
