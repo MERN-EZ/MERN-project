@@ -6,6 +6,7 @@ import CreateAssistant from '../pages/Admin/ManageAssistant/CreateAssistantPage'
 import Logout from '../components/Logout/logout';
 import NotFound from '../components/NotFound/NotFound';
 import StaffReg from '../pages/Admin/StaffReg/StaffReg';
+import Admin from '../pages/Admin/Home/AdminMain';
 
 const AdminRoutes = () => (
   <Routes>
