@@ -1,20 +1,18 @@
 import React, { useState } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import Icon from '@mui/icons-material/PersonAddAlt';
 import Button from '../../../components/Button/Button';
 import './StaffReg.scss';
 
 const RegistrationPage = () => {
-  const location = useLocation();
   const navigate = useNavigate();
-  const query = new URLSearchParams(location.search);
-  const year = query.get('year') || '';
+  /*   const query = new URLSearchParams(location.search); */
 
   const [formValues, setFormValues] = useState({
     username: '',
     password: '',
-    confirmPassword: '', // Make sure to initialize confirmPassword as well
-    role: '', // Add role initialization
+    confirmPassword: '',
+    role: '',
   });
 
   const [errors, setErrors] = useState({});
@@ -57,12 +55,12 @@ const RegistrationPage = () => {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
-            'db-name': formValues.yearOfALs || '', // Ensure db-name is not undefined
+            'db-name': '2024',
           },
           body: JSON.stringify({
             username: formValues.username,
             password: formValues.password,
-            role: formValues.role || 'teacher', // Default role if none selected
+            role: formValues.role || 'teacher',
           }),
         }
       );
@@ -98,7 +96,7 @@ const RegistrationPage = () => {
             <input
               type="text"
               name="username"
-              value={formValues.username || ''} // Ensure controlled value
+              value={formValues.username || ''}
               onChange={handleChange}
               placeholder="Enter Username"
             />
@@ -111,7 +109,7 @@ const RegistrationPage = () => {
             <label>Role</label>
             <select
               name="role"
-              value={formValues.role || ''} // Ensure controlled value
+              value={formValues.role || ''}
               onChange={handleChange}
             >
               <option value="">Select Role</option>
@@ -119,6 +117,7 @@ const RegistrationPage = () => {
               <option value="admin">Admin</option>
               {/* <option value="staff">Staff</option> */}
             </select>
+            {errors.role && <div className="error-message">{errors.role}</div>}
             {errors.role && <div className="error-message">{errors.role}</div>}
           </div>
 
@@ -128,7 +127,7 @@ const RegistrationPage = () => {
               <input
                 type="password"
                 name="password"
-                value={formValues.password || ''} // Ensure controlled value
+                value={formValues.password || ''}
                 onChange={handleChange}
                 placeholder="Enter Password"
               />
@@ -141,7 +140,7 @@ const RegistrationPage = () => {
               <input
                 type="password"
                 name="confirmPassword"
-                value={formValues.confirmPassword || ''} // Ensure controlled value
+                value={formValues.confirmPassword || ''}
                 onChange={handleChange}
                 placeholder="Re-enter Password"
               />

@@ -74,6 +74,17 @@ const RegistrationPage = () => {
 
     return Object.keys(newErrors).length === 0;
   };
+  const [redirectOnClose, setRedirectOnClose] = useState(false);
+
+  const handleCloseAlert = () => {
+    setAlert({
+      ...alert,
+      show: false,
+    });
+    if (redirectOnClose) {
+      navigate('/');
+    }
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -106,10 +117,10 @@ const RegistrationPage = () => {
             'Your registration request has been sent successfully. It may take some time to review. Please come back and log in after 24 hours.',
           variant: 'success',
         });
-
-        setTimeout(() => {
+        setRedirectOnClose(true);
+        /* setTimeout(() => {
           navigate('/');
-        }, 2000);
+        }, 2000);  */
       } else {
         const errorMessage =
           data.message ||
@@ -127,13 +138,6 @@ const RegistrationPage = () => {
         variant: 'error',
       });
     }
-  };
-
-  const handleCloseAlert = () => {
-    setAlert({
-      ...alert,
-      show: false,
-    });
   };
 
   return (
