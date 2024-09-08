@@ -7,7 +7,6 @@
     display: flex;
     justify-content: space-between;
     cursor: pointer;
-    // background-color: var(--rectangle-box-background-color);
     padding: 0 1rem;
     margin: 1rem 0 0 0;
     h2 {
@@ -18,8 +17,6 @@
   .lesson {
     border: 1px solid #ccc;
     background-color: var(--rectangle-box-background-color);
-    /* margin: 10px; */
-    /* padding: 0.4rem 1rem; */
     border-radius: 5px;
     width: 100%;
     -webkit-user-select: none;

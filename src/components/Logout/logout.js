@@ -14,9 +14,7 @@ const Logout = () => {
   const navigate = useNavigate();
 
   const handleConfirmLogout = () => {
-    // Perform the delete operation
 
-    // Clear any stored authentication data (e.g., tokens, user info)
     setAuth(null);
     setUserDetails({});
     setUserRole('guest');
@@ -24,11 +22,9 @@ const Logout = () => {
     localStorage.removeItem('userDetails');
     localStorage.removeItem('Auth');
 
-    // Redirect to the login page or home page
     navigate('/');
   };
   const handleCancelLogout = () => {
-    // Redirect to the previous page or home page
     navigate(-1);
   };
   return (

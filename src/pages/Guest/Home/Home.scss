@@ -18,11 +18,10 @@
     align-items: center;
     width: 100%;
     margin-left: 2rem;
-    /* Ensure the header content takes full width */
   }
 
   .header-text {
-    flex: 1; /* Allows the text to take up available space */
+    flex: 1; 
   }
 
   .primary-header-title {
@@ -42,16 +41,16 @@
   }
 
   .header-image {
-    max-width: 390px; /* Adjust size as needed */
+    max-width: 390px; 
     height: auto;
     width: auto;
     margin-left: 2rem;
-    margin-right: 2rem; /* Space between text and image */
+    margin-right: 2rem; 
   }
 
   .class-section {
     display: flex;
-    flex-wrap: wrap; /* Allows cards to wrap if there’s not enough space */
+    flex-wrap: wrap; 
     justify-content: space-between;
     margin: 2rem 4rem 0 2rem;
   }
@@ -61,7 +60,7 @@
     padding: 30px 30px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
     border-radius: 10px;
-    width: 30%; /* Adjusted width to fit cards side by side */
+    width: 30%; 
     position: relative;
 
     h2 {

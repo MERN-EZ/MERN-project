@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import './Attendance.scss';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom'; // Import useNavigate from React Router
+import { useNavigate } from 'react-router-dom'; 
 
 const Attendance = () => {
   const [searchTerm, setSearchTerm] = useState('');
@@ -9,10 +9,10 @@ const Attendance = () => {
   const [searchId, setSearchId] = useState('');
   const [attendanceData, setAttendanceData] = useState([]);
 
-  const navigate = useNavigate(); // Initialize useNavigate
+  const navigate = useNavigate(); 
 
   useEffect(() => {
-    // Fetch data from the backend API
+
     const fetchAttendanceData = async () => {
       try {
         const response = await axios.get('/api/attendance');
@@ -46,11 +46,11 @@ const Attendance = () => {
   };
 
   const handleCreateClick = () => {
-    navigate('/attendance/create'); // Navigate to the create page
+    navigate('/attendance/create'); 
   };
 
   const handleEditClick = (id) => {
-    navigate(`/attendance/edit`); // Navigate to the edit page with the student ID
+    navigate(`/attendance/edit`); 
   };
 
   const filteredData = attendanceData.filter(
@@ -128,7 +128,6 @@ const Attendance = () => {
           </tbody>
         </table>
 
-        {/* Buttons for Create, Edit, Delete Record */}
         <div className="record-buttons">
           <button className="record-button create" onClick={handleCreateClick}>
             Create Record

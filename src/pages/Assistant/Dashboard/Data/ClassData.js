@@ -1,10 +1,9 @@
-// homeWorkData.js
 const classData = [
   {
     id: 1,
     title: 'Homework 1.2',
     description: 'Exercises on page 22.',
-    deadline: '2024-08-10T23:59:00', // ISO 8601 format deadline
+    deadline: '2024-08-10T23:59:00', 
   },
   {
     id: 2,

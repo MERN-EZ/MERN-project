@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-// import { useHistory } from 'react-router-dom';
 import Button from '../../../components/Button/Button';
 import usePostRequest from '../../../hooks/usePostRequest';
 import Alert from '../../../components/Alert/Alert';
@@ -25,8 +24,8 @@ const CreateAttendance = ({ setAttendances }) => {
 
   useEffect(() => {
     if (response) {
-      setPostEndpoint(null); // Reset to prevent re-posting
-      setPostData(null); // Reset to prevent re-posting
+      setPostEndpoint(null); 
+      setPostData(null); 
     }
     console.log(response);
   }, [response, setAttendances]);
@@ -55,7 +54,6 @@ const CreateAttendance = ({ setAttendances }) => {
   const handleCreate = () => {
     if (attendanceNumber && attendanceDate && attendanceStatus) {
       handleAlertClick();
-      //setPostData({ title: attendanceName, id: attendanceNumber, homwork: [] });
       setPostEndpoint('teacher/attendances/');
     } else {
       alert('Please fill in all fields');

@@ -16,7 +16,7 @@ import './App.css';
 
 function App() {
   const { userRole } = useUserRole();
-  // console.log("User role:", userRole);
+
   return (
     <div
       className="App"

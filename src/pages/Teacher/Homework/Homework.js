@@ -17,11 +17,9 @@ const Homework = ({ homework, index, lesson_id }) => {
   useEffect(() => {
     if (error) {
       setAlertMessage(`Error: ${error}`);
-      // setShowAlert(true);
     } else if (data) {
       window.location.href = '/homework';
       setAlertMessage('Homework deleted successfully.');
-      // setShowAlert(true);
     }
   }, [loading, error, data]);
   const [showAlert2, setShowAlert2] = useState(false);
