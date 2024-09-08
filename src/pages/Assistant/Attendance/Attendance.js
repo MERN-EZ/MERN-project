@@ -28,12 +28,12 @@ const Attendance = () => {
       } catch (error) {
         console.error('Error fetching attendance data:', error);
       } finally {
-        // setSendId(null);
+        setSendId(null);
       }
     };
 
     fetchAttendanceData(searchId, DB);
-  }, [sendId, DB]);
+  }, [sendId, DB, searchId]);
 
   const handleIdChange = (e) => {
     setSearchId(e.target.value);
@@ -50,7 +50,9 @@ const Attendance = () => {
   const handleCreateClick = () => {
     navigate('/attendance/create'); // Navigate to the create page
   };
-
+  const handleEditClick = (id) => {
+    navigate(`/attendance/edit`); // Navigate to the edit page with the student ID
+  };
   // const filteredData = attendanceData.filter(
   //   (student) =>
   //     student.firstName.toLowerCase().includes(searchTerm.toLowerCase()) &&
@@ -83,26 +85,13 @@ const Attendance = () => {
                 <td>{record.date}</td>
                 <td>
                   <div className="attendance-options">
-                    <button
-                      className={`attendance-button present ${
-                        record.attendance ? 'active' : 'fade'
+                    <span
+                      className={`${
+                        record.status === 'Present' ? 'present' : 'absent'
                       }`}
-                      onClick={() =>
-                        handleToggleAttendance(record.studentId, true)
-                      }
                     >
-                      Present
-                    </button>
-                    <button
-                      className={`attendance-button absent ${
-                        !record.attendance ? 'active' : 'fade'
-                      }`}
-                      onClick={() =>
-                        handleToggleAttendance(record.studentId, false)
-                      }
-                    >
-                      Absent
-                    </button>
+                      {record.status}
+                    </span>
                   </div>
                 </td>
               </tr>
@@ -115,7 +104,9 @@ const Attendance = () => {
           <button className="record-button create" onClick={handleCreateClick}>
             Create Record
           </button>
-          <button className="record-button edit">Edit Record</button>
+          <button className="record-button edit" onClick={handleEditClick}>
+            Edit Record
+          </button>
           <button className="record-button delete">Delete Record</button>
           <button
             className="record-button search"

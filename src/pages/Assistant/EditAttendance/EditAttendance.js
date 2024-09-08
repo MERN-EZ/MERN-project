@@ -3,9 +3,8 @@ import Button from '../../../components/Button/Button';
 import usePutRequest from '../../../hooks/usePutRequest'; // This is your custom hook for PUT requests
 import Alert from '../../../components/Alert/Alert';
 import './EditAttendance.scss';
-import { useDB } from '../../../context/DatabaseContext'; // Import the useDB hook
 
-const EditAttendance = ({ setAttendance }) => {
+const EditAttendance = () => {
   const [studentID, setStudentID] = useState('');
   const [date, setDate] = useState('');
   const [status, setStatus] = useState('Present');
@@ -14,7 +13,6 @@ const EditAttendance = ({ setAttendance }) => {
 
   const [showAlert, setShowAlert] = useState(false);
   const [showAlert2, setShowAlert2] = useState(false);
-  const { DB } = useDB(); // Get the current database value from context
 
   const handleAlertClick = () => {
     setShowAlert(true);
@@ -29,26 +27,20 @@ const EditAttendance = ({ setAttendance }) => {
     setShowAlert2(false);
   };
 
-  // Hook to make the PUT request, including db-name in headers
-  const { response } = usePutRequest(putEndpoint, putData, {
-    'db-name': DB, // Send the database name in the headers
-  });
+  const { response } = usePutRequest(putEndpoint, putData);
 
-  // Trigger when PUT response is received
   useEffect(() => {
     if (response) {
-      setPutEndpoint(null); // Reset to prevent re-putting
-      setPutData(null); // Reset to prevent re-putting
+      setPutEndpoint(null);
+      setPutData(null);
       console.log('Response received:', response);
     }
   }, [response]);
 
-  // Handle change in inputs
   const handleIDChange = (e) => setStudentID(e.target.value);
   const handleDateChange = (e) => setDate(e.target.value);
   const handleStatusChange = (e) => setStatus(e.target.value);
 
-  // Handle Edit/Update action
   const handleEdit = () => {
     if (studentID && date) {
       setPutData({
@@ -56,10 +48,10 @@ const EditAttendance = ({ setAttendance }) => {
         date,
         attendance: status,
       });
-      setPutEndpoint(`attendance/edit`); // API endpoint
+      setPutEndpoint(`assistant/attendance/edit`);
       handleAlertClick();
     } else {
-      setShowAlert2(true); // Show error alert if studentID or date is missing
+      setShowAlert2(true);
     }
   };
 
