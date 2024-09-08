@@ -31,7 +31,6 @@ const RegistrationPage = () => {
     if (!formValues.username) newErrors.username = 'Username is required';
     if (!formValues.role) newErrors.role = 'Role is required';
 
-
     if (!formValues.password) {
       newErrors.password = 'Password is required';
     } else if (formValues.password !== formValues.confirmPassword) {
@@ -44,12 +43,10 @@ const RegistrationPage = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-
     if (!validateForm()) {
       console.log('Form has validation errors.');
       return;
     }
-
 
     try {
       const response = await fetch(
@@ -75,7 +72,6 @@ const RegistrationPage = () => {
         navigate('/');
       } else {
         const errorMessage =
-          contentType && contentType.includes('application/json')
           contentType && contentType.includes('application/json')
             ? (await response.json()).message
             : 'Registration failed. Please check your input and try again.';
