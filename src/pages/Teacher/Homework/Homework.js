@@ -2,9 +2,9 @@ import React, { useState, useEffect } from 'react';
 import './Homework.scss';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import ExpandLessIcon from '@mui/icons-material/ExpandLess';
-import Button from '../../../components/common/Button/Button';
+import Button from '../../../components/Button/Button';
 import useDeleteRequest from '../../../hooks/useDeleteRequest';
-import Alert from '../../../components/common/Alert/Alert';
+import Alert from '../../../components/Alert/Alert';
 
 const Homework = ({ homework, index, lesson_id }) => {
   const [isOpen, setIsOpen] = useState(false);

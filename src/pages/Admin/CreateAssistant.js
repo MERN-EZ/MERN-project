@@ -11,7 +11,7 @@ import {
 } from '@mui/material';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
-import Button from '../../components/common/Button/Button';
+import Button from '../../components/Button/Button';
 import useGetRequest from '../../hooks/useGetRequest';
 import usePostRequest from '../../hooks/usePostRequest';
 import usePutRequest from '../../hooks/usePutRequest';

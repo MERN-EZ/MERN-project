@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useDB } from '../../../context/DatabaseContext';
-import Button from '../../../components/common/Button/Button';
+import Button from '../../../components/Button/Button';
 import { useUser } from '../../../context/UserContext';
 import support from '../../../images/support.png';
-import Alert from '../../../components/common/Alert/Alert';
+import Alert from '../../../components/Alert/Alert';
 import usePostRequest from '../../../hooks/usePostRequest';
 import './StudentSupportPage.scss';
 

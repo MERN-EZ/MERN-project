@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import Icon from '@mui/icons-material/PersonAddAlt';
-import Alert from '../../../components/common/Alert/Alert';
-import Button from '../../../components/common/Button/Button';
+import Alert from '../../../components/Alert/Alert';
+import Button from '../../../components/Button/Button';
 import './RegistrationPage.scss';
 
 const RegistrationPage = () => {

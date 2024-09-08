@@ -3,7 +3,7 @@ import { Route, Routes } from 'react-router-dom';
 import GuestHomePage from '../pages/Guest/Home/Home';
 import RegistrationPage from '../pages/Guest/RegistrationPage/RegistrationPage';
 import LoginPage from '../pages/Guest/Login/LoginPage';
-import NotFound from '../components/common/NotFound/NotFound';
+import NotFound from '../components/NotFound/NotFound.js';
 import StaffLoginPage from '../pages/Guest/staffLogin/StaffLoginPage.js';
 
 const GuestRoutes = () => (

@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import './Home.scss';
-import Button from '../../../components/common/Button/Button';
+import Button from '../../../components/Button/Button';
 import useGetRequest from '../../../hooks/useGetRequest';
 import Teacher from '../../../images/Teacher.jpg';
-import Alert from '../../../components/common/Alert/Alert';
+import Alert from '../../../components/Alert/Alert';
 
 const GuestHomePage = () => {
   const [courses, setCourses] = useState([]);

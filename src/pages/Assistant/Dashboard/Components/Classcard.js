@@ -1,4 +1,3 @@
-// src/components/ClassCard.js
 import React from 'react';
 import './Classcard.scss';
 

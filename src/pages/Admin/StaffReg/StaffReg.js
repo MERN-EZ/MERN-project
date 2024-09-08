@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import Icon from '@mui/icons-material/PersonAddAlt';
-import Button from '../../../components/common/Button/Button';
+import Button from '../../../components/Button/Button';
 import './StaffReg.scss';
 
 const RegistrationPage = () => {
