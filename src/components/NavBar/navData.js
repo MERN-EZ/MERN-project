@@ -38,7 +38,6 @@ const navLinks_admin = [
 
 const navLinks_assistant = [
   { path: '/', name: 'Home', exact: true, icon: <HomeIcon /> },
-  { path: '/assistant', name: 'Assistant', icon: <AssistantIcon /> },
   { path: '/logout', name: 'Logout', icon: <LogoutIcon /> },
 ];
 
@@ -46,7 +45,11 @@ const navLinks_guest = [
   { path: '/', name: 'Home', exact: true, icon: <HomeIcon /> },
   { path: '/register', name: 'Register', icon: <PersonAddAlt /> },
   { path: '/login', name: 'Login', exact: true, icon: <LoginIcon /> },
-  { path: '/staffLogin', name: 'staffLogin', icon: <AdminPanelSettingsIcon /> },
+  {
+    path: '/staffLogin',
+    name: 'Staff Login',
+    icon: <AdminPanelSettingsIcon />,
+  },
 ];
 
 export {

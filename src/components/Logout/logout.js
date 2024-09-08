@@ -25,7 +25,7 @@ const Logout = () => {
     localStorage.removeItem('Auth');
 
     // Redirect to the login page or home page
-    navigate('/login');
+    navigate('/');
   };
   const handleCancelLogout = () => {
     // Redirect to the previous page or home page
