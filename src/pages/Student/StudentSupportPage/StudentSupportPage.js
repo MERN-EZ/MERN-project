@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useDB } from '../../../context/DatabaseContext';
 import Button from '../../../components/Button/Button';
 import { useUser } from '../../../context/UserContext';
 import support from '../../../images/support.png';
@@ -10,7 +9,6 @@ import './StudentSupportPage.scss';
 
 const StudentSupportPage = () => {
   const { userDetails } = useUser();
-  const { DB } = useDB();
   const navigate = useNavigate();
   const [message, setMessage] = useState('');
   const [alertMessage, setAlertMessage] = useState(null);

@@ -79,11 +79,11 @@ const Attendance = () => {
   };
 
   const handleCreateClick = () => {
-    navigate('/attendance/create'); // Navigate to the create page
+    navigate('/attendance/create'); 
   };
 
   const handleEditClick = (id) => {
-    navigate(`/attendance/edit`); // Navigate to the edit page with the student ID
+    navigate(`/attendance/edit`); 
   };
 
   return (

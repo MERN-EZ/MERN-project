@@ -7,9 +7,6 @@ const GuestHomePage = () => {
   const { data, error, loading } = useGetRequest('teacher/class');
   const [courses, setCourses] = useState([]);
 
-  /*useEffect(() => {
-    setEndPoint('teacher/class');
-  }, []);*/
   useEffect(() => {
     if (data) setCourses(data[0]);
   }, [data]);
@@ -19,16 +16,12 @@ const GuestHomePage = () => {
 
   useEffect(() => {
     if (homeworkData) {
-      // Flatten the homework array from lessons
       const flattenedHomework = homeworkData.flatMap(
         (lesson) => lesson.homework
       );
       setHomework(flattenedHomework);
     }
   }, [homeworkData]);
-  // console.log('Loading:', loading);
-  // console.log('Error:', error);
-  // console.log('Courses Data:', courses);
 
   const [showAlert, setShowAlert] = useState(true);
   if (loading && showAlert)

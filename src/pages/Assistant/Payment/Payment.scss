@@ -1,0 +1,50 @@
+.payment-page.assistant {
+  display: flex;
+  height: 100vh;
+  margin: 0;
+  padding: 20px;
+  box-sizing: border-box;
+
+  .search-bar-container {
+    position: absolute;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 300px;
+  }
+
+  .search-bar {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 1em;
+  }
+
+  .name-box-container {
+    position: fixed;
+    top: 4.3rem;
+    left: 3rem;
+    width: 200px;
+    height: calc(100vh - 4.3rem);
+    overflow-y: auto;
+    background: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    padding: 10px;
+  }
+
+  .name-box {
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    padding: 10px;
+    margin-bottom: 10px;
+    font-size: 1em;
+    color: #333;
+  }
+
+  .name-box:last-child {
+    margin-bottom: 0;
+  }
+}

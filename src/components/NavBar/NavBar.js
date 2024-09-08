@@ -10,11 +10,11 @@ import {
   navLinks_guest,
 } from './navData';
 import { useUserRole } from './../../context/UserRoleContext';
-import UserRoleToggle from '../UserRoleToggle/UserRoleToggle';
-// import Switch from '@mui/material/Switch';
+//import UserRoleToggle from '../UserRoleToggle/UserRoleToggle';
+//import Switch from '@mui/material/Switch';
 
 const NavBar = () => {
-  const { theme } = useTheme();
+  const { theme /*, toggleTheme */ } = useTheme();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
   const { userRole } = useUserRole();
@@ -97,8 +97,8 @@ const NavBar = () => {
         >
           {theme === 'light' ? 'Light Theme' : 'Dark Theme'}
         </span>
-      </div> */}
-      <UserRoleToggle />
+      </div>
+      <UserRoleToggle /> */}
     </nav>
   );
 };

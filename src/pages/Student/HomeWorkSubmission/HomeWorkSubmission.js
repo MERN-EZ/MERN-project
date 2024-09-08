@@ -38,14 +38,12 @@ const HomeworkSubmissionComponent = () => {
     studentId: null,
   });
 
-  // get student details
   useEffect(() => {
     if (userDetails) {
       setStudent(userDetails);
     }
   }, [userDetails]);
 
-  //get the homeworks of the respective student
   const {
     data,
     error: getError,
@@ -114,7 +112,6 @@ const HomeworkSubmissionComponent = () => {
     }
   }, [data, studentId]);
 
-  //when a homework is submitted add the homework id to the already submitted homeworks list
   useEffect(() => {
     if (response) {
       if (postData && postData.homeworkId) {
@@ -131,7 +128,6 @@ const HomeworkSubmissionComponent = () => {
       homeworkId,
       studentId,
     });
-
 
     setDeleteEndpoint(
       `student/homeworks/homework-submissions/${homeworkId}/${studentId}`
@@ -158,7 +154,6 @@ const HomeworkSubmissionComponent = () => {
   useEffect(() => {
     if (deleteError) {
       console.error('Error deleting submission:', deleteError);
-    
     }
   }, [deleteError]);
 
@@ -173,9 +168,9 @@ const HomeworkSubmissionComponent = () => {
     const submissionTextValue = submissionText[homeworkId];
 
     if (submissionTextValue) {
-       // Get the currently expanded lesson
+      // Get the currently expanded lesson
       const selectedLesson = lessons[expandedLesson];
-      const lessonId = selectedLesson._id; 
+      const lessonId = selectedLesson._id;
 
       setPostEndpoint(
         `student/homeworks/homework-submissions/${lessonId}/${homeworkId}`
@@ -197,11 +192,10 @@ const HomeworkSubmissionComponent = () => {
 
   const updateHomework = (homeworkId) => {
     const submissionTextValue = submissionText[homeworkId];
-    
 
     if (submissionTextValue) {
-      const selectedLesson = lessons[expandedLesson]; 
-      const lessonId = selectedLesson._id; 
+      const selectedLesson = lessons[expandedLesson];
+      const lessonId = selectedLesson._id;
 
       setPutEndpoint(
         `student/homeworks/homework-submissions/${homeworkId}/${studentId}`
@@ -220,14 +214,12 @@ const HomeworkSubmissionComponent = () => {
   useEffect(() => {
     if (putResponse) {
       console.log('Homework updated successfully:', putResponse);
-      // Disable edit mode after successful update
-      setEditableHomeworkId(null); 
+      setEditableHomeworkId(null);
       setPutData(null);
       setPutEndpoint(null);
     }
   }, [putResponse]);
 
-  //Expand the selected homework when coming to the page
   useEffect(() => {
     if (homeworkId && lessons.length > 0) {
       for (let i = 0; i < lessons.length; i++) {
@@ -257,7 +249,7 @@ const HomeworkSubmissionComponent = () => {
     const selectedHomework = lessons[lessonIndex].homework[homeworkIndex];
     setExpandedHomework(homeworkIndex);
     setExpandedLesson(lessonIndex);
-    setEditableHomeworkId(null); 
+    setEditableHomeworkId(null);
     navigate(`/homework-submission/${selectedHomework._id}#homeworksmore`);
   };
 
@@ -282,7 +274,7 @@ const HomeworkSubmissionComponent = () => {
   const convertToSriLankanTime = (utcDate) => {
     const date = new Date(utcDate);
     const options = {
-      timeZone: 'Asia/Colombo', 
+      timeZone: 'Asia/Colombo',
       year: 'numeric',
       month: 'long',
       day: 'numeric',

@@ -35,7 +35,6 @@ const Calendar = () => {
     setCurrentDate(new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 1));
   };
 
-  // Get homework deadlines for the current month
   const deadlines = homework
     .map((hw) => ({
       date: new Date(hw.deadline),
@@ -46,7 +45,6 @@ const Calendar = () => {
   const handleDayClick = (day) => {
     const deadline = deadlines.find(({ date }) => date.getDate() === day);
     if (deadline) {
-      // Navigate to specific homework
       navigate(`/homework-submission/${deadline.id}`); 
     }
   };
