@@ -13,7 +13,7 @@ const RegistrationPage = () => {
   const [formValues, setFormValues] = useState({
     username: '',
     password: '',
-    confirmPassword: '',  // Make sure to initialize confirmPassword as well
+    confirmPassword: '', // Make sure to initialize confirmPassword as well
     role: '', // Add role initialization
   });
 
@@ -32,7 +32,7 @@ const RegistrationPage = () => {
 
     if (!formValues.username) newErrors.username = 'Username is required';
     if (!formValues.role) newErrors.role = 'Role is required';
-    
+
     if (!formValues.password) {
       newErrors.password = 'Password is required';
     } else if (formValues.password !== formValues.confirmPassword) {
@@ -44,34 +44,37 @@ const RegistrationPage = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-  
+
     if (!validateForm()) {
       console.log('Form has validation errors.');
       return;
     }
-  
+
     try {
-      const response = await fetch('http://localhost:5000/guest/auth/register/staff', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'db-name': formValues.yearOfALs || '', // Ensure db-name is not undefined
-        },
-        body: JSON.stringify({
-          username: formValues.username,
-          password: formValues.password,
-          role: formValues.role || 'teacher', // Default role if none selected
-        }),
-      });
-  
-      const contentType = response.headers.get("content-type");
-  
+      const response = await fetch(
+        'http://localhost:5000/guest/auth/register/staff',
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'db-name': formValues.yearOfALs || '', // Ensure db-name is not undefined
+          },
+          body: JSON.stringify({
+            username: formValues.username,
+            password: formValues.password,
+            role: formValues.role || 'teacher', // Default role if none selected
+          }),
+        }
+      );
+
+      const contentType = response.headers.get('content-type');
+
       if (response.ok) {
         alert('Registration successful.');
         navigate('/');
       } else {
         const errorMessage =
-          contentType && contentType.includes("application/json")
+          contentType && contentType.includes('application/json')
             ? (await response.json()).message
             : 'Registration failed. Please check your input and try again.';
         alert(errorMessage);
@@ -81,8 +84,6 @@ const RegistrationPage = () => {
       alert(`An error occurred: ${error.message}. Please try again later.`);
     }
   };
-  
-  
 
   return (
     <div className="guest-register-container">
@@ -116,11 +117,9 @@ const RegistrationPage = () => {
               <option value="">Select Role</option>
               <option value="teacher">Teacher</option>
               <option value="admin">Admin</option>
-              <option value="staff">Staff</option>
+              {/* <option value="staff">Staff</option> */}
             </select>
-            {errors.role && (
-              <div className="error-message">{errors.role}</div>
-            )}
+            {errors.role && <div className="error-message">{errors.role}</div>}
           </div>
 
           <div className="form-group-row">
