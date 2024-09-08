@@ -6,7 +6,7 @@ import axios from 'axios';
 import { useUserRole } from '../context/UserRoleContext';
 
 const useAssistantLogin = () => {
-  const { DB, setDB } = useDB();
+  const { setDB } = useDB();
   const { setAuth } = useAuth();
   const { setUserDetails } = useUser();
   const { setUserRole } = useUserRole();
@@ -21,7 +21,7 @@ const useAssistantLogin = () => {
       const response = await axios.post(
         `http://localhost:5000/guest/auth/login/assistant`,
         { username, password, year },
-        { headers: { 'db-name': DB } }
+        { headers: { 'db-name': year } }
       );
       const { userDetails, token } = response.data;
 
