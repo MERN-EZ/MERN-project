@@ -30,7 +30,7 @@ const Header = () => {
       case 'admin':
         return 'Admin Panel';
       default:
-        return 'Welcome';
+        return 'Assitant Dashboard';
     }
   };
   const rolesWithSubHeader = [
@@ -40,7 +40,7 @@ const Header = () => {
     'assistant',
     //'guest',
   ];
-  const rolesWithSubHeaderTabs = ['teacher', 'admin', 'assistant'];
+  const rolesWithSubHeaderTabs = ['teacher', 'admin'];
   const rolesWithSubHeaderText = ['student', 'teacher', 'admin', 'assistant'];
   const rolesWithBatchToggler = ['teacher', 'admin'];
 
@@ -64,7 +64,6 @@ const Header = () => {
               <option value="2026">2026</option>
             </select>
           </div>
-          
         )}
       </div>
       {rolesWithSubHeader.includes(userRole) && (

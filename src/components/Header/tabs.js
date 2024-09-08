@@ -2,9 +2,9 @@
 const teacher_tabs = [];
 const assistant_tabs = [
   { text: 'Overview', url: '/', isActive: true },
-  { text: 'Class Schedules', url: '/schedules', isActive: false },
+  // { text: 'Class Schedules', url: '/schedules', isActive: false },
   { text: 'Attendance', url: '/attendance', isActive: false },
-  { text: 'Payments', url: '/payments', isActive: false },
+  // { text: 'Payments', url: '/payments', isActive: false },
 ];
 const admin_tabs = [
   { text: 'Home', url: '/', isActive: true },

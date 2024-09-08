@@ -3,49 +3,52 @@ import './Attendance.scss';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { useDB } from '../../../context/DatabaseContext';
-import useDeleteRequest from '../../../hooks/useDeleteRequest'; // Adjust the import path as needed
-
+import useDeleteRequest from '../../../hooks/useDeleteRequest';
+import { useAuth } from '../../../context/AuthContext';
 
 const Attendance = () => {
   const [searchId, setSearchId] = useState('');
   const [sendId, setSendId] = useState(null);
   const [attendanceData, setAttendanceData] = useState([]);
   const { DB } = useDB();
+  const { Auth } = useAuth();
 
   const [deleteRecordData, setDeleteRecordData] = useState({
     studentId: null,
-    date: null
+    date: null,
   });
 
-  const { data: deleteResponse, error: deleteError, loading: deleteLoading } = useDeleteRequest(
-    console.log(deleteRecordData.studentId, deleteRecordData.date),
-    deleteRecordData.studentId && deleteRecordData.date 
-      ? `assistant/attendance/${deleteRecordData.studentId}/${deleteRecordData.date}` 
-      : null
-  );
+  const [endpoint, setEndpoint] = useState(null);
+  const { data: deleteResponse, error: deleteError } =
+    useDeleteRequest(endpoint);
 
   useEffect(() => {
     if (deleteResponse) {
       setAttendanceData((prevData) =>
-        prevData.filter(record =>
-          !(record.studentId === deleteRecordData.studentId && record.date === deleteRecordData.date)
+        prevData.filter(
+          (record) =>
+            !(
+              record.studentId === deleteRecordData.studentId &&
+              record.date === deleteRecordData.date
+            )
         )
       );
       setDeleteRecordData({ studentId: null, date: null });
+      setEndpoint(null);
     }
-  }, [deleteResponse, deleteRecordData.date, deleteRecordData.studentId]);
+  }, [deleteResponse, deleteRecordData]);
 
-   useEffect(() => {
+  useEffect(() => {
     if (deleteError) {
       console.error('Error deleting record:', deleteError);
     }
   }, [deleteError]);
 
   const handleDeleteClick = (studentId, date) => {
-    console.log(studentId, date)
+    console.log(studentId, date);
     setDeleteRecordData({ studentId, date });
+    setEndpoint(`assistant/attendance/${studentId}/${date}`);
   };
-
 
   const navigate = useNavigate();
 
@@ -56,7 +59,7 @@ const Attendance = () => {
         console.log('searchId ', searchId);
         const response = await axios.get(
           `http://localhost:5000/assistant/attendance/${searchId}`,
-          { headers: { 'db-name': DB } }
+          { headers: { 'db-name': DB, Authorization: `Bearer ${Auth}` } }
         );
         console.log('response', response);
         console.log('response', response.data[0]);
@@ -69,7 +72,7 @@ const Attendance = () => {
     };
 
     fetchAttendanceData(searchId, DB);
-  }, [sendId, DB, searchId]);
+  }, [sendId, DB, searchId, Auth]);
 
   const handleIdChange = (e) => {
     setSearchId(e.target.value);
@@ -119,9 +122,11 @@ const Attendance = () => {
                   </div>
                 </td>
                 <td>
-                  <button 
+                  <button
                     className="delete-button"
-                    onClick={() => handleDeleteClick(record.studentId, record.date)}
+                    onClick={() =>
+                      handleDeleteClick(record.studentId, record.date)
+                    }
                   >
                     Delete
                   </button>
@@ -131,7 +136,6 @@ const Attendance = () => {
           </tbody>
         </table>
 
-        {/* Buttons for Create, Edit, Delete Record */}
         <div className="record-buttons">
           <button className="record-button create" onClick={handleCreateClick}>
             Create Record
