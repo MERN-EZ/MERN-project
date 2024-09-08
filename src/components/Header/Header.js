@@ -25,8 +25,6 @@ const Header = () => {
 
   const getSubHeaderText = () => {
     switch (userRole) {
-      case 'student':
-        return '2026 > Saturday';
       case 'teacher':
         return 'Teacher Dashboard';
       case 'admin':

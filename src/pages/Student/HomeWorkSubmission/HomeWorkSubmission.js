@@ -3,7 +3,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import './homeWorkSubmission.scss';
 import useGetRequest from '../../../hooks/useGetRequest';
 import usePostRequest from '../../../hooks/usePostRequest';
-import usePutRequest from './../../../hooks/usePutRequest';
+import usePutRequest from '../../../hooks/usePutRequest';
 import useDeleteRequest from '../../../hooks/useDeleteRequest';
 import { useUser } from '../../../context/UserContext';
 
