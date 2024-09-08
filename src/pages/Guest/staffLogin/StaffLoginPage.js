@@ -12,6 +12,7 @@ import './StaffLoginPage.scss';
 import { useUserRole } from '../../../context/UserRoleContext';
 import useStaffLogin from '../../../hooks/useStaffLogin';
 import useAssistantLogin from '../../../hooks/useAssistantLogin';
+import { Select, MenuItem, FormControl, InputLabel } from '@mui/material';
 
 const LoginPage = () => {
   const [formValues, setFormValues] = useState({
@@ -59,9 +60,9 @@ const LoginPage = () => {
       const { username, password, role, year } = formValues;
       let loginSuccess = null;
       if (role === 'assistant') {
-        loginSuccess = await AssistantLogin(username, password, year); 
+        loginSuccess = await AssistantLogin(username, password, year);
       } else {
-        loginSuccess = await StaffLogin(username, password, role); 
+        loginSuccess = await StaffLogin(username, password, role);
       }
       if (loginSuccess) {
         if (role === 'admin') {
@@ -113,16 +114,22 @@ const LoginPage = () => {
         </div>
         <br></br>
         <div className="inputContainer">
-          <select
-            value={formValues.role}
-            onChange={handleChange}
-            name="role"
-            className="select"
-          >
-            <option value="teacher">Teacher</option>
-            <option value="admin">Admin</option>
-            <option value="assistant">Assistant</option>
-          </select>
+          <FormControl fullWidth>
+            <InputLabel id="role-select-label" sx={{ fontSize: '18px' }}>
+              Select Role
+            </InputLabel>
+            <Select
+              labelId="role-select-label"
+              value={formValues.role}
+              onChange={handleChange}
+              name="role"
+              sx={{ height: 50 }}
+            >
+              <MenuItem value="teacher">Teacher</MenuItem>
+              <MenuItem value="admin">Admin</MenuItem>
+              <MenuItem value="assistant">Assistant</MenuItem>
+            </Select>
+          </FormControl>
         </div>
         <div className="inputContainer">
           <TextField
