@@ -29,30 +29,6 @@ const CreateAssistant = () => {
   const { DB } = useDB();
   const { Auth } = useAuth();
 
-  // Fetch the list of assistants from the server
-  // const fetchAssistants = async () => {
-  //   setLoading(true);
-  //   try {
-  //     console.log('Fetching assistants...');
-  //     const response = await axios.get(`${baseUrl}/admin/assistants`, {
-  //       headers: {
-  //         'db-name': DB,
-  //         Authorization: `Bearer ${Auth}`,
-  //       },
-  //     });
-  //     console.log('Assistants fetched:', response.data);
-  //     setAssistants(response.data); // Update state with the fetched assistants
-  //     setError(null); // Clear any previous error
-  //   } catch (err) {
-  //     console.error('Error fetching assistants:', err);
-  //     setError('Failed to fetch assistants'); // Update state with the error
-  //     console.error(err);
-  //     alert('Failed to fetch assistants. Please try again.');
-  //   } finally {
-  //     setLoading(false); // Stop loading state
-  //   }
-  // };
-
   /**
    * useCallback to Memoize fetchAssistants
    * useCallback makes sure that fetchAssistants stays the same 
