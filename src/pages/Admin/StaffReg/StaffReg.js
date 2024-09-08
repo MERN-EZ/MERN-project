@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Icon from '@mui/icons-material/PersonAddAlt';
 import Button from '../../../components/Button/Button';
-import './StaffReg.scss';
+
 
 const RegistrationPage = () => {
   const navigate = useNavigate();

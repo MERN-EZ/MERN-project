@@ -10,12 +10,10 @@ const useLogin = () => {
   const { setAuth } = useAuth();
   const { setUserDetails } = useUser();
   const { setUserRole } = useUserRole();
-  const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
 
   const login = async (username, password, year) => {
     setLoading(true);
-    setError(null);
 
     try {
       setDB(year);
@@ -33,17 +31,20 @@ const useLogin = () => {
       localStorage.setItem('userDetails', JSON.stringify(userDetails));
       localStorage.setItem('Auth', token);
 
-      return true;
-    } catch (err) {
-      const errorMessage = err.response?.data?.message || 'Login failed';
-      setError(errorMessage);
-      return false;
-    } finally {
       setLoading(false);
+      return { success: true, error: null };
+    } catch (err) {
+      console.log('Error caught in login:', err);
+
+      const errorMessage = err.response?.data?.message || 'Login failed';
+      console.log('Error message:', errorMessage);
+
+      setLoading(false);
+      return { success: false, error: errorMessage };
     }
   };
 
-  return { login, loading, error };
+  return { login, loading };
 };
 
 export default useLogin;
