@@ -11,7 +11,7 @@ import Button from '@mui/material/Button';
 import Stack from '@mui/material/Stack';
 import './StudentRequests.scss';
 import useGetRequest from '../../../hooks/useGetRequest';
-import Alert from '../../../components/common/Alert/Alert';
+import Alert from './../../../components/Alert/Alert';
 import { useDB } from './../../../context/DatabaseContext'; // Importing DB context
 
 // Styled components for customizing the table's appearance

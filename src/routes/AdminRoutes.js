@@ -1,11 +1,7 @@
 import React from 'react';
 import { Route, Routes } from 'react-router-dom';
 import AdminHomePage from '../pages/Admin/Home/AdminMain';
-import StudentRequests from '../pages/Admin/StudentRequests';
-import CreateAssistant from '../pages/Admin/CreateAssistant';
-import StudentManagement from '../pages/Admin/StudentManagement';
-import Logout from '../components/Logout/logout';
-import NotFound from '../components/NotFound/NotFound';
+// import StudentManagement from '../pages/Admin/StudentManagement';
 import StudentRequests from '../pages/Admin/ManageStudentRequests/StudentRequests';
 import CreateAssistant from '../pages/Admin/ManageAssistant/CreateAssistantPage';
 import Logout from '../components/Logout/logout';
