@@ -79,7 +79,14 @@
   font-weight: 400;
 }
 
-/* .tab-buttons a.active {
-  color: #0000ff;
-  font-weight: light;
-} */
+.db-switch-button select {
+  height: 25px;
+  border: 1px solid #116287;
+  border-radius: 10px;
+  color: #212121;
+  padding: 4px;
+  font-size: 14px;
+  background-color: rgb(219, 242, 249);
+}
+
+

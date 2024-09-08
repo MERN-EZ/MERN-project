@@ -1,0 +1,125 @@
+.attendance-container {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+  background: rgba(52, 182, 200, 0.5);
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  margin-top: 200px;
+
+  h2 {
+    text-align: center;
+    margin-bottom: 20px;
+    color: #333;
+  }
+
+  .search-bar-container {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+    gap: 10px;
+
+    input {
+      flex: 1;
+      padding: 10px;
+      border: 1px solid #09407e;
+      border-radius: 4px;
+      font-size: 16px;
+    }
+  }
+
+  .table-buttons-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+
+    .attendance-table {
+      width: 70%;
+      border-collapse: collapse;
+      background-color: #fff;
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+
+      th,
+      td {
+        padding: 12px 15px;
+        text-align: left;
+        border-bottom: 1px solid #ddd;
+      }
+
+      th {
+        background-color: #09407e;
+        color: white;
+      }
+
+      tbody tr:last-child td {
+        border-bottom: none;
+      }
+
+      .attendance-options {
+        display: flex;
+        gap: 10px;
+
+        span {
+          padding: 5px 10px;
+          border: none;
+          border-radius: 4px;
+          font-size: 14px;
+          color: white;
+          -webkit-user-select: none;
+          user-select: none;
+          transition:
+            background-color 0.3s,
+            opacity 0.3s;
+
+          &.present {
+            background-color: green;
+          }
+
+          &.absent {
+            background-color: red;
+          }
+        }
+      }
+    }
+
+    .record-buttons {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+
+      .record-button {
+        padding: 10px 15px;
+        font-size: 16px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        background-color: #09407e;
+        color: white;
+        transition: background-color 0.3s ease;
+
+        &.create {
+          background-color: #28a745;
+        }
+
+        &.edit {
+          background-color: #ffc107;
+        }
+
+        &.delete {
+          background-color: #dc3545;
+        }
+
+        &.search {
+          background-color: #1296d3;
+        }
+
+        &:hover {
+          opacity: 0.9;
+        }
+      }
+    }
+  }
+}

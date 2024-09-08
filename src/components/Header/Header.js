@@ -25,8 +25,6 @@ const Header = () => {
 
   const getSubHeaderText = () => {
     switch (userRole) {
-      case 'student':
-        return '2026 > Saturday';
       case 'teacher':
         return 'Teacher Dashboard';
       case 'admin':
@@ -66,6 +64,7 @@ const Header = () => {
               <option value="2026">2026</option>
             </select>
           </div>
+          
         )}
       </div>
       {rolesWithSubHeader.includes(userRole) && (
