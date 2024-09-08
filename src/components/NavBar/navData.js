@@ -38,7 +38,7 @@ const navLinks_admin = [
 
 const navLinks_assistant = [
   { path: '/', name: 'Home', exact: true, icon: <HomeIcon /> },
-  { path: '/assistant', name: 'Assistant', icon: <AssistantIcon /> },
+  // { path: '/assistant', name: 'Assistant', icon: <AssistantIcon /> },
   { path: '/logout', name: 'Logout', icon: <LogoutIcon /> },
 ];
 
