@@ -32,7 +32,7 @@ const navLinks_student = [
 
 const navLinks_admin = [
   { path: '/', name: 'Home', exact: true, icon: <HomeIcon /> },
-  { path: '/admin', name: 'Admin Panel', icon: <AdminPanelSettingsIcon /> },
+  // { path: '/admin', name: 'Admin Panel', icon: <AdminPanelSettingsIcon /> },
   { path: '/logout', name: 'Logout', icon: <LogoutIcon /> },
 ];
 
