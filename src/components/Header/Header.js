@@ -1,6 +1,6 @@
 import React from 'react';
 import './Header.css';
-import { useUserRole } from '../../../context/UserRoleContext';
+import { useUserRole } from '../../context/UserRoleContext';
 import {
   // student_tabs,
   teacher_tabs,
@@ -8,7 +8,7 @@ import {
   admin_tabs,
   //guest_tabs,
 } from './tabs';
-import { useDB } from '../../../context/DatabaseContext';
+import { useDB } from '../../context/DatabaseContext';
 
 const Header = () => {
   const { userRole } = useUserRole();
