@@ -8,7 +8,7 @@ import {
   admin_tabs,
   //guest_tabs,
 } from './tabs';
-import { useDB } from '../../../context/DatabaseContext';
+import { useDB } from './../../context/DatabaseContext';
 
 const Header = () => {
   const { userRole } = useUserRole();
