@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Button from '../../../components/Button/Button';
-import usePutRequest from '../../../hooks/usePutRequest'; // This is your custom hook for PUT requests
+import usePutRequest from '../../../hooks/usePutRequest';
 import Alert from '../../../components/Alert/Alert';
 import './EditAttendance.scss';
 
@@ -10,49 +10,31 @@ const EditAttendance = () => {
   const [status, setStatus] = useState('Present');
   const [putEndpoint, setPutEndpoint] = useState(null);
   const [putData, setPutData] = useState(null);
-
+  const [alertMessage, setAlertMessage] = useState('');
   const [showAlert, setShowAlert] = useState(false);
-  const [showAlert2, setShowAlert2] = useState(false);
-
-  const handleAlertClick = () => {
-    setShowAlert(true);
-  };
-
-  const handleCancelAlert = () => {
-    setShowAlert(false);
-    window.location.href = '/attendance';
-  };
-
-  const handleErrorAlert = () => {
-    setShowAlert2(false);
-  };
-
-  const { response } = usePutRequest(putEndpoint, putData);
+  const { response, error } = usePutRequest(putEndpoint, putData);
 
   useEffect(() => {
     if (response) {
       setPutEndpoint(null);
       setPutData(null);
       console.log('Response received:', response);
+      setShowAlert(true);
     }
   }, [response]);
 
-  const handleIDChange = (e) => setStudentID(e.target.value);
-  const handleDateChange = (e) => setDate(e.target.value);
-  const handleStatusChange = (e) => setStatus(e.target.value);
-
-  const handleEdit = () => {
-    if (studentID && date) {
-      setPutData({
-        studentID,
-        date,
-        attendance: status,
-      });
-      setPutEndpoint(`assistant/attendance/edit`);
-      handleAlertClick();
-    } else {
-      setShowAlert2(true);
+  useEffect(() => {
+    if (error) {
+      setAlertMessage(error);
+      setShowAlert(true);
     }
+  }, [error]);
+  const handleEdit = () => {
+    if (!studentID || !date)
+      return setAlertMessage('Enter Student ID and Date');
+
+    setPutData({ studentID, date, attendance: status });
+    setPutEndpoint('assistant/attendance/edit');
   };
 
   return (
@@ -65,7 +47,7 @@ const EditAttendance = () => {
           <input
             type="text"
             value={studentID}
-            onChange={handleIDChange}
+            onChange={(e) => setStudentID(e.target.value)}
             className="inputField"
           />
         </label>
@@ -77,7 +59,7 @@ const EditAttendance = () => {
           <input
             type="date"
             value={date}
-            onChange={handleDateChange}
+            onChange={(e) => setDate(e.target.value)}
             className="inputField"
           />
         </label>
@@ -88,7 +70,7 @@ const EditAttendance = () => {
           <p>Select Attendance Status</p>
           <select
             value={status}
-            onChange={handleStatusChange}
+            onChange={(e) => setStatus(e.target.value)}
             className="inputField"
           >
             <option value="Present">Present</option>
@@ -98,32 +80,22 @@ const EditAttendance = () => {
       </div>
 
       <div className="button-row">
-        <div className="editButtonContainer">
-          <Button variant={'primary'} text="Update" onClick={handleEdit} />
-        </div>
-
-        <div className="closeButtonContainer">
-          <Button
-            variant={'primary'}
-            text="Close"
-            onClick={() => (window.location.href = '/attendance')}
-          />
-        </div>
+        <Button variant="primary" text="Update" onClick={handleEdit} />
+        <Button
+          variant="primary"
+          text="Close"
+          onClick={() => (window.location.href = '/attendance')}
+        />
       </div>
 
       {showAlert && (
         <Alert
-          message="Attendance Updated Successfully"
+          message={alertMessage}
           variant="message"
-          onCancel={handleCancelAlert}
-        />
-      )}
-
-      {showAlert2 && (
-        <Alert
-          message="Enter Student ID and Date"
-          variant="message"
-          onCancel={handleErrorAlert}
+          onCancel={() => {
+            setAlertMessage('');
+            setShowAlert(false);
+          }}
         />
       )}
     </div>
