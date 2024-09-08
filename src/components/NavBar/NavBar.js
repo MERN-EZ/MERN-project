@@ -10,11 +10,9 @@ import {
   navLinks_guest,
 } from './navData';
 import { useUserRole } from './../../context/UserRoleContext';
-import UserRoleToggle from '../UserRoleToggle/UserRoleToggle';
-import Switch from '@mui/material/Switch';
 
 const NavBar = () => {
-  const { theme, toggleTheme } = useTheme();
+  const { theme } = useTheme();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
   const { userRole } = useUserRole();
@@ -80,25 +78,6 @@ const NavBar = () => {
           </div>
         ))}
       </div>
-      <div className="theme-toggle-wrapper nav-item-content">
-        <div className="nav-item">
-          <Switch
-            className="theme-toggle"
-            checked={theme === 'dark'}
-            onChange={toggleTheme}
-            name="themeToggle"
-            color="default"
-          />
-        </div>
-        <span
-          className={
-            isMenuOpen && !isMobile ? 'link-name visible' : 'link-name'
-          }
-        >
-          {theme === 'light' ? 'Light Theme' : 'Dark Theme'}
-        </span>
-      </div>
-      <UserRoleToggle />
     </nav>
   );
 };
