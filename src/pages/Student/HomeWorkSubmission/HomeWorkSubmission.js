@@ -132,7 +132,7 @@ const HomeworkSubmissionComponent = () => {
       studentId,
     });
 
-    // Use homeworkId and studentId directly here
+
     setDeleteEndpoint(
       `student/homeworks/homework-submissions/${homeworkId}/${studentId}`
     );
@@ -158,7 +158,7 @@ const HomeworkSubmissionComponent = () => {
   useEffect(() => {
     if (deleteError) {
       console.error('Error deleting submission:', deleteError);
-      // Handle the error, e.g., display an error message
+    
     }
   }, [deleteError]);
 
@@ -173,8 +173,9 @@ const HomeworkSubmissionComponent = () => {
     const submissionTextValue = submissionText[homeworkId];
 
     if (submissionTextValue) {
-      const selectedLesson = lessons[expandedLesson]; // Get the currently expanded lesson
-      const lessonId = selectedLesson._id; // Using _id for the lesson
+       // Get the currently expanded lesson
+      const selectedLesson = lessons[expandedLesson];
+      const lessonId = selectedLesson._id; 
 
       setPostEndpoint(
         `student/homeworks/homework-submissions/${lessonId}/${homeworkId}`
@@ -196,11 +197,11 @@ const HomeworkSubmissionComponent = () => {
 
   const updateHomework = (homeworkId) => {
     const submissionTextValue = submissionText[homeworkId];
-    // Replace with actual student ID
+    
 
     if (submissionTextValue) {
-      const selectedLesson = lessons[expandedLesson]; // Get the currently expanded lesson
-      const lessonId = selectedLesson._id; // Using _id for the lesson
+      const selectedLesson = lessons[expandedLesson]; 
+      const lessonId = selectedLesson._id; 
 
       setPutEndpoint(
         `student/homeworks/homework-submissions/${homeworkId}/${studentId}`
@@ -219,7 +220,8 @@ const HomeworkSubmissionComponent = () => {
   useEffect(() => {
     if (putResponse) {
       console.log('Homework updated successfully:', putResponse);
-      setEditableHomeworkId(null); // Disable edit mode after successful update
+      // Disable edit mode after successful update
+      setEditableHomeworkId(null); 
       setPutData(null);
       setPutEndpoint(null);
     }
@@ -255,7 +257,7 @@ const HomeworkSubmissionComponent = () => {
     const selectedHomework = lessons[lessonIndex].homework[homeworkIndex];
     setExpandedHomework(homeworkIndex);
     setExpandedLesson(lessonIndex);
-    setEditableHomeworkId(null); // Exit edit mode when toggling homework
+    setEditableHomeworkId(null); 
     navigate(`/homework-submission/${selectedHomework._id}#homeworksmore`);
   };
 
@@ -280,7 +282,7 @@ const HomeworkSubmissionComponent = () => {
   const convertToSriLankanTime = (utcDate) => {
     const date = new Date(utcDate);
     const options = {
-      timeZone: 'Asia/Colombo', // Timezone for Sri Lanka
+      timeZone: 'Asia/Colombo', 
       year: 'numeric',
       month: 'long',
       day: 'numeric',
@@ -310,7 +312,6 @@ const HomeworkSubmissionComponent = () => {
         <div className="lesson-section">
           <div class="nohw">No homeworks available.</div>
         </div>
-        {/* <img src="./../../../pages/Student/Images/File searching-rafiki.png" alt="homework" class="img" /> */}
       </div>
     );
   }
