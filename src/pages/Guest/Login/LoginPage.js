@@ -18,7 +18,7 @@ const LoginPage = () => {
     password: '',
     year: '',
   });
-  const { login, loading, error } = useLogin();
+  const { login, loading } = useLogin();
   const { setUserRole } = useUserRole();
   const [alert, setAlert] = useState({
     show: false,
@@ -68,12 +68,15 @@ const LoginPage = () => {
 
     if (!validateForm()) return;
 
+    console.log('Form values before login:', formValues);
+
     try {
       const { username, password, year } = formValues;
+      const { success, error } = await login(username, password, year);
 
-      const loginSuccess = await login(username, password, year);
+      console.log('Success:', success);
 
-      if (loginSuccess) {
+      if (success) {
         setUserRole('student');
         navigate('/');
       } else {
@@ -83,13 +86,15 @@ const LoginPage = () => {
           variant: 'error',
         });
       }
-    } catch (error) {
+    } catch (err) {
+      console.log('Error caught in handleLogin:', err);
+
       setAlert({
         show: true,
         message: 'An error occurred during login. Please try again later.',
         variant: 'error',
       });
-      console.error('An error occurred during login:', error);
+      console.error('An error occurred during login:', err);
     }
   };
 
