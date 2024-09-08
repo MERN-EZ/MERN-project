@@ -30,35 +30,6 @@ const CreateAssistant = () => {
   const { Auth } = useAuth();
 
   // Fetch the list of assistants from the server
-  // const fetchAssistants = async () => {
-  //   setLoading(true);
-  //   try {
-  //     console.log('Fetching assistants...');
-  //     const response = await axios.get(`${baseUrl}/admin/assistants`, {
-  //       headers: {
-  //         'db-name': DB,
-  //         Authorization: `Bearer ${Auth}`,
-  //       },
-  //     });
-  //     console.log('Assistants fetched:', response.data);
-  //     setAssistants(response.data); // Update state with the fetched assistants
-  //     setError(null); // Clear any previous error
-  //   } catch (err) {
-  //     console.error('Error fetching assistants:', err);
-  //     setError('Failed to fetch assistants'); // Update state with the error
-  //     console.error(err);
-  //     alert('Failed to fetch assistants. Please try again.');
-  //   } finally {
-  //     setLoading(false); // Stop loading state
-  //   }
-  // };
-
-  /**
-   * useCallback to Memoize fetchAssistants
-   * useCallback makes sure that fetchAssistants stays the same 
-   * unless the values it depends on (DB and Auth) change, which helps keep the app more efficient.
-   */
-  // Fetch the list of assistants from the server
   const fetchAssistants = useCallback(async () => {
     setLoading(true);
     try {
@@ -81,12 +52,6 @@ const CreateAssistant = () => {
       setLoading(false);
     }
   }, [DB, Auth]); // Re-fetch assistants when DB or Auth changes
-
-  /**
-   * useEffect hook will re-run the fetchAssistants function whenever the DB or Auth values change.
-   * This ensures that the assistants list is updated to reflect any changes in the selected database
-   * or authentication token.
-   */
 
   // Fetch assistants when DB or fetchAssistants function changes
   useEffect(() => {
