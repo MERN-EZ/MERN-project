@@ -34,7 +34,7 @@ const CreateLesson = ({ setLessons }) => {
 
   const handleNameChange = (e) => {
     const value = e.target.value;
-    if (value.length <= 30) {
+    if (value.length <= 50) {
       setLessonName(value);
       setNameCharCount(value.length);
     }
@@ -89,7 +89,7 @@ const CreateLesson = ({ setLessons }) => {
             onChange={handleNameChange}
             className="inputField"
           />
-          <span className="charCount">{nameCharCount}/30</span>
+          <span className="charCount">{nameCharCount}/50</span>
         </label>
       </div>
       <div className="createButtonContainer">
