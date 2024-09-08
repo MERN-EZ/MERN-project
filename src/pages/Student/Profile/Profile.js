@@ -40,7 +40,7 @@ const ProfilePage = () => {
       setShowSuccessAlert(true);
       console.log('Success Alert Triggered');
     }
-  }, [deleteResponse, setUserDetails, setUserRole]);
+  }, [deleteResponse, setUserDetails, setUserRole , userDetails]);
 
   const handleEditProfileClick = () => {
     navigate('/edit-profile', { state: { name: student.username } });

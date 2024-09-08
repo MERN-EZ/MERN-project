@@ -45,7 +45,7 @@ const Calendar = () => {
   const handleDayClick = (day) => {
     const deadline = deadlines.find(({ date }) => date.getDate() === day);
     if (deadline) {
-      navigate(`/homework-submission/${deadline.id}`);
+      navigate(`/homework-submission/${deadline.id}`); 
     }
   };
 

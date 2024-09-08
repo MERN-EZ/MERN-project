@@ -168,8 +168,9 @@ const HomeworkSubmissionComponent = () => {
     const submissionTextValue = submissionText[homeworkId];
 
     if (submissionTextValue) {
-      const selectedLesson = lessons[expandedLesson]; 
-      const lessonId = selectedLesson._id; 
+      // Get the currently expanded lesson
+      const selectedLesson = lessons[expandedLesson];
+      const lessonId = selectedLesson._id;
 
       setPostEndpoint(
         `student/homeworks/homework-submissions/${lessonId}/${homeworkId}`
@@ -191,10 +192,10 @@ const HomeworkSubmissionComponent = () => {
 
   const updateHomework = (homeworkId) => {
     const submissionTextValue = submissionText[homeworkId];
-    
+
     if (submissionTextValue) {
-      const selectedLesson = lessons[expandedLesson]; 
-      const lessonId = selectedLesson._id; 
+      const selectedLesson = lessons[expandedLesson];
+      const lessonId = selectedLesson._id;
 
       setPutEndpoint(
         `student/homeworks/homework-submissions/${homeworkId}/${studentId}`
@@ -213,7 +214,7 @@ const HomeworkSubmissionComponent = () => {
   useEffect(() => {
     if (putResponse) {
       console.log('Homework updated successfully:', putResponse);
-      setEditableHomeworkId(null); 
+      setEditableHomeworkId(null);
       setPutData(null);
       setPutEndpoint(null);
     }
@@ -248,7 +249,7 @@ const HomeworkSubmissionComponent = () => {
     const selectedHomework = lessons[lessonIndex].homework[homeworkIndex];
     setExpandedHomework(homeworkIndex);
     setExpandedLesson(lessonIndex);
-    setEditableHomeworkId(null); 
+    setEditableHomeworkId(null);
     navigate(`/homework-submission/${selectedHomework._id}#homeworksmore`);
   };
 

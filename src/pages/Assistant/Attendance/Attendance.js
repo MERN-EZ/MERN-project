@@ -3,12 +3,49 @@ import './Attendance.scss';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { useDB } from '../../../context/DatabaseContext';
+import useDeleteRequest from '../../../hooks/useDeleteRequest'; // Adjust the import path as needed
+
 
 const Attendance = () => {
   const [searchId, setSearchId] = useState('');
   const [sendId, setSendId] = useState(null);
   const [attendanceData, setAttendanceData] = useState([]);
   const { DB } = useDB();
+
+  const [deleteRecordData, setDeleteRecordData] = useState({
+    studentId: null,
+    date: null
+  });
+
+  const { data: deleteResponse, error: deleteError, loading: deleteLoading } = useDeleteRequest(
+    console.log(deleteRecordData.studentId, deleteRecordData.date),
+    deleteRecordData.studentId && deleteRecordData.date 
+      ? `assistant/attendance/${deleteRecordData.studentId}/${deleteRecordData.date}` 
+      : null
+  );
+
+  useEffect(() => {
+    if (deleteResponse) {
+      setAttendanceData((prevData) =>
+        prevData.filter(record =>
+          !(record.studentId === deleteRecordData.studentId && record.date === deleteRecordData.date)
+        )
+      );
+      setDeleteRecordData({ studentId: null, date: null });
+    }
+  }, [deleteResponse, deleteRecordData.date, deleteRecordData.studentId]);
+
+   useEffect(() => {
+    if (deleteError) {
+      console.error('Error deleting record:', deleteError);
+    }
+  }, [deleteError]);
+
+  const handleDeleteClick = (studentId, date) => {
+    console.log(studentId, date)
+    setDeleteRecordData({ studentId, date });
+  };
+
 
   const navigate = useNavigate();
 
@@ -41,6 +78,7 @@ const Attendance = () => {
   const handleCreateClick = () => {
     navigate('/attendance/create'); 
   };
+
   const handleEditClick = (id) => {
     navigate(`/attendance/edit`); 
   };
@@ -62,11 +100,12 @@ const Attendance = () => {
             <tr>
               <th>Date</th>
               <th>Attendance</th>
+              <th>Actions</th>
             </tr>
           </thead>
           <tbody>
             {attendanceData.map((record) => (
-              <tr key={record.studentId}>
+              <tr key={record._id}>
                 <td>{record.date}</td>
                 <td>
                   <div className="attendance-options">
@@ -78,6 +117,14 @@ const Attendance = () => {
                       {record.status}
                     </span>
                   </div>
+                </td>
+                <td>
+                  <button 
+                    className="delete-button"
+                    onClick={() => handleDeleteClick(record.studentId, record.date)}
+                  >
+                    Delete
+                  </button>
                 </td>
               </tr>
             ))}
@@ -91,7 +138,6 @@ const Attendance = () => {
           <button className="record-button edit" onClick={handleEditClick}>
             Edit Record
           </button>
-          <button className="record-button delete">Delete Record</button>
           <button
             className="record-button search"
             onClick={() => setSendId(searchId)}
