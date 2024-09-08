@@ -29,11 +29,6 @@ const CreateAssistant = () => {
   const { DB } = useDB();
   const { Auth } = useAuth();
 
-  /**
-   * useCallback to Memoize fetchAssistants
-   * useCallback makes sure that fetchAssistants stays the same 
-   * unless the values it depends on (DB and Auth) change, which helps keep the app more efficient.
-   */
   // Fetch the list of assistants from the server
   const fetchAssistants = useCallback(async () => {
     setLoading(true);
@@ -57,12 +52,6 @@ const CreateAssistant = () => {
       setLoading(false);
     }
   }, [DB, Auth]); // Re-fetch assistants when DB or Auth changes
-
-  /**
-   * useEffect hook will re-run the fetchAssistants function whenever the DB or Auth values change.
-   * This ensures that the assistants list is updated to reflect any changes in the selected database
-   * or authentication token.
-   */
 
   // Fetch assistants when DB or fetchAssistants function changes
   useEffect(() => {
