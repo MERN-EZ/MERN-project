@@ -75,14 +75,6 @@ const Attendance = () => {
     setSearchId(e.target.value);
   };
 
-  const handleToggleAttendance = (id, status) => {
-    setAttendanceData((prevData) =>
-      prevData.map((student) =>
-        student.studentId === id ? { ...student, attendance: status } : student
-      )
-    );
-  };
-
   const handleCreateClick = () => {
     navigate('/attendance/create'); // Navigate to the create page
   };
