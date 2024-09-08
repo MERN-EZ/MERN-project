@@ -1,0 +1,38 @@
+.createAttendanceContainer.teacher {
+  padding: 20px;
+  max-width: 600px;
+  margin: 0 auto;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  background-color: var(--rectangle-box-background-color);
+
+  .closeButtonContainer {
+    display: flex;
+    justify-content: flex-end;
+  }
+
+  .title {
+    text-align: center;
+  }
+
+  .inputContainer {
+    margin-bottom: 20px;
+
+    .inputField {
+      width: 100%;
+      padding: 10px;
+      box-sizing: border-box;
+    }
+
+    .charCount {
+      float: right;
+    }
+  }
+
+  .createButtonContainer {
+    text-align: center;
+  }
+  button {
+    padding: 0.5rem 1rem;
+  }
+}
