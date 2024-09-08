@@ -189,7 +189,7 @@ const CreateAssistant = () => {
   return (
     <Container sx={{ position: 'relative', paddingTop: '20px' }}>
       {/* Create Assistant Button */}
-      <Box sx={{ position: 'absolute', top: 20, left: -120 }}>
+      <Box sx={{ position: 'absolute', top: 20, left: -120 , marginLeft:'60px' }}>
         <Button
           text="Create Assistant Account &nbsp;&nbsp;+"
           variant="primary"
@@ -213,7 +213,7 @@ const CreateAssistant = () => {
       )}
 
       <Box sx={{ marginTop: '80px', marginLeft: '-120px' }}>
-        <Typography variant="h6" gutterBottom>
+        <Typography variant="h6" gutterBottom sx={{marginLeft:'52px'}}>
           Created Assistants
         </Typography>
         <AssistantList

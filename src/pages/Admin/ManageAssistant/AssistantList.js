@@ -15,7 +15,7 @@ const AssistantList = ({ assistants, loading, error, onEdit, onDelete }) => {
     {/* Check if assistants exist and map over the list to display each assistant */}
       {assistants &&
         assistants.map((assistant) => (
-          <Card key={assistant._id} sx={{ marginBottom: '10px', boxShadow: 1 }}>
+          <Card key={assistant._id} sx={{ marginBottom: '10px', boxShadow: 1 , marginLeft: '52px' }}>
             <CardContent
               sx={{
                 display: 'flex',
