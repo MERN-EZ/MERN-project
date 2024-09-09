@@ -27,7 +27,7 @@ const Feedback = () => {
 
   useEffect(() => {
     if (deleteResponse) {
-      window.location.reload(); // Refresh the page after a successful delete
+      window.location.reload(); 
     }
   }, [deleteResponse]);
 

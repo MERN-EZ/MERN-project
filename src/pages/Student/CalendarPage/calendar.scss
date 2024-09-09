@@ -1,5 +1,3 @@
-/* Calendar.scss */
-
 .calendar-container {
   width: 100%;
   max-width: 800px;
@@ -44,7 +42,7 @@
     }
 
     &.deadline {
-      background-color: #db4409; /* Highlight the deadline day */
+      background-color: #db4409; 
     }
   }
 

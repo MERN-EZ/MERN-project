@@ -2,8 +2,6 @@ const os = require('os');
 const fs = require('fs');
 const path = require('path');
 
-// getLocalIP.js
-
 const getLocalIP = () => {
   const interfaces = os.networkInterfaces();
   for (let iface in interfaces) {

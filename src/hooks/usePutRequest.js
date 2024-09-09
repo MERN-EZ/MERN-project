@@ -3,7 +3,6 @@ import { useDB } from '../context/DatabaseContext';
 import { useAuth } from '../context/AuthContext';
 
 const usePutRequest = (endpoint, requestData) => {
-  //const localIP = 'localhost';
   const localIP = process.env.REACT_APP_LOCAL_IP || 'localhost';
   const prefix = `http://${localIP}:5000/`;
 
@@ -29,9 +28,10 @@ const usePutRequest = (endpoint, requestData) => {
           },
           body: urlEncodedData,
         });
-        setResponse(await response.json());
-
-        if (!response.ok) {
+        if (response.ok) {
+          setResponse(await response.json());
+        } else {
+          console.log('Error in response');
           const data = await response.json();
           setError(data.error || 'Failed to put');
         }

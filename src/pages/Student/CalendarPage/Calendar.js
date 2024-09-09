@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom'; // Import useNavigate
+import { useNavigate } from 'react-router-dom'; 
 import './../CalendarPage/calendar.scss'
 import useGetRequest from '../../../hooks/useGetRequest';
 
@@ -9,7 +9,7 @@ const Calendar = () => {
   const [currentDate, setCurrentDate] = useState(new Date());
   const [homework, setHomework] = useState([]);
   const { data } = useGetRequest('student/homeworks');
-  const navigate = useNavigate(); // Initialize navigate
+  const navigate = useNavigate(); 
 
   useEffect(() => {
     if (data) {
@@ -35,18 +35,17 @@ const Calendar = () => {
     setCurrentDate(new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 1));
   };
 
-  // Get homework deadlines for the current month
   const deadlines = homework
     .map((hw) => ({
       date: new Date(hw.deadline),
-      id: hw._id, // Include homework ID
+      id: hw._id, 
     }))
     .filter(({ date }) => date.getMonth() === currentDate.getMonth());
 
   const handleDayClick = (day) => {
     const deadline = deadlines.find(({ date }) => date.getDate() === day);
     if (deadline) {
-      navigate(`/homework-submission/${deadline.id}`); // Navigate to specific homework
+      navigate(`/homework-submission/${deadline.id}`); 
     }
   };
 
@@ -74,7 +73,7 @@ const Calendar = () => {
             <div
               key={day}
               className={`calendar-day ${isDeadline ? 'deadline' : ''}`}
-              onClick={() => handleDayClick(day)} // Add click handler
+              onClick={() => handleDayClick(day)} 
             >
               {day}
             </div>

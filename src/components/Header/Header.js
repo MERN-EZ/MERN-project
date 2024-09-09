@@ -2,10 +2,10 @@ import React from 'react';
 import './Header.css';
 import { useUserRole } from './../../context/UserRoleContext';
 import {
-  // student_tabs,
   teacher_tabs,
   assistant_tabs,
   admin_tabs,
+  // student_tabs,
   //guest_tabs,
 } from './tabs';
 import { useDB } from './../../context/DatabaseContext';
@@ -16,9 +16,9 @@ const Header = () => {
 
   const tabButtonsMap = {
     teacher: teacher_tabs,
-    // student: student_tabs,
     admin: admin_tabs,
     assistant: assistant_tabs,
+    // student: student_tabs,
     //guest: guest_tabs,
   };
   const tab_buttons = tabButtonsMap[userRole] || [];
@@ -30,18 +30,18 @@ const Header = () => {
       case 'admin':
         return 'Admin Panel';
       default:
-        return 'Welcome';
+        return 'Assitant Dashboard';
     }
   };
   const rolesWithSubHeader = [
-    'student',
     'teacher',
     'admin',
     'assistant',
     //'guest',
+    //'student',
   ];
-  const rolesWithSubHeaderTabs = ['teacher', 'admin', 'assistant'];
-  const rolesWithSubHeaderText = ['student', 'teacher', 'admin', 'assistant'];
+  const rolesWithSubHeaderTabs = ['teacher', 'admin'];
+  const rolesWithSubHeaderText = ['teacher', 'admin', 'assistant'];
   const rolesWithBatchToggler = ['teacher', 'admin'];
 
   const handleDBChange = (event) => {
@@ -64,7 +64,6 @@ const Header = () => {
               <option value="2026">2026</option>
             </select>
           </div>
-          
         )}
       </div>
       {rolesWithSubHeader.includes(userRole) && (

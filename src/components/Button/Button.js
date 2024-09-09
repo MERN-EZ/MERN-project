@@ -9,7 +9,7 @@ const Button = ({
   padding,
   margin,
   textColor,
-  className, // Add className prop
+  className, 
 }) => {
   const getButtonClass = () => {
     switch (variant) {
@@ -33,7 +33,7 @@ const Button = ({
 
   return (
     <button
-      className={`custom-button ${getButtonClass()} ${className}`} // Add className to the class attribute
+      className={`custom-button ${getButtonClass()} ${className}`} 
       onClick={onClick}
       style={buttonStyle}
     >

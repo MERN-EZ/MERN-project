@@ -23,7 +23,6 @@ const PaymentsComponent = () => {
     };
 
     const handleSubmit = (index) => {
-        // Logic to handle submission of reference numbers
         console.log('Reference number submitted:', duePayments[index].referenceNumber);
     };
 

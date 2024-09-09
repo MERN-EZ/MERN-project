@@ -1,10 +1,9 @@
-//
 const teacher_tabs = [];
 const assistant_tabs = [
   { text: 'Overview', url: '/', isActive: true },
-  { text: 'Class Schedules', url: '/schedules', isActive: false },
+  // { text: 'Class Schedules', url: '/schedules', isActive: false },
   { text: 'Attendance', url: '/attendance', isActive: false },
-  { text: 'Payments', url: '/payments', isActive: false },
+  // { text: 'Payments', url: '/payments', isActive: false },
 ];
 const admin_tabs = [
   { text: 'Home', url: '/', isActive: true },
@@ -13,10 +12,6 @@ const admin_tabs = [
   { text: 'Staff Registration', url: '/reg-staff', isActive: false },
 ];
 
-/* const guest_tabs = [
-  { text: 'Register', url: '/register', isActive: true },
-  { text: 'Login', url: '/login', isActive: false },
-]; */
 
 export {
   // student_tabs,

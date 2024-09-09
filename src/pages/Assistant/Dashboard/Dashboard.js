@@ -3,7 +3,6 @@ import Classcard from './Components/Classcard';
 import './Dashboard.scss';
 
 const Dashboard = () => {
-  // Sample data
   const classes = [
     {
       className: '2024 O/L',
@@ -23,18 +22,16 @@ const Dashboard = () => {
     },
   ];
 
-  // Sort classes so that "GRADE 08" comes before "GRADE 09"
   const sortedClasses = [...classes].sort((a, b) => {
     const order = ['GRADE 08', 'GRADE 09', 'GRADE 10', 'GRADE 11'];
     return order.indexOf(a.className) - order.indexOf(b.className);
   });
 
-  // Sample stats
   const totalClassesToday = sortedClasses.filter(
     (c) => new Date(c.date).toDateString() === new Date().toDateString()
   ).length;
   const upcomingClasses = sortedClasses.length;
-  const totalStudents = 100; // Example static number for demonstration
+  const totalStudents = 100; 
 
   return (
     <div className="dashboard assistant">
@@ -46,7 +43,6 @@ const Dashboard = () => {
             <ul>
               <li>Reminder: Staff meeting at 3 PM today.</li>
               <li>New class schedule has been updated.</li>
-              {/* Add more notifications as needed */}
             </ul>
           </div>
           <div className="quick-stats">

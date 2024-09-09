@@ -6,7 +6,6 @@ export const AuthProvider = ({ children }) => {
   const [Auth, setAuth] = useState(localStorage.getItem('Auth') || null);
   useEffect(() => {
     localStorage.setItem('Auth', Auth);
-    // console.log('Auth set to', Auth);
   }, [Auth]);
 
   return (

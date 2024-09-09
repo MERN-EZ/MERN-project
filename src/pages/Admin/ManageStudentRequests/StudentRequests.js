@@ -1,10 +1,22 @@
 import React, { useState, useEffect } from 'react';
 import { styled } from '@mui/material/styles';
-import { Table, TableBody, TableCell, tableCellClasses, TableContainer, TableHead, TableRow, Paper, Button, Stack } from '@mui/material';
+import {
+  Table,
+  TableBody,
+  TableCell,
+  tableCellClasses,
+  TableContainer,
+  TableHead,
+  TableRow,
+  Paper,
+  Button,
+  Stack,
+} from '@mui/material';
 import './StudentRequests.scss';
 import useGetRequest from '../../../hooks/useGetRequest';
 import Alert from './../../../components/Alert/Alert';
-import { useDB } from './../../../context/DatabaseContext'; 
+import { useDB } from './../../../context/DatabaseContext';
+import { useAuth } from './../../../context/AuthContext';
 
 // Styled components for customizing the table's appearance
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
@@ -31,9 +43,10 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 // Handle student requests
 const StudentRequests = () => {
   const { DB } = useDB(); // Retrieve the current DB from context
+  const { Auth } = useAuth(); // Retrieve the current Auth from context
   const { data, error, loading } = useGetRequest('admin/studentRequests'); // Fetch student requests
 
-  // State to store student requests 
+  // State to store student requests
   const [requests, setRequests] = useState([]);
 
   const [actionLoading, setActionLoading] = useState(false);
@@ -60,6 +73,7 @@ const StudentRequests = () => {
             headers: {
               'Content-Type': 'application/json',
               'db-name': DB, // Pass the current DB in the headers
+              Authorization: `Bearer ${Auth}`,
             },
             body: JSON.stringify({ test: 'test' }),
           }

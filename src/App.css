@@ -57,7 +57,7 @@
 
   --rounded-edge-square-background-color: #ebf4f6;
 }
-/* Dark theme overrides */
+
 .dark-theme {
   --primary-background-color: #393535;
   --primary-text-color: #fff;
