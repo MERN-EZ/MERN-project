@@ -12,10 +12,13 @@ const AssistantList = ({ assistants, loading, error, onEdit, onDelete }) => {
 
   return (
     <>
-    {/* Check if assistants exist and map over the list to display each assistant */}
+      {/* Check if assistants exist and map over the list to display each assistant */}
       {assistants &&
         assistants.map((assistant) => (
-          <Card key={assistant._id} sx={{ marginBottom: '10px', boxShadow: 1 , marginLeft: '52px' }}>
+          <Card
+            key={assistant._id}
+            sx={{ marginBottom: '10px', boxShadow: 1, marginLeft: '52px' }}
+          >
             <CardContent
               sx={{
                 display: 'flex',
@@ -29,7 +32,7 @@ const AssistantList = ({ assistants, loading, error, onEdit, onDelete }) => {
                   {assistant.firstName} {assistant.lastName}
                 </Typography>
                 <Typography variant="body2">
-                  ID: {assistant.assistantId}
+                  Assistant ID: {assistant.assistantId}
                 </Typography>
                 <Typography variant="body2">
                   Username: {assistant.username}
@@ -38,22 +41,22 @@ const AssistantList = ({ assistants, loading, error, onEdit, onDelete }) => {
                   Email: {assistant.email}
                 </Typography>
                 <Typography variant="body2">
-                  Phone: {assistant.phoneNumber}
+                  Phone Number: {assistant.phoneNumber}
                 </Typography>
               </Box>
               <Box>
                 {/* Edit button triggers the onEdit function with the assistant's data */}
-                <IconButton 
-                  aria-label="edit" 
+                <IconButton
+                  aria-label="edit"
                   onClick={() => {
                     console.log('Editing assistant:', assistant);
                     onEdit(assistant);
                   }}
-                  >
+                >
                   <EditIcon />
                 </IconButton>
 
-                 {/* Delete button triggers the onDelete function with the assistant's ID */}
+                {/* Delete button triggers the onDelete function with the assistant's ID */}
                 <IconButton
                   aria-label="delete"
                   onClick={() => {
