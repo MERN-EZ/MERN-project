@@ -154,12 +154,15 @@ const CreateAssistant = () => {
   return (
     <Container sx={{ position: 'relative', paddingTop: '20px' }}>
       {/* Create Assistant Button */}
-      <Box sx={{ position: 'absolute', top: 20, left: -120 , marginLeft:'60px' }}>
+      <Box
+        sx={{ position: 'absolute', top: 20, left: -120, marginLeft: '60px' }}
+      >
         <Button
           text="Create Assistant Account &nbsp;&nbsp;+"
           variant="primary"
           onClick={() => {
             setShowForm(true); // Show the form for creating a new assistant
+            // Reset editingAssistant to null to switch to "create" mode 
             setEditingAssistant(null); // Clear any editing state
           }}
         />
@@ -178,7 +181,7 @@ const CreateAssistant = () => {
       )}
 
       <Box sx={{ marginTop: '80px', marginLeft: '-120px' }}>
-        <Typography variant="h6" gutterBottom sx={{marginLeft:'52px'}}>
+        <Typography variant="h6" gutterBottom sx={{ marginLeft: '52px' }}>
           Created Assistants
         </Typography>
         <AssistantList
