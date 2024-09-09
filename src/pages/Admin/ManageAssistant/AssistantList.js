@@ -32,7 +32,7 @@ const AssistantList = ({ assistants, loading, error, onEdit, onDelete }) => {
                   {assistant.firstName} {assistant.lastName}
                 </Typography>
                 <Typography variant="body2">
-                  ID: {assistant.assistantId}
+                  Assistant ID: {assistant.assistantId}
                 </Typography>
                 <Typography variant="body2">
                   Username: {assistant.username}
